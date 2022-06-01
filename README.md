@@ -2,7 +2,8 @@
 
 # Git Rule:
 # 1: clone project:
-  code:  git config --global user.name "Your Name" 
+  code:  
+         git config --global user.name "Your Name" 
          git config --global user.email YourEmail@example.com
          git clone https://github.com/haihpse150218/Local-Brand.git
   
