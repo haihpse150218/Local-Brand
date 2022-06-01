@@ -31,7 +31,9 @@ public class HomeController extends HttpServlet {
     }
     private void index(HttpServletRequest request, HttpServletResponse response) {
     	System.out.println("vao roi 3");
-        String hello = "Helo world and prepare for New Feture";
+
+        String hello = "Add new Feture Here";
+
         request.setAttribute("hello", hello);
     }
     
