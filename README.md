@@ -11,16 +11,20 @@
 # 2: Rules before we play with new feature:
     step1: make sure everything are ready:
       step 1-1: comback dev branch and make sure you pull everything
-        code: git checkout dev
+        ## code: 
+              git checkout dev
               git fetch
               git pull
     step2: create new branch from dev branch:
-      code: git checkout -b [Name of new feature] dev 
+      ## code: 
+            git checkout -b [Name of new feature] dev 
             ex: "git checkout -b login dev" ==> create login branch frome dev branch
-      code: git add .
+      ## code: 
+            git add .
             git commit -m "Write document here"
     step3: push to remote
-      code: git push -u origin [Name of new feature]
+      ## code: 
+        git push -u origin [Name of new feature]
       
     step 4: pull request and wating to merch
         
