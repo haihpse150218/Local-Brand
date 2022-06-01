@@ -1,4 +1,7 @@
 # Local-Brand web app
+Rules:
+Mỗi khi phát triển tính năng mới, bạn sẽ tạo một nhánh từ dev.
+git checkout -b login dev.
 
 # Git Rule:
 # 1: clone project:
@@ -6,8 +9,6 @@
          git config --global user.name "Your Name" 
          git config --global user.email YourEmail@example.com
          git clone https://github.com/haihpse150218/Local-Brand.git
-  
-
 # 2: Rules before we play with new feature:
     step1: make sure everything are ready:
       step 1-1: comback dev branch and make sure you pull everything
@@ -27,10 +28,3 @@
         git push -u origin [Name of new feature]
       
     step 4: pull request and wating to merch
-        
-        
-    
-   
-  
-  
-  
