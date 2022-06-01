@@ -1,13 +1,13 @@
 # Local-Brand web app
 
-Git Rule:
-1: clone project:
+# Git Rule:
+# 1: clone project:
   code:  git config --global user.name "Your Name" 
          git config --global user.email YourEmail@example.com
          git clone https://github.com/haihpse150218/Local-Brand.git
   
 
-2: Rules before we play with new feature:
+# 2: Rules before we play with new feature:
     step1: make sure everything are ready:
       step 1-1: comback dev branch and make sure you pull everything
         code: git checkout dev
