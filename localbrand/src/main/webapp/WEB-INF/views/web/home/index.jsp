@@ -6,3 +6,6 @@ Test query membershipTier<br>
 <c:forEach var="item" items="${listMembershipTier}">
 	${item}<br>
 </c:forEach>
+
+<h1>Test MembershipTier find(5)</h1>
+${mem.rank}

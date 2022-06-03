@@ -90,7 +90,6 @@ public abstract class AbstractFacade<T> {
         try {
             //Connecting to a database
             Connection con = DriverManager.getConnection(url);
-            //Executing the stm
             list = findAll(con);
             //Closing the connection
             con.close();
