@@ -46,7 +46,7 @@ public class HomeController extends HttpServlet {
 		}
     	System.out.println("vao roi 3"+list.toString());
 
-        String hello = "Hai Dep Chai.";
+        String hello = "Alo new Feature.";
         request.setAttribute("listMembershipTier", list);
 
         request.setAttribute("hello", hello);
