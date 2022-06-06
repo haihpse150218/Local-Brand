@@ -11,19 +11,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
+
 import com.localbrand.entities.Customer;
 import com.localbrand.entities.MembershipTier;
 import com.localbrand.sessionbeans.CustomerFacade;
 import com.localbrand.sessionbeans.MembershipTierFacade;
+
 
 /**
  * Servlet implementation class HomeController
  */
 @WebServlet(urlPatterns="/web/home")
 public class HomeController extends HttpServlet {
+
+
 	MembershipTierFacade mstf = new MembershipTierFacade();
 	CustomerFacade cf = new CustomerFacade();
-	
+
 	private static final long serialVersionUID = 1L;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -42,6 +47,10 @@ public class HomeController extends HttpServlet {
         request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
     }
     private void index(HttpServletRequest request, HttpServletResponse response) {
+      
+
+    		
+
     	List<MembershipTier> list = new ArrayList<>();
     	MembershipTier testMem = null;
     	try {
@@ -54,14 +63,19 @@ public class HomeController extends HttpServlet {
     	try {
     		testMem = mstf.find(5);
 			list = mstf.findAll();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-    	System.out.println("vao roi 3"+list.toString());
+    	System.out.println("category: " + list.toString());
 
         String hello = "Hai Dep Chai.";
+
+
+
         request.setAttribute("listMembershipTier", list);
         request.setAttribute("mem", testMem);
+
         request.setAttribute("hello", hello);
     }
     
