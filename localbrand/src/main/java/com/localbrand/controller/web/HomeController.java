@@ -11,15 +11,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.localbrand.entities.MembershipTier;
-import com.localbrand.sessionbeans.MembershipTierFacade;
+import com.localbrand.entities.Category;
+import com.localbrand.sessionbeans.CategoryFacade;
 
 /**
  * Servlet implementation class HomeController
  */
 @WebServlet(urlPatterns="/web/home")
 public class HomeController extends HttpServlet {
-	MembershipTierFacade mstf = new MembershipTierFacade();
+	CategoryFacade cateFacade = new CategoryFacade();
 	private static final long serialVersionUID = 1L;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -38,16 +38,24 @@ public class HomeController extends HttpServlet {
         request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
     }
     private void index(HttpServletRequest request, HttpServletResponse response) {
-    	List<MembershipTier> list = new ArrayList<>();
+    	List<Category> list = new ArrayList<>();
     	try {
-			list = mstf.findAll();
+    		/*int[] range = {2, 6};
+			list = cateFacade.findRange(range);*/
+    		
+    		/*Category newCate = new Category();
+    		newCate.setId(12);*/
+    		cateFacade.remove(12);
+    		
+    		list = cateFacade.findAll();
+    		
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-    	System.out.println("vao roi 3"+list.toString());
+    	System.out.println("category: " + list.toString());
 
         String hello = "Hai Dep Chai.";
-        request.setAttribute("listMembershipTier", list);
+        request.setAttribute("listCategory", list);
 
         request.setAttribute("hello", hello);
     }
