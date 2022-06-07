@@ -47,27 +47,41 @@ public class HomeController extends HttpServlet {
         request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
     }
     private void index(HttpServletRequest request, HttpServletResponse response) {
-      
 
+    	List<Category> list = new ArrayList<>();
+    	try {
+    		/*int[] range = {2, 6};
+			list = cateFacade.findRange(range);*/
     		
-
-    	List<MembershipTier> list = new ArrayList<>();
-    	MembershipTier testMem = null;
-    	try {
-			System.out.println("List cus: "+ cf.findAll().toString());
-		} catch (SQLException e1) {
-			System.out.println("err" + e1);
-			e1.printStackTrace();
-		}
-    	
-    	try {
-    		testMem = mstf.find(5);
-			list = mstf.findAll();
-
+    		Category newCate = new Category(14, "Man's Jeans");
+    		
+    		cateFacade.create(newCate);
+    		
+    		list = cateFacade.findAll();
+    		
+    		for (Category category : list) {
+				System.out.println(category.getId() + ": " + category.getName());
+			}
+    		
+    		newCate = cateFacade.find(14);
+    		newCate.setName("Woman's Jeans");
+    		cateFacade.edit(newCate);
+    		
+    		System.out.println("===================================");
+    		
+    		for (Category category : cateFacade.findRange(new int[] {5, 100})) {
+				System.out.println(category.getName());
+			}
+    		
+    		System.out.println("===================================");
+    		
+    		cateFacade.remove(14);
+    		System.out.println(cateFacade.count());
+    		
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-    	System.out.println("category: " + list.toString());
+    	/*System.out.println("category: " + list.toString());*/
 
         String hello = "Hai Dep Chai.";
 
