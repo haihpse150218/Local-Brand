@@ -11,7 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.localbrand.entities.BrandCategory;
+import com.localbrand.entities.BrandCategoryPK;
 import com.localbrand.entities.MembershipTier;
+import com.localbrand.sessionbeans.BrandCategoryFacade;
 import com.localbrand.sessionbeans.MembershipTierFacade;
 
 /**
@@ -19,7 +22,7 @@ import com.localbrand.sessionbeans.MembershipTierFacade;
  */
 @WebServlet(urlPatterns="/web/home")
 public class HomeController extends HttpServlet {
-	MembershipTierFacade mstf = new MembershipTierFacade();
+	BrandCategoryFacade bcfc = new BrandCategoryFacade();
 	private static final long serialVersionUID = 1L;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -38,18 +41,23 @@ public class HomeController extends HttpServlet {
         request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
     }
     private void index(HttpServletRequest request, HttpServletResponse response) {
-    	List<MembershipTier> list = new ArrayList<>();
+    	List<BrandCategory> list = new ArrayList<>();
     	try {
-			list = mstf.findAll();
+			BrandCategory newBC = new BrandCategory();
+			newBC.setBrandCategoryPK(new BrandCategoryPK(1, 2));
+			
+			bcfc.create(newBC);
+			
+			list = bcfc.findAll();
+			for (BrandCategory brandCategory : list) {
+				System.out.println(brandCategory.getBrandCategoryPK() + ": " + brandCategory.getName());
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-    	System.out.println("vao roi 3"+list.toString());
-
-        String hello = "Hai Dep Chai.";
+    	
         request.setAttribute("listMembershipTier", list);
-
-        request.setAttribute("hello", hello);
     }
     
     
