@@ -16,6 +16,9 @@ public class BrandCategoryFacade extends AbstractFacade<BrandCategory> {
 		if (t.getName() == null) {
 			t.setName("");
 		}
+		if (t.getStatus() == null) {
+			t.setStatus(true);
+		}
 	}
 	@Override
 	protected void create(Connection con, BrandCategory t) throws SQLException {
@@ -65,8 +68,10 @@ public class BrandCategoryFacade extends AbstractFacade<BrandCategory> {
 					+ "AND [BrandId] = ?";
 	
 		PreparedStatement ptm = con.prepareStatement(sql);
-		ptm.setInt(1, Integer.parseInt(id.toString()));
-	
+		
+		ptm.setInt(1, ((BrandCategoryPK) id).getCateId());
+		ptm.setInt(2, ((BrandCategoryPK) id).getBrandId());
+		
 		ptm.executeUpdate();
 	}
 
@@ -74,11 +79,15 @@ public class BrandCategoryFacade extends AbstractFacade<BrandCategory> {
 	protected BrandCategory find(Connection con, Object id) throws SQLException {
 		BrandCategory nextBC = null;
 		
-		String sql = "SELECT * FROM [Category]" +
-					" WHERE [Id] = ?";
+		String sql = "SELECT * FROM [BrandCategory]"
+					+ "WHERE [CateId] = ? "
+					+ "AND [BrandId] = ?";
 		
 		PreparedStatement ptm = con.prepareStatement(sql);
-		ptm.setInt(1, Integer.parseInt(id.toString()));
+		
+		ptm.setInt(1, ((BrandCategoryPK) id).getCateId());
+		ptm.setInt(2, ((BrandCategoryPK) id).getBrandId());
+		
 		ResultSet rs = ptm.executeQuery();
 		
 		if (rs.next()) {

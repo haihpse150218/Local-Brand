@@ -50,7 +50,24 @@ public class HomeController extends HttpServlet {
 				System.out.println(brandCategory.getBrandCategoryPK() + ": " + brandCategory.getName());
 			}
 			
-		} catch (SQLException e) {
+			System.out.println("===========================================");
+			
+			newBC = bcfc.find(new BrandCategoryPK(1, 2));
+			newBC.setName("Something");
+			
+			bcfc.edit(newBC);
+			
+			list = bcfc.findRange(new int[] {2, 100});
+			for (BrandCategory brandCategory : list) {
+				System.out.println(brandCategory.getBrandCategoryPK() + ": " + brandCategory.getName());
+			}
+			
+			System.out.println("===========================================");
+			
+			bcfc.remove(new BrandCategoryPK(1, 2));
+			System.out.println(bcfc.count());
+			
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
     	
