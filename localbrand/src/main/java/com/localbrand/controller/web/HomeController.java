@@ -13,10 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.localbrand.entities.BrandCategory;
 import com.localbrand.entities.BrandCategoryPK;
-import com.localbrand.entities.MembershipTier;
 import com.localbrand.sessionbeans.BrandCategoryFacade;
-import com.localbrand.sessionbeans.MembershipTierFacade;
-
 /**
  * Servlet implementation class HomeController
  */
