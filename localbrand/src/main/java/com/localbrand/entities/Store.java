@@ -14,6 +14,8 @@ public class Store implements Serializable {
     private String lon;
    
     private String phone;
+    
+    private Boolean status;
   
     private List<Brand> brandList;
 
@@ -24,7 +26,7 @@ public class Store implements Serializable {
         this.id = id;
     }
 
-    public Integer getId() {
+	public Integer getId() {
         return id;
     }
 
@@ -55,6 +57,14 @@ public class Store implements Serializable {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
 
   
     public List<Brand> getBrandList() {
