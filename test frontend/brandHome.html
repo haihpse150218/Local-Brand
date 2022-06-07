@@ -23,6 +23,18 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        #map {
+            height: 100%;
+        }
+    </style>
+    <!-- <script src='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css' rel='stylesheet' /> -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
+
 </head>
 
 <body>
@@ -77,7 +89,7 @@
                 </div>
                 <!-- Collection 1 Start-->
             </div>
-            <div class="carousel-item" style="height: 410px;">
+            <div class="carousel-item">
                 <!-- Collection 2 Start -->
                 <div class="container-fluid offer">
                     <div class="row px-xl-5">
@@ -103,7 +115,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Collection 2 Start -->
+                <!-- Collection 2 End -->
             </div>
         </div>
         <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
@@ -298,9 +310,84 @@
     </div>
     <!-- Shop End -->
 
+
+    <!-- Footer Shop Start -->
+    <div class="container-fluid bg-secondary text-dark">
+        <div class="row px-xl-5 pt-5">
+            <div class="col-lg-4 col-md-12 mb-55 pr-3 pr-xl-5">
+
+                <a href="" class="text-decoration-none">
+                    <h1 class="mb-4 display-5 font-weight-semi-bold">Ten Shop</h1>
+                </a>
+                <p>Mong rang se dem lai cho quy khach trai nghiem tot nhat</p>
+                <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>123 Duong 13, Khu Pho 4, Thu Duc, TP.HCM</p>
+                <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>Lo 37 Khu CNC, Quan 9, TP.HCM</p>
+
+                <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>info@example.com</p>
+                <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>+012 345 67890</p>
+
+            </div>
+            <div class="col-lg-8 col-md-12">
+                <div class=" mb-5">
+                    <div id="map" style="height: 250px ;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer Shop End -->
+
     <!-- Back to Top -->
     <a href="# " class="btn btn-primary back-to-top "><i class="fa fa-angle-double-up "></i></a>
 
+
+    <!-- Map Javascrip start -->
+    <script>
+        // chinh sua view o day 
+        var map = L.map('map').setView([10.8432898, 106.79821], 13);
+        // vi tri cac chi nhanh o day
+        L.marker([10.8432898, 106.79821]).addTo(map);
+
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1,
+            accessToken: 'pk.eyJ1Ijoibmd1eWVubmFtMDIwNjIwMSIsImEiOiJjbDM0YTl4N3oybnEyM2pvNXl0eXJpOWs5In0.Otjl-Mb7GrEYE5kXxW4qAQ'
+        }).addTo(map);
+        var x = document.getElementById("demo");
+        // function lay location cua user
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
+        }
+
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    x.innerHTML = "User denied the request for Geolocation."
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    x.innerHTML = "Location information is unavailable."
+                    break;
+                case error.TIMEOUT:
+                    x.innerHTML = "The request to get user location timed out."
+                    break;
+                case error.UNKNOWN_ERROR:
+                    x.innerHTML = "An unknown error occurred."
+                    break;
+            }
+        }
+        getLocation();
+    </script>
+    <!-- Map Javascript end -->
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js "></script>
