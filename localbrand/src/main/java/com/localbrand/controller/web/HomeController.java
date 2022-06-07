@@ -63,19 +63,14 @@ public class HomeController extends HttpServlet {
     	try {
     		testMem = mstf.find(5);
 			list = mstf.findAll();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
     	System.out.println("category: " + list.toString());
 
         String hello = "Hai Dep Chai.";
-
-
-
         request.setAttribute("listMembershipTier", list);
         request.setAttribute("mem", testMem);
-
         request.setAttribute("hello", hello);
     }
     
