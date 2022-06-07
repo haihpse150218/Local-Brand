@@ -14,12 +14,15 @@ import javax.servlet.http.HttpServletResponse;
 import com.localbrand.entities.BrandCategory;
 import com.localbrand.entities.BrandCategoryPK;
 import com.localbrand.sessionbeans.BrandCategoryFacade;
+
 /**
  * Servlet implementation class HomeController
  */
 @WebServlet(urlPatterns="/web/home")
 public class HomeController extends HttpServlet {
+  
 	BrandCategoryFacade bcfc = new BrandCategoryFacade();
+  
 	private static final long serialVersionUID = 1L;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -72,6 +75,7 @@ public class HomeController extends HttpServlet {
 		}
     	
         request.setAttribute("listMembershipTier", list);
+
     }
     
     

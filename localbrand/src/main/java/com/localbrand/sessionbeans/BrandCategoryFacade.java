@@ -21,7 +21,7 @@ public class BrandCategoryFacade extends AbstractFacade<BrandCategory> {
 		}
 	}
 	@Override
-	protected void create(Connection con, BrandCategory t) throws SQLException {
+	protected void create(Connection con, BrandCategory t) throws SQLException 
 		String sql = "INSERT INTO [BrandCategory]"
 					+ "([CateId], [BrandId], [Name], [Description], [Status])"
 					+ "VALUES (?, ?, ?, ?, ?)";
