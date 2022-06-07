@@ -8,9 +8,9 @@ import java.util.List;
 
 public abstract class AbstractFacade<T> {
 	 static String url = "jdbc:sqlserver://"
-	 		+ "localhost:1433;"
+	 		+ "13.250.14.150:1433;"
 	 		+ "databaseName=localbrand;"
-	 		+ "user=sa;password=1";
+	 		+ "user=sa;password=Admin123";
 
     public AbstractFacade() {
             try {
