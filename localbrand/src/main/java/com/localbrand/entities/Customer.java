@@ -10,7 +10,6 @@ public class Customer implements Serializable {
    
     private String name;
    
-
     private String username;
    
     private String password;
@@ -38,7 +37,24 @@ public class Customer implements Serializable {
         this.id = id;
     }
 
-    public Customer(Integer id, String username, String password, String email, String phone) {
+    public Customer(Integer id, String name, String username, String password, String avatar, String email,
+			String phone, String address, String status, Integer coins, List<Order> order1List, MembershipTier rankId) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.username = username;
+		this.password = password;
+		this.avatar = avatar;
+		this.email = email;
+		this.phone = phone;
+		this.address = address;
+		this.status = status;
+		this.coins = coins;
+		this.order1List = order1List;
+		this.rankId = rankId;
+	}
+
+	public Customer(Integer id, String username, String password, String email, String phone) {
         this.id = id;
         this.username = username;
         this.password = password;

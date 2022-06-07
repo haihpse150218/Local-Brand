@@ -5,8 +5,7 @@
 Test Category<br>
 <c:forEach var="item" items="${listCategory}">
 	${item}<br>
-	${item.getName()}<br>
-	${item.getGender() }<br><br>
 </c:forEach>
+<h1>Test MembershipTier find(5)</h1>
+${mem.rank}
 
-<%--${listCategory} --%>
