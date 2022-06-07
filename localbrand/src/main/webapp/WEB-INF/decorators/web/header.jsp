@@ -13,7 +13,7 @@
                     <span class="text-muted px-2">|</span>
                     <a class="text-dark" href="">Help</a>
                     <span class="text-muted px-2">|</span>
-                    <a class="text-dark" href="">Support</a>
+                    <a class="text-dark" href="">Collaborators ?</a>
                 </div>
             </div>
             <div class="col-lg-6 text-center text-lg-right">
@@ -87,15 +87,12 @@
                                 <a href="" class="dropdown-item">Baby's Dresses</a>
                             </div>
                         </div>
-                        <a href="" class="nav-item nav-link">Shirts</a>
-                        <a href="" class="nav-item nav-link">Jeans</a>
-                        <a href="" class="nav-item nav-link">Swimwear</a>
-                        <a href="" class="nav-item nav-link">Sleepwear</a>
-                        <a href="" class="nav-item nav-link">Sportswear</a>
-                        <a href="" class="nav-item nav-link">Jumpsuits</a>
-                        <a href="" class="nav-item nav-link">Blazers</a>
-                        <a href="" class="nav-item nav-link">Jackets</a>
-                        <a href="" class="nav-item nav-link">Shoes</a>
+                        <a href="" class="nav-item nav-link">Áo</a>
+                        <a href="" class="nav-item nav-link">Quần</a>
+                        <a href="" class="nav-item nav-link">Váy</a>
+                        <a href="" class="nav-item nav-link">Giày</a>
+                        <a href="" class="nav-item nav-link">Túi/Balo</a>
+                        <a href="" class="nav-item nav-link">Phụ kiện</a>
                     </div>
                 </nav>
             </div>
@@ -112,7 +109,7 @@
                             <a href="index.html" class="nav-item nav-link">Home</a>
                             <a href="shop.html" class="nav-item nav-link active">Shop</a>
                             <a href="detail.html" class="nav-item nav-link">Shop Detail</a>
-                            <div class="nav-item dropdown">
+                            <div class=" nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu rounded-0 m-0">
                                     <a href="cart.html" class="dropdown-item">Shopping Cart</a>
@@ -122,7 +119,9 @@
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
-                            <a href="" class="nav-item nav-link">Login</a>
+                            <button type="button" class="nav-item nav-link btn" data-toggle="modal" data-target="#loginModal">
+                                Login
+                            </button>
                             <a href="" class="nav-item nav-link">Register</a>
                         </div>
                     </div>
@@ -131,3 +130,46 @@
         </div>
     </div>
     <!-- Navbar End -->
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/76.jpg');">
+                <div class="modal-header">
+                    <h5 class="modal-title m-auto" id="exampleModalLongTitle">Welcome</h5>
+
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-between">
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <label>Email</label>
+                                <input class="form-control" type="text" name="txtemail" value="" placeholder="Email" required>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <label>Password</label>
+                                <input class="form-control" type="text" name="txtpass" value="" placeholder="Password" required>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <a href="">Forgot password?</a>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" name="savelogin" class="custom-control-input" id="newaccount">
+                                    <label class="custom-control-label" for="newaccount">Save me</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer border-secondary bg-transparent">
+                        <button name="action" value="login" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+        $('#myModal').on('shown.bs.modal', function() {
+            $('#myInput').trigger('focus')
+        })
+    </script>
