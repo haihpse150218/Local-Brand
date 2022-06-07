@@ -43,16 +43,35 @@ public class HomeController extends HttpServlet {
     		/*int[] range = {2, 6};
 			list = cateFacade.findRange(range);*/
     		
-    		/*Category newCate = new Category();
-    		newCate.setId(12);*/
-    		cateFacade.remove(12);
+    		Category newCate = new Category(14, "Man's Jeans");
+    		
+    		cateFacade.create(newCate);
     		
     		list = cateFacade.findAll();
+    		
+    		for (Category category : list) {
+				System.out.println(category.getId() + ": " + category.getName());
+			}
+    		
+    		newCate = cateFacade.find(14);
+    		newCate.setName("Woman's Jeans");
+    		cateFacade.edit(newCate);
+    		
+    		System.out.println("===================================");
+    		
+    		for (Category category : cateFacade.findRange(new int[] {5, 100})) {
+				System.out.println(category.getName());
+			}
+    		
+    		System.out.println("===================================");
+    		
+    		cateFacade.remove(14);
+    		System.out.println(cateFacade.count());
     		
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-    	System.out.println("category: " + list.toString());
+    	/*System.out.println("category: " + list.toString());*/
 
         String hello = "Hai Dep Chai.";
         request.setAttribute("listCategory", list);

@@ -10,18 +10,31 @@ import java.util.List;
 import com.localbrand.entities.Category;
 
 public class CategoryFacade extends AbstractFacade<Category> {
+	
+	private void checkNull(Category t) {
+		if (t.getGender() == null) {
+			t.setGender(2);
+		}
+		if (t.getStatus() == null) {
+			t.setStatus(true);
+		}
+	}
 
 	@Override
 	protected void create(Connection con, Category t) throws SQLException {
 		
 		String sql = "INSERT INTO [Category]"
 					+ "([Name], [Description], [Gender], [Status])"
-					+ "VALUES (?, ?, ?, 1)";
+					+ "VALUES (?, ?, ?, ?)";
+		
+		checkNull(t);
 		
 		PreparedStatement ptm = con.prepareStatement(sql);
+
 		ptm.setNString(1, t.getName());
 		ptm.setNString(2, t.getDescription());
 		ptm.setInt(3, t.getGender());
+		ptm.setBoolean(4, t.getStatus());
 		
 		ptm.executeUpdate();
 	}
@@ -32,14 +45,19 @@ public class CategoryFacade extends AbstractFacade<Category> {
 		String sql = "UPDATE [Category] "
 					+ "SET [Name] = ?, "
 					+ "[Description] = ?, "
-					+ "[Gender] = ? "
+					+ "[Gender] = ?, "
+					+ "[Status] = ? "
 					+ "WHERE [Id] = ?";
 		
+		checkNull(t);
+		
 		PreparedStatement ptm = con.prepareStatement(sql);
+		
 		ptm.setNString(1, t.getName());
 		ptm.setNString(2, t.getDescription());
 		ptm.setInt(3, t.getGender());
-		ptm.setInt(4, t.getId());
+		ptm.setBoolean(4, t.getStatus());
+		ptm.setInt(5, t.getId());
 		
 		ptm.executeUpdate();
 	}
@@ -47,12 +65,11 @@ public class CategoryFacade extends AbstractFacade<Category> {
 	@Override
 	protected void remove(Connection con, Object id) throws SQLException {
 
-		String sql = "UPDATE [Category]"
-					+ "SET [Status] = 0"
+		String sql = "DELETE FROM [Category]"
 					+ "WHERE [Id] = ?";
 		
 		PreparedStatement ptm = con.prepareStatement(sql);
-		ptm.setInt(1, (int)id);
+		ptm.setInt(1, Integer.parseInt(id.toString()));
 		
 		ptm.executeUpdate();
 	}
@@ -61,17 +78,11 @@ public class CategoryFacade extends AbstractFacade<Category> {
 	protected Category find(Connection con, Object id) throws SQLException {
 		Category returnCategory = null;
 		
-		String sql = "SELECT [Id]\r\n" + 
-				"      ,[Name]\r\n" + 
-				"      ,[Description]\r\n" + 
-				"      ,[Gender]\r\n" + 
-				"      ,[Status]\r\n" + 
-				"  	FROM [localbrand].[dbo].[Category]" +
-				"	WHERE [Id] = ?" +
-				"	AND [Status] = 1";
+		String sql = "SELECT * FROM [Category]" +
+					" WHERE [Id] = ?";
 		
 		PreparedStatement ptm = con.prepareStatement(sql);
-		ptm.setInt(1, (int)id);
+		ptm.setInt(1, Integer.parseInt(id.toString()));
 		ResultSet rs = ptm.executeQuery();
 		
 		if (rs.next()) {
@@ -91,13 +102,7 @@ public class CategoryFacade extends AbstractFacade<Category> {
 		
 		List<Category> list = new ArrayList<>();
 		
-		String sql = "SELECT [Id]\r\n" + 
-				"      ,[Name]\r\n" + 
-				"      ,[Description]\r\n" + 
-				"      ,[Gender]\r\n" + 
-				"      ,[Status]\r\n" + 
-				"  	FROM [localbrand].[dbo].[Category]" +
-				"	WHERE [Status] = 1";
+		String sql = "SELECT * FROM [Category]";
 		
 		PreparedStatement ptm = con.prepareStatement(sql);
 		ResultSet rs = ptm.executeQuery();
@@ -119,8 +124,8 @@ public class CategoryFacade extends AbstractFacade<Category> {
 		
 		List<Category> list = new ArrayList<>();
 		
-		String sql = "  select top(?) * from [dbo].[Category]\r\n" + 
-				"  except select top(?) * from [dbo].[Category]";
+		String sql = "  SELECT TOP(?) * FROM [Category]" + 
+					" EXCEPT SELECT TOP(?) * FROM [Category]";
 		
 		PreparedStatement ptm = con.prepareStatement(sql);
 		ptm.setInt(1, end);
@@ -146,8 +151,7 @@ public class CategoryFacade extends AbstractFacade<Category> {
 		
 		String sql = "SELECT COUNT([Id])" +
 					" AS [Result]" +
-					" FROM [Category]" +
-					" WHERE [Status] = 1";
+					" FROM [Category]";
 		
 		PreparedStatement ptm = con.prepareStatement(sql);
 		ResultSet rs = ptm.executeQuery();
