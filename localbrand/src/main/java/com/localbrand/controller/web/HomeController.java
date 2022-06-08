@@ -11,18 +11,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.localbrand.entities.Brand;
+import com.localbrand.entities.Collection;
 import com.localbrand.entities.MembershipTier;
 import com.localbrand.entities.Payment;
+import com.localbrand.sessionbeans.CollectionFacade;
 import com.localbrand.sessionbeans.MembershipTierFacade;
-import com.localbrand.sessionbeans.PaymentFacade;
 
 /**
  * Servlet implementation class HomeController
  */
 @WebServlet(urlPatterns="/web/home")
 public class HomeController extends HttpServlet {
-	PaymentFacade pf = new PaymentFacade();
+//	PaymentFacade pf = new PaymentFacade();
 	MembershipTierFacade mstf = new MembershipTierFacade();
+	CollectionFacade cf = new CollectionFacade();
 	private static final long serialVersionUID = 1L;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -42,21 +45,26 @@ public class HomeController extends HttpServlet {
     }
     private void index(HttpServletRequest request, HttpServletResponse response) {
     	List<MembershipTier> list = new ArrayList<>();
-    	List<Payment> listp = new ArrayList<>();
-    	Payment p = new Payment();
+    	List<Collection> listc = new ArrayList<>();
+    	Collection c = new Collection();
+    	Brand bid = new Brand();
+    	bid.setId(1);
     	int count=0;
-    	int id = 3;
+    	int id = 4;
     	int[] range = new int[]{1,2};
+    	System.out.println("bid:" + bid.getId());
+
     	try {
-//    		p.setId(4);
-//    		p.setPayMethod("Paypal");
-//    		p.setStatus("0");
-//    		pf.edit(p);
-    		pf.remove(id);
-    		p = pf.find(id);
-			list = mstf.findAll();
-			listp.add(p);
-			count = pf.count();
+//    		c.setId(8);
+//    		c.setName("dds");
+//    		c.setDescription("dsvs");
+//    		c.setImageUrl("ulala");
+//    		c.setStatus(0);
+//    		c.setBrandId(bid);
+//    		cf.edit(c);
+//    		listc = cf.findRange(range);
+//    		count = cf.count();
+    		cf.remove(8);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -66,7 +74,7 @@ public class HomeController extends HttpServlet {
     	System.out.println("vao roi 3"+list.toString());
         String hello = "Hai Dep Chai.";
         request.setAttribute("listMembershipTier", list);
-        request.setAttribute("listPayment", listp);
+        request.setAttribute("listCollection", listc);
         request.setAttribute("clistPayment", count);
         request.setAttribute("hello", hello);
     }

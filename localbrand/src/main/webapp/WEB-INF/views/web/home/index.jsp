@@ -7,6 +7,6 @@ Test query Payment<br>
 <c:forEach var="item" items="${listMembershipTier}">
 	${item}<br>
 </c:forEach>
-<c:forEach var="item1" items="${listPayment}">
-	${item1}<br>
+<c:forEach var="item" items="${listCollection}">
+	${item}<br>
 </c:forEach>
