@@ -11,18 +11,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.localbrand.entities.MembershipTier;
-import com.localbrand.entities.Payment;
-import com.localbrand.sessionbeans.MembershipTierFacade;
-import com.localbrand.sessionbeans.PaymentFacade;
+
+import com.localbrand.entities.BrandCategory;
+import com.localbrand.entities.BrandCategoryPK;
+import com.localbrand.sessionbeans.BrandCategoryFacade;
+
 
 /**
  * Servlet implementation class HomeController
  */
 @WebServlet(urlPatterns="/web/home")
 public class HomeController extends HttpServlet {
-	PaymentFacade pf = new PaymentFacade();
-	MembershipTierFacade mstf = new MembershipTierFacade();
+
+  
+	BrandCategoryFacade bcfc = new BrandCategoryFacade();
 	private static final long serialVersionUID = 1L;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -41,34 +43,49 @@ public class HomeController extends HttpServlet {
         request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
     }
     private void index(HttpServletRequest request, HttpServletResponse response) {
-    	List<MembershipTier> list = new ArrayList<>();
-    	List<Payment> listp = new ArrayList<>();
-    	Payment p = new Payment();
-    	int count=0;
-    	int id = 3;
-    	int[] range = new int[]{1,2};
+
+
+    	List<BrandCategory> list = new ArrayList<>();
     	try {
-//    		p.setId(4);
-//    		p.setPayMethod("Paypal");
-//    		p.setStatus("0");
-//    		pf.edit(p);
-    		pf.remove(id);
-    		p = pf.find(id);
-			list = mstf.findAll();
-			listp.add(p);
-			count = pf.count();
-		} catch (SQLException e) {
+			BrandCategory newBC = new BrandCategory();
+			newBC.setBrandCategoryPK(new BrandCategoryPK(1, 2));
+			
+			bcfc.create(newBC);
+			
+			list = bcfc.findAll();
+			for (BrandCategory brandCategory : list) {
+				System.out.println(brandCategory.getBrandCategoryPK() + ": " + brandCategory.getName());
+			}
+			
+			System.out.println("===========================================");
+			
+			newBC = bcfc.find(new BrandCategoryPK(1, 2));
+			newBC.setName("Something");
+			
+			bcfc.edit(newBC);
+			
+			list = bcfc.findRange(new int[] {2, 100});
+			for (BrandCategory brandCategory : list) {
+				System.out.println(brandCategory.getBrandCategoryPK() + ": " + brandCategory.getName());
+			}
+			
+			System.out.println("===========================================");
+			
+			bcfc.remove(new BrandCategoryPK(1, 2));
+			System.out.println(bcfc.count());
+			
+		} catch (Exception e) {
+
 			e.printStackTrace();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	System.out.println("vao roi 3"+list.toString());
-        String hello = "Hai Dep Chai.";
+
+    	
         request.setAttribute("listMembershipTier", list);
-        request.setAttribute("listPayment", listp);
-        request.setAttribute("clistPayment", count);
-        request.setAttribute("hello", hello);
+
+
     }
     
     
