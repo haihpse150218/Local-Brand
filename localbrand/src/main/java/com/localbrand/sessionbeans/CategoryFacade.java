@@ -21,8 +21,10 @@ public class CategoryFacade extends AbstractFacade<Category> {
 		PreparedStatement ptm = con.prepareStatement(sql);
 		ptm.setNString(1, t.getName());
 		ptm.setNString(2, t.getDescription());
+		if(t.getGender() == null) {
+			t.setGender(0);
+		}
 		ptm.setInt(3, t.getGender());
-		
 		ptm.executeUpdate();
 	}
 
@@ -50,10 +52,8 @@ public class CategoryFacade extends AbstractFacade<Category> {
 		String sql = "UPDATE [Category]"
 					+ "SET [Status] = 0"
 					+ "WHERE [Id] = ?";
-		
 		PreparedStatement ptm = con.prepareStatement(sql);
-		ptm.setInt(1, (int)id);
-		
+		ptm.setInt(1, Integer.parseInt(id.toString()));	
 		ptm.executeUpdate();
 	}
 
@@ -61,17 +61,11 @@ public class CategoryFacade extends AbstractFacade<Category> {
 	protected Category find(Connection con, Object id) throws SQLException {
 		Category returnCategory = null;
 		
-		String sql = "SELECT [Id]\r\n" + 
-				"      ,[Name]\r\n" + 
-				"      ,[Description]\r\n" + 
-				"      ,[Gender]\r\n" + 
-				"      ,[Status]\r\n" + 
+		String sql = "SELECT *" + 
 				"  	FROM [localbrand].[dbo].[Category]" +
-				"	WHERE [Id] = ?" +
-				"	AND [Status] = 1";
-		
+				"	WHERE [Id] = ?";
 		PreparedStatement ptm = con.prepareStatement(sql);
-		ptm.setInt(1, (int)id);
+		ptm.setInt(1, Integer.parseInt(id.toString()));
 		ResultSet rs = ptm.executeQuery();
 		
 		if (rs.next()) {
@@ -87,18 +81,14 @@ public class CategoryFacade extends AbstractFacade<Category> {
 	}
 
 	@Override
-	protected List<Category> findAll(Connection con) throws SQLException {
-		
-		List<Category> list = new ArrayList<>();
-		
+	protected List<Category> findAll(Connection con) throws SQLException {	
+		List<Category> list = new ArrayList<>();	
 		String sql = "SELECT [Id]\r\n" + 
 				"      ,[Name]\r\n" + 
 				"      ,[Description]\r\n" + 
 				"      ,[Gender]\r\n" + 
 				"      ,[Status]\r\n" + 
-				"  	FROM [localbrand].[dbo].[Category]" +
-				"	WHERE [Status] = 1";
-		
+				"  	FROM [localbrand].[dbo].[Category]";
 		PreparedStatement ptm = con.prepareStatement(sql);
 		ResultSet rs = ptm.executeQuery();
 		
@@ -146,8 +136,7 @@ public class CategoryFacade extends AbstractFacade<Category> {
 		
 		String sql = "SELECT COUNT([Id])" +
 					" AS [Result]" +
-					" FROM [Category]" +
-					" WHERE [Status] = 1";
+					" FROM [Category]";
 		
 		PreparedStatement ptm = con.prepareStatement(sql);
 		ResultSet rs = ptm.executeQuery();
