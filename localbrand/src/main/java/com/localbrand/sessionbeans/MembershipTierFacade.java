@@ -81,7 +81,5 @@ public class MembershipTierFacade extends AbstractFacade<MembershipTier> {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-    
-    
+	 
 }

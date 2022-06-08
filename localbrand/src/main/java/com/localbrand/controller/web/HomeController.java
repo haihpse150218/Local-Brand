@@ -47,6 +47,7 @@ public class HomeController extends HttpServlet {
 
     	List<BrandCategory> list = new ArrayList<>();
     	try {
+
 			BrandCategory newBC = new BrandCategory();
 			newBC.setBrandCategoryPK(new BrandCategoryPK(1, 2));
 			
@@ -84,6 +85,7 @@ public class HomeController extends HttpServlet {
 
     	
         request.setAttribute("listMembershipTier", list);
+
 
 
     }
