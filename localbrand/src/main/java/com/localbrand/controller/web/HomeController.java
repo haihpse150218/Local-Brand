@@ -11,18 +11,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 import com.localbrand.entities.BrandCategory;
 import com.localbrand.entities.BrandCategoryPK;
 import com.localbrand.sessionbeans.BrandCategoryFacade;
+
 
 /**
  * Servlet implementation class HomeController
  */
 @WebServlet(urlPatterns="/web/home")
 public class HomeController extends HttpServlet {
+
   
 	BrandCategoryFacade bcfc = new BrandCategoryFacade();
-  
 	private static final long serialVersionUID = 1L;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -41,6 +43,8 @@ public class HomeController extends HttpServlet {
         request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
     }
     private void index(HttpServletRequest request, HttpServletResponse response) {
+
+
     	List<BrandCategory> list = new ArrayList<>();
     	try {
 			BrandCategory newBC = new BrandCategory();
@@ -71,10 +75,16 @@ public class HomeController extends HttpServlet {
 			System.out.println(bcfc.count());
 			
 		} catch (Exception e) {
+
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
     	
         request.setAttribute("listMembershipTier", list);
+
 
     }
     
