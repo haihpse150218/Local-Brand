@@ -12,11 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-
-import com.localbrand.entities.Customer;
-import com.localbrand.entities.MembershipTier;
-import com.localbrand.sessionbeans.CustomerFacade;
-import com.localbrand.sessionbeans.MembershipTierFacade;
+import com.localbrand.entities.BrandCategory;
+import com.localbrand.entities.BrandCategoryPK;
+import com.localbrand.sessionbeans.BrandCategoryFacade;
 
 
 /**
@@ -25,10 +23,8 @@ import com.localbrand.sessionbeans.MembershipTierFacade;
 @WebServlet(urlPatterns="/web/home")
 public class HomeController extends HttpServlet {
 
-
-	MembershipTierFacade mstf = new MembershipTierFacade();
-	CustomerFacade cf = new CustomerFacade();
-
+  
+	BrandCategoryFacade bcfc = new BrandCategoryFacade();
 	private static final long serialVersionUID = 1L;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -47,31 +43,51 @@ public class HomeController extends HttpServlet {
         request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
     }
     private void index(HttpServletRequest request, HttpServletResponse response) {
-      
 
-    		
 
-    	List<MembershipTier> list = new ArrayList<>();
-    	MembershipTier testMem = null;
+    	List<BrandCategory> list = new ArrayList<>();
     	try {
-			System.out.println("List cus: "+ cf.findAll().toString());
-		} catch (SQLException e1) {
-			System.out.println("err" + e1);
-			e1.printStackTrace();
-		}
-    	
-    	try {
-    		testMem = mstf.find(5);
-			list = mstf.findAll();
-		} catch (SQLException e) {
+
+			BrandCategory newBC = new BrandCategory();
+			newBC.setBrandCategoryPK(new BrandCategoryPK(1, 2));
+			
+			bcfc.create(newBC);
+			
+			list = bcfc.findAll();
+			for (BrandCategory brandCategory : list) {
+				System.out.println(brandCategory.getBrandCategoryPK() + ": " + brandCategory.getName());
+			}
+			
+			System.out.println("===========================================");
+			
+			newBC = bcfc.find(new BrandCategoryPK(1, 2));
+			newBC.setName("Something");
+			
+			bcfc.edit(newBC);
+			
+			list = bcfc.findRange(new int[] {2, 100});
+			for (BrandCategory brandCategory : list) {
+				System.out.println(brandCategory.getBrandCategoryPK() + ": " + brandCategory.getName());
+			}
+			
+			System.out.println("===========================================");
+			
+			bcfc.remove(new BrandCategoryPK(1, 2));
+			System.out.println(bcfc.count());
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	System.out.println("category: " + list.toString());
 
-        String hello = "Hai Dep Chai.";
+    	
         request.setAttribute("listMembershipTier", list);
-        request.setAttribute("mem", testMem);
-        request.setAttribute("hello", hello);
+
+
+
     }
     
     
