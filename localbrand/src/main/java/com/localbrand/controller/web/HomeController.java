@@ -11,24 +11,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-
-import com.localbrand.entities.Customer;
-import com.localbrand.entities.MembershipTier;
-import com.localbrand.sessionbeans.CustomerFacade;
-import com.localbrand.sessionbeans.MembershipTierFacade;
-
+import com.localbrand.entities.BrandCategory;
+import com.localbrand.entities.BrandCategoryPK;
+import com.localbrand.sessionbeans.BrandCategoryFacade;
 
 /**
  * Servlet implementation class HomeController
  */
 @WebServlet(urlPatterns="/web/home")
 public class HomeController extends HttpServlet {
-
-
-	MembershipTierFacade mstf = new MembershipTierFacade();
-	CustomerFacade cf = new CustomerFacade();
-
+  
+	BrandCategoryFacade bcfc = new BrandCategoryFacade();
+  
 	private static final long serialVersionUID = 1L;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -47,50 +41,41 @@ public class HomeController extends HttpServlet {
         request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
     }
     private void index(HttpServletRequest request, HttpServletResponse response) {
-
-    	List<Category> list = new ArrayList<>();
+    	List<BrandCategory> list = new ArrayList<>();
     	try {
-    		/*int[] range = {2, 6};
-			list = cateFacade.findRange(range);*/
-    		
-    		Category newCate = new Category(14, "Man's Jeans");
-    		
-    		cateFacade.create(newCate);
-    		
-    		list = cateFacade.findAll();
-    		
-    		for (Category category : list) {
-				System.out.println(category.getId() + ": " + category.getName());
+			BrandCategory newBC = new BrandCategory();
+			newBC.setBrandCategoryPK(new BrandCategoryPK(1, 2));
+			
+			bcfc.create(newBC);
+			
+			list = bcfc.findAll();
+			for (BrandCategory brandCategory : list) {
+				System.out.println(brandCategory.getBrandCategoryPK() + ": " + brandCategory.getName());
 			}
-    		
-    		newCate = cateFacade.find(14);
-    		newCate.setName("Woman's Jeans");
-    		cateFacade.edit(newCate);
-    		
-    		System.out.println("===================================");
-    		
-    		for (Category category : cateFacade.findRange(new int[] {5, 100})) {
-				System.out.println(category.getName());
+			
+			System.out.println("===========================================");
+			
+			newBC = bcfc.find(new BrandCategoryPK(1, 2));
+			newBC.setName("Something");
+			
+			bcfc.edit(newBC);
+			
+			list = bcfc.findRange(new int[] {2, 100});
+			for (BrandCategory brandCategory : list) {
+				System.out.println(brandCategory.getBrandCategoryPK() + ": " + brandCategory.getName());
 			}
-    		
-    		System.out.println("===================================");
-    		
-    		cateFacade.remove(14);
-    		System.out.println(cateFacade.count());
-    		
-		} catch (SQLException e) {
+			
+			System.out.println("===========================================");
+			
+			bcfc.remove(new BrandCategoryPK(1, 2));
+			System.out.println(bcfc.count());
+			
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    	/*System.out.println("category: " + list.toString());*/
-
-        String hello = "Hai Dep Chai.";
-
-
-
+    	
         request.setAttribute("listMembershipTier", list);
-        request.setAttribute("mem", testMem);
 
-        request.setAttribute("hello", hello);
     }
     
     
