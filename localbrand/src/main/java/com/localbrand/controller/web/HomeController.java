@@ -11,7 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.localbrand.entities.MembershipTier;
+import com.localbrand.entities.Collection;
+import com.localbrand.entities.CollectionDetail;
+import com.localbrand.entities.CollectionDetailPK;
+import com.localbrand.entities.Product;
+import com.localbrand.sessionbeans.CollectionDetailFacade;
 import com.localbrand.sessionbeans.MembershipTierFacade;
 
 /**
@@ -19,6 +23,7 @@ import com.localbrand.sessionbeans.MembershipTierFacade;
  */
 @WebServlet(urlPatterns="/web/home")
 public class HomeController extends HttpServlet {
+	CollectionDetailFacade cdf = new CollectionDetailFacade();
 	MembershipTierFacade mstf = new MembershipTierFacade();
 	private static final long serialVersionUID = 1L;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -38,9 +43,16 @@ public class HomeController extends HttpServlet {
         request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
     }
     private void index(HttpServletRequest request, HttpServletResponse response) {
-    	List<MembershipTier> list = new ArrayList<>();
+    	List<CollectionDetail> list = new ArrayList<>();
+    	CollectionDetail cd = new CollectionDetail();
+    	CollectionDetailPK pk = new CollectionDetailPK();
+    	Collection c = new Collection();
+    	Product p = new Product();
+    	int count = 0;
+    	int[] range = new int[]{1,2};
     	try {
-			list = mstf.findAll();
+    		
+			list = cdf.findAll();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -48,6 +60,8 @@ public class HomeController extends HttpServlet {
 
         String hello = "Hai Dep Chai.";
         request.setAttribute("listMembershipTier", list);
+//        request.setAttribute("list", cd);
+        request.setAttribute("count", count);
 
         request.setAttribute("hello", hello);
     }
