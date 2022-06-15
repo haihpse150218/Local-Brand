@@ -8,11 +8,14 @@ import java.util.List;
 
 public abstract class AbstractFacade<T> {
 	 static String url = "jdbc:sqlserver://"
+
 //	 		+ "13.250.14.150:1433;"
 			+ "localhost:1433;"
 	 		+ "databaseName=localbrand;"
 //	 		+ "user=sa;password=Admin123";
 	 		+ "user=sa;password=12345";
+
+
     public AbstractFacade() {
             try {
 				Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -53,7 +56,7 @@ public abstract class AbstractFacade<T> {
     }
 
     protected abstract void remove(Connection con, Object id) throws SQLException;
-    public void remove(Object id) throws Exception {
+    public void remove(Object id) throws SQLException {
         try {
             //Connecting to a database
             Connection con = DriverManager.getConnection(url);
@@ -63,7 +66,7 @@ public abstract class AbstractFacade<T> {
             con.close();
         } catch (SQLException ex) {
             System.out.println("Exception: " + ex.getMessage());
-            throw new Exception(ex.getMessage());
+            throw new SQLException(ex.getMessage());
         }
     }
 
@@ -91,7 +94,6 @@ public abstract class AbstractFacade<T> {
         try {
             //Connecting to a database
             Connection con = DriverManager.getConnection(url);
-            //Executing the stm
             list = findAll(con);
             //Closing the connection
             con.close();
