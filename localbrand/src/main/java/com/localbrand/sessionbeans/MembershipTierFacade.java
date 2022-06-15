@@ -1,6 +1,7 @@
 package com.localbrand.sessionbeans;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,9 +13,7 @@ import com.localbrand.entities.MembershipTier;
 public class MembershipTierFacade extends AbstractFacade<MembershipTier> {
 
 	@Override
-	protected void create(Connection con, MembershipTier t) throws SQLException {
-		// TODO Auto-generated method stub
-		
+	protected void create(Connection con, MembershipTier t) throws SQLException {	
 	}
 
 	@Override
@@ -22,7 +21,6 @@ public class MembershipTierFacade extends AbstractFacade<MembershipTier> {
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
 	protected void remove(Connection con, Object id) throws SQLException {
 		// TODO Auto-generated method stub
@@ -31,8 +29,22 @@ public class MembershipTierFacade extends AbstractFacade<MembershipTier> {
 
 	@Override
 	protected MembershipTier find(Connection con, Object id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		MembershipTier membershipTier = null;
+		String sql = " select * from [MembershipTier] "
+				+ "where id = ?";
+		PreparedStatement stm = con.prepareStatement(sql);
+		stm.setInt(1, Integer.parseInt(id.toString()));
+		ResultSet rs = stm.executeQuery();
+		if(rs.next()) {
+			membershipTier = new MembershipTier();
+			membershipTier.setId(rs.getInt("Id"));
+			membershipTier.setRank(rs.getString("Rank"));
+//			Unrank Bronze Silver Gold Platinum	SuperVIP
+			membershipTier.setDescription(rs.getString("Description"));
+			membershipTier.setDiscount(rs.getDouble("Discount"));
+			membershipTier.setMinimumCoins(rs.getInt("MinimumCoins"));
+		}
+		return membershipTier;
 	}
 
 	@Override
@@ -69,7 +81,5 @@ public class MembershipTierFacade extends AbstractFacade<MembershipTier> {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-    
-    
+	 
 }
