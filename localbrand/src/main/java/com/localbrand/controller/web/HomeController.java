@@ -26,9 +26,6 @@ import com.localbrand.sessionbeans.BrandCategoryFacade;
 public class HomeController extends HttpServlet {
 
 
-  
-	BrandCategoryFacade bcfc = new BrandCategoryFacade();
-
 	private static final long serialVersionUID = 1L;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -47,52 +44,6 @@ public class HomeController extends HttpServlet {
         request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
     }
     private void index(HttpServletRequest request, HttpServletResponse response) {
-
-
-
-
-    	List<BrandCategory> list = new ArrayList<>();
-    	try {
-
-			BrandCategory newBC = new BrandCategory();
-			newBC.setBrandCategoryPK(new BrandCategoryPK(1, 2));
-			
-			bcfc.create(newBC);
-			
-			list = bcfc.findAll();
-			for (BrandCategory brandCategory : list) {
-				System.out.println(brandCategory.getBrandCategoryPK() + ": " + brandCategory.getName());
-			}
-			
-			System.out.println("===========================================");
-			
-			newBC = bcfc.find(new BrandCategoryPK(1, 2));
-			newBC.setName("Something");
-			
-			bcfc.edit(newBC);
-			
-			list = bcfc.findRange(new int[] {2, 100});
-			for (BrandCategory brandCategory : list) {
-				System.out.println(brandCategory.getBrandCategoryPK() + ": " + brandCategory.getName());
-			}
-			
-			System.out.println("===========================================");
-			
-			bcfc.remove(new BrandCategoryPK(1, 2));
-			System.out.println(bcfc.count());
-			
-		} catch (Exception e) {
-
->>>>>>> dev_ORMFeature
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-    	
-        request.setAttribute("listMembershipTier", list);
-
 
 
     }
