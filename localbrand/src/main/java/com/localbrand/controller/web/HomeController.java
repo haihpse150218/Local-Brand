@@ -16,6 +16,7 @@ import com.localbrand.entities.BrandCategory;
 import com.localbrand.entities.BrandCategoryPK;
 import com.localbrand.entities.Customer;
 import com.localbrand.service.implement.LoginService;
+import com.localbrand.service.implement.RegisterService;
 import com.localbrand.sessionbeans.BrandCategoryFacade;
 import com.localbrand.sessionbeans.CustomerFacade;
 
@@ -36,8 +37,10 @@ public class HomeController extends HttpServlet {
 			index(request, response);
 			break;
 		case "login":
-			System.out.println("vao day");
 			login(request, response);
+			break;
+		case "register":
+			register(request, response);
 			break;
 		default:
 			request.setAttribute("controller", "error");
@@ -49,8 +52,7 @@ public class HomeController extends HttpServlet {
 	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 HttpSession session = request.getSession();
 		 
-		 
-		// viet code o day
+		 // PARAMETERS
 		 String username = request.getParameter("txtusername").toString();
 		 String password = request.getParameter("txtpassword").toString();
 		 
@@ -58,30 +60,13 @@ public class HomeController extends HttpServlet {
 		 LoginService loginService = new LoginService();
 		 
 		 try {
-			 loginCustomer = loginService.findByUsername(username);
+			 loginCustomer = loginService.loginByUsername(username, password);
 			 
-			 if (loginCustomer != null) {
-				 System.out.println("TOI DAY");
-				 System.out.println(password);
-				 System.out.println(loginCustomer.getPassword());
-				 if ((loginCustomer.getPassword().trim()).equals(password)) {
-					 session.setAttribute("User", loginCustomer);
-					 
-					 // ===== TEST PRINTS ===============
-					 
-					 System.out.println("Login Success: " + loginCustomer.getUsername());
-					 
-					 // =================================
-				 } else {
-					 System.out.println("Login Failed Incorrect password!");
-					 request.setAttribute("error", "Incorrect password!");
-				 }
-			 } else {
-				 System.out.println("Login Failed Incorrect username!");
-				 request.setAttribute("error", "User does not exist!");
-			 }
+			 session.setAttribute("user", loginCustomer);
+			 
+			 System.out.println("LOGIN SUCCESS");
 		 } catch (Exception e) {
-			 e.printStackTrace();
+			 request.setAttribute("LOGIN_ERROR", e.getMessage());
 		 }
 		 
 		// set lai aciton de no van o lai trang cu
@@ -90,6 +75,40 @@ public class HomeController extends HttpServlet {
 		 request.setAttribute("action", "index");
 		 //session.removeAttribute("uri");
 		 //request.getRequestDispatcher(uri + "/index.do").forward(request, response);
+	}
+	
+	private void register(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		
+		// PARAMETERS
+		String NewUsername 	= request.getParameter("username").toString().trim();
+		String NewName 		= request.getParameter("name").toString().trim();
+		String NewEmail 	= request.getParameter("email").toString().trim();
+		String NewPhone 	= request.getParameter("phone").toString().trim();
+		String NewPassword 	= request.getParameter("password").toString().trim();
+		
+		// SERVICE
+		RegisterService registerService = new RegisterService();
+		try {
+			Customer NewUser = new Customer();
+			NewUser.setUsername(NewUsername);
+			NewUser.setName(NewName);
+			NewUser.setEmail(NewEmail);
+			NewUser.setPhone(NewPhone);
+			NewUser.setPassword(NewPassword);
+			
+			registerService.createUser(NewUser);
+			
+			session.setAttribute("user", NewUser);
+			
+			System.out.println("REGISTER SUCCESS");
+		} catch (Exception e) {
+			request.setAttribute("REGISTER_ERROR", e.getMessage());
+		}
+		
+		String uri = (String)session.getAttribute("uri");
+		request.setAttribute("controller", uri);
+		request.setAttribute("action", "index");
 	}
 
 	private void index(HttpServletRequest request, HttpServletResponse response) {

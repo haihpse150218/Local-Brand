@@ -119,7 +119,7 @@
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
                         <c:choose>
-                        	<c:when test="${sessionScope.User == null}">
+                        	<c:when test="${sessionScope.user == null}">
                         		<div class="navbar-nav ml-auto py-0">
                             		<button type="button" class="nav-item nav-link btn" data-toggle="modal" data-target="#loginModal">
                              	   		Login
@@ -129,7 +129,7 @@
                         	</c:when>
                         	<c:otherwise>
                         		<div class="navbar-nav ml-auto py-0">
-                        			<h5>Welcome, "${sessionScope.User.getName()}"</h5>
+                        			<h5>Welcome, "${sessionScope.user.getName()}"</h5>
                         		</div>
                         	</c:otherwise>
                         </c:choose>
