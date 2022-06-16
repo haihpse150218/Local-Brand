@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+
 <%@include file="/common/taglib.jsp" %> 
 
 
@@ -118,12 +118,21 @@
                             </div>
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
-                        <div class="navbar-nav ml-auto py-0">
-                            <button type="button" class="nav-item nav-link btn" data-toggle="modal" data-target="#loginModal">
-                                Login
-                            </button>
-                            <a href="" class="nav-item nav-link">Register</a>
-                        </div>
+                        <c:choose>
+                        	<c:when test="${sessionScope.User == null}">
+                        		<div class="navbar-nav ml-auto py-0">
+                            		<button type="button" class="nav-item nav-link btn" data-toggle="modal" data-target="#loginModal">
+                             	   		Login
+                           	 		</button>
+                            		<a href="" class="nav-item nav-link">Register</a>
+                        		</div>
+                        	</c:when>
+                        	<c:otherwise>
+                        		<div class="navbar-nav ml-auto py-0">
+                        			<h5>Welcome, "${sessionScope.User.getName()}"</h5>
+                        		</div>
+                        	</c:otherwise>
+                        </c:choose>
                     </div>
                 </nav>
             </div>
@@ -131,24 +140,25 @@
     </div>
     <!-- Navbar End -->
 
+
     <!-- Login Modal -->
     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content" style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/76.jpg');">
                 <div class="modal-header">
                     <h5 class="modal-title m-auto" id="exampleModalLongTitle">Welcome</h5>
-
                 </div>
+                <form action="/localbrand/web/home/login.do" method="POST">
                 <div class="modal-body">
                     <div class="d-flex justify-content-between">
                         <div class="row">
                             <div class="col-md-12 form-group">
-                                <label>Email</label>
-                                <input class="form-control" type="text" name="txtemail" value="" placeholder="Email" required>
+                                <label>Username</label>
+                                <input class="form-control" type="text" name="txtusername" value="" placeholder="Username" required>
                             </div>
                             <div class="col-md-12 form-group">
                                 <label>Password</label>
-                                <input class="form-control" type="text" name="txtpass" value="" placeholder="Password" required>
+                                <input class="form-control" type="password" name="txtpassword" value="" placeholder="Password" required>
                             </div>
                             <div class="col-md-12 form-group">
                                 <a href="">Forgot password?</a>
@@ -165,6 +175,7 @@
                         <button name="action" value="login" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Login</button>
                     </div>
                 </div>
+                </form>
             </div>
         </div>
     </div>
