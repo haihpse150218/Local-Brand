@@ -31,10 +31,8 @@ public class HomeController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getAttribute("action").toString();
-        System.out.println("vao roi:" + action);
         switch (action) {
             case "index":
-            	System.out.println("vao roi2:" + action);
                 index(request, response);
                 break;
             default:
@@ -44,7 +42,6 @@ public class HomeController extends HttpServlet {
         request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
     }
     private void index(HttpServletRequest request, HttpServletResponse response) {
-
 
     }
     

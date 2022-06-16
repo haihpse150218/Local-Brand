@@ -14,7 +14,7 @@ public abstract class AbstractFacade<T> {
 			+ "localhost:1433;"
 	 		+ "databaseName=localbrand;"
 //	 		+ "user=sa;password=Admin123";
-	 		+ "user=sa;password=12345";
+	 		+ "user=sa;password=159357";
 
 
 
