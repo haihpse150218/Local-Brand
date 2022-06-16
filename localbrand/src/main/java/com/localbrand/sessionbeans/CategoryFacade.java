@@ -33,6 +33,7 @@ public class CategoryFacade extends AbstractFacade<Category> {
 
 		ptm.setNString(1, t.getName());
 		ptm.setNString(2, t.getDescription());
+
 		if(t.getGender() == null) {
 			t.setGender(0);
 		}
@@ -72,10 +73,12 @@ public class CategoryFacade extends AbstractFacade<Category> {
 
 		String sql = "DELETE FROM [Category]"
 					+ "WHERE [Id] = ?";
+
 		PreparedStatement ptm = con.prepareStatement(sql);
 
 		ptm.setInt(1, Integer.parseInt(id.toString()));
 		
+
 
 		ptm.executeUpdate();
 	}
@@ -85,9 +88,11 @@ public class CategoryFacade extends AbstractFacade<Category> {
 		Category returnCategory = null;
 		
 
+
 		String sql = "SELECT * FROM [Category]" +
 					" WHERE [Id] = ?";
 		
+
 
 		PreparedStatement ptm = con.prepareStatement(sql);
 		ptm.setInt(1, Integer.parseInt(id.toString()));
@@ -113,6 +118,8 @@ public class CategoryFacade extends AbstractFacade<Category> {
 		
 		String sql = "SELECT * FROM [Category]";
 		
+
+
 
 		PreparedStatement ptm = con.prepareStatement(sql);
 		ResultSet rs = ptm.executeQuery();
