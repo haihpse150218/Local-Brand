@@ -42,6 +42,9 @@ public class HomeController extends HttpServlet {
 		case "register":
 			register(request, response);
 			break;
+		case "logout":
+			logout(request, response);
+			break;
 		default:
 			request.setAttribute("controller", "error");
 			request.setAttribute("action", "index");
@@ -114,9 +117,20 @@ public class HomeController extends HttpServlet {
 	private void index(HttpServletRequest request, HttpServletResponse response) {
 		//set uri
 		HttpSession session = request.getSession();
+		
 		String uri = request.getServletPath();
         String controller = uri.substring(uri.lastIndexOf("/"));
         session.setAttribute("uri", controller);
+	}
+	
+	private void logout(HttpServletRequest request, HttpServletResponse response) {
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("user", null);
+		
+		String uri = (String)session.getAttribute("uri");
+		request.setAttribute("controller", uri);
+		request.setAttribute("action", "index");
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

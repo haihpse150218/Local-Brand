@@ -124,12 +124,13 @@
                             		<button type="button" class="nav-item nav-link btn" data-toggle="modal" data-target="#loginModal">
                              	   		Login
                            	 		</button>
-                            		<a href="" class="nav-item nav-link">Register</a>
+                            		<a href="/localbrand/web/home/register.do" class="nav-item nav-link">Register</a>
                         		</div>
                         	</c:when>
                         	<c:otherwise>
                         		<div class="navbar-nav ml-auto py-0">
-                        			<h5>Welcome, "${sessionScope.user.getName()}"</h5>
+                        			<a href="" class="nav-item nav-link">"${sessionScope.user.getName()}"</a>
+                        			<a href="/localbrand/web/home/logout.do" class="nav-item nav-link">Log out</a>
                         		</div>
                         	</c:otherwise>
                         </c:choose>
