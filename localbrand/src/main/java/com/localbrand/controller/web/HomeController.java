@@ -30,10 +30,8 @@ public class HomeController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getAttribute("action").toString();
-        System.out.println("vao roi:" + action);
         switch (action) {
             case "index":
-            	System.out.println("vao roi2:" + action);
                 index(request, response);
                 break;
             default:
@@ -43,50 +41,6 @@ public class HomeController extends HttpServlet {
         request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
     }
     private void index(HttpServletRequest request, HttpServletResponse response) {
-
-
-    	List<BrandCategory> list = new ArrayList<>();
-    	try {
-
-			BrandCategory newBC = new BrandCategory();
-			newBC.setBrandCategoryPK(new BrandCategoryPK(1, 2));
-			
-			bcfc.create(newBC);
-			
-			list = bcfc.findAll();
-			for (BrandCategory brandCategory : list) {
-				System.out.println(brandCategory.getBrandCategoryPK() + ": " + brandCategory.getName());
-			}
-			
-			System.out.println("===========================================");
-			
-			newBC = bcfc.find(new BrandCategoryPK(1, 2));
-			newBC.setName("Something");
-			
-			bcfc.edit(newBC);
-			
-			list = bcfc.findRange(new int[] {2, 100});
-			for (BrandCategory brandCategory : list) {
-				System.out.println(brandCategory.getBrandCategoryPK() + ": " + brandCategory.getName());
-			}
-			
-			System.out.println("===========================================");
-			
-			bcfc.remove(new BrandCategoryPK(1, 2));
-			System.out.println(bcfc.count());
-			
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-    	
-        request.setAttribute("listMembershipTier", list);
-
-
 
     }
     
