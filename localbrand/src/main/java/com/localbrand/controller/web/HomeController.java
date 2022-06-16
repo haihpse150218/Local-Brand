@@ -12,9 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+
 import com.localbrand.entities.BrandCategory;
 import com.localbrand.entities.BrandCategoryPK;
 import com.localbrand.sessionbeans.BrandCategoryFacade;
+
 
 
 /**
@@ -23,8 +25,7 @@ import com.localbrand.sessionbeans.BrandCategoryFacade;
 @WebServlet(urlPatterns="/web/home")
 public class HomeController extends HttpServlet {
 
-  
-	BrandCategoryFacade bcfc = new BrandCategoryFacade();
+
 	private static final long serialVersionUID = 1L;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
