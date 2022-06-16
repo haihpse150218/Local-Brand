@@ -42,13 +42,10 @@ public class PaymentFacade extends AbstractFacade<Payment> {
 	@Override
 	protected void remove(Connection con, Object id) throws SQLException {
 		// TODO Auto-generated method stub
-		Payment t = new Payment();
-		String sql = "UPDATE [dbo].[Payment]\r\n" + 
-				"   SET [Status] = ?\r\n" + 
+		String sql = "DELETE FROM [dbo].[Payment]\r\n" + 
 				" WHERE [Id]=?;";
 		PreparedStatement ptm = con.prepareStatement(sql);
-		ptm.setString(1,"0");
-		ptm.setInt(2, (int)id);
+		ptm.setInt(1, (int)id);
 		ptm.executeUpdate();
 	}
 
@@ -121,12 +118,13 @@ public class PaymentFacade extends AbstractFacade<Payment> {
 	protected int count(Connection con) throws SQLException {
 		// TODO Auto-generated method stub
 		int result = 0;
-		String sql = "SELECT COUNT([PayMethod])\r\n" + 
+		String sql = "SELECT COUNT([PayMethod])\r\n" +
+				"AS [Result]\r\n" +
 				"FROM [dbo].[Payment]";
 		PreparedStatement ptm = con.prepareStatement(sql);
 		ResultSet rs = ptm.executeQuery();
 		if (rs.next()) {
-			result = rs.getInt("");
+			result = rs.getInt("Result");
 		}
 		return result;
 	}
