@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 import com.localbrand.entities.BrandCategory;
 import com.localbrand.entities.BrandCategoryPK;
 import com.localbrand.entities.Customer;
@@ -20,12 +21,12 @@ import com.localbrand.service.implement.RegisterService;
 import com.localbrand.sessionbeans.BrandCategoryFacade;
 import com.localbrand.sessionbeans.CustomerFacade;
 
+
 /**
  * Servlet implementation class HomeController
  */
 @WebServlet(urlPatterns = "/web/home")
 public class HomeController extends HttpServlet {
-
 	private static final long serialVersionUID = 1L;
 
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
