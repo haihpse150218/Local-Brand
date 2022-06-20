@@ -32,15 +32,13 @@ public class HomeController extends HttpServlet {
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 		String action = request.getAttribute("action").toString();
+		System.out.println("actione ne:"+action);
 		switch (action) {
 		case "index":
 			index(request, response);
 			break;
 		case "login":
 			login(request, response);
-			break;
-		case "register":
-			register(request, response);
 			break;
 		case "logout":
 			logout(request, response);
@@ -53,83 +51,54 @@ public class HomeController extends HttpServlet {
 	}
 
 	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 HttpSession session = request.getSession();
-		 
-		 // PARAMETERS
-		 String username = request.getParameter("txtusername").toString();
-		 String password = request.getParameter("txtpassword").toString();
-		 
-		 Customer loginCustomer = null;
-		 LoginService loginService = new LoginService();
-		 
-		 try {
-			 loginCustomer = loginService.loginByUsername(username, password);
-			 
-			 session.setAttribute("user", loginCustomer);
-			 
-			 System.out.println("LOGIN SUCCESS");
-		 } catch (Exception e) {
-			 request.setAttribute("LOGIN_ERROR", e.getMessage());
-		 }
-		 
-		// set lai aciton de no van o lai trang cu
-		 String uri = (String)session.getAttribute("uri");
-		 request.setAttribute("controller", uri);
-		 request.setAttribute("action", "index");
-		 //session.removeAttribute("uri");
-		 //request.getRequestDispatcher(uri + "/index.do").forward(request, response);
-	}
-	
-	private void register(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
-		
+
 		// PARAMETERS
-		String NewUsername 	= request.getParameter("username").toString().trim();
-		String NewName 		= request.getParameter("name").toString().trim();
-		String NewEmail 	= request.getParameter("email").toString().trim();
-		String NewPhone 	= request.getParameter("phone").toString().trim();
-		String NewPassword 	= request.getParameter("password").toString().trim();
-		
-		// SERVICE
-		RegisterService registerService = new RegisterService();
+		String username = request.getParameter("txtusername").toString();
+		String password = request.getParameter("txtpassword").toString();
+
+		Customer loginCustomer = null;
+		LoginService loginService = new LoginService();
+
 		try {
-			Customer NewUser = new Customer();
-			NewUser.setUsername(NewUsername);
-			NewUser.setName(NewName);
-			NewUser.setEmail(NewEmail);
-			NewUser.setPhone(NewPhone);
-			NewUser.setPassword(NewPassword);
-			
-			registerService.createUser(NewUser);
-			
-			session.setAttribute("user", NewUser);
-			
-			System.out.println("REGISTER SUCCESS");
+			loginCustomer = loginService.loginByUsername(username, password);
+
+			session.setAttribute("user", loginCustomer);
+
+			System.out.println("LOGIN SUCCESS");
 		} catch (Exception e) {
-			request.setAttribute("REGISTER_ERROR", e.getMessage());
+			request.setAttribute("LOGIN_ERROR", e.getMessage());
 		}
-		
-		String uri = (String)session.getAttribute("uri");
+
+		// set lai aciton de no van o lai trang cu
+		String uri = (String) session.getAttribute("uri");
 		request.setAttribute("controller", uri);
 		request.setAttribute("action", "index");
+		// session.removeAttribute("uri");
+		// request.getRequestDispatcher(uri + "/index.do").forward(request, response);
 	}
 
 	private void index(HttpServletRequest request, HttpServletResponse response) {
-		//set uri
+		// set uri
 		HttpSession session = request.getSession();
-		
+
 		String uri = request.getServletPath();
-        String controller = uri.substring(uri.lastIndexOf("/"));
-        session.setAttribute("uri", controller);
+		String controller = uri.substring(uri.lastIndexOf("/"));
+		session.setAttribute("uri", controller);
 	}
-	
+
 	private void logout(HttpServletRequest request, HttpServletResponse response) {
-		
+
 		HttpSession session = request.getSession();
 		session.setAttribute("user", null);
+
+		String uri = (String) session.getAttribute("uri");
+		if(uri == null) {
+			request.setAttribute("controller", "/home");
+		}else {
+			request.setAttribute("controller", uri);
+		}
 		
-		String uri = (String)session.getAttribute("uri");
-		request.setAttribute("controller", uri);
 		request.setAttribute("action", "index");
 	}
 

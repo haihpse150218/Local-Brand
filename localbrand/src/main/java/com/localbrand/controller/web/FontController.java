@@ -30,7 +30,6 @@ public class FontController extends HttpServlet {
         request.setAttribute("controller", controller);
         request.setAttribute("action", action);
         request.setAttribute("page", page);
-        
         request.getRequestDispatcher(page+controller).forward(request, response);
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

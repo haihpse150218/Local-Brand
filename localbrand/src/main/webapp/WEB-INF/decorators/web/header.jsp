@@ -124,7 +124,7 @@
                             		<button type="button" class="nav-item nav-link btn" data-toggle="modal" data-target="#loginModal">
                              	   		Login
                            	 		</button>
-                            		<a href="/localbrand/web/home/register.do" class="nav-item nav-link">Register</a>
+                            		<a href="/localbrand/web/register/index.do" class="nav-item nav-link">Register</a>
                         		</div>
                         	</c:when>
                         	<c:otherwise>
