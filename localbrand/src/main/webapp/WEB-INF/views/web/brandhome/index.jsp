@@ -223,48 +223,49 @@
 					</div>
 				</c:forEach>
 				<!-- Phan trang -->
+				${brandhomePage}/${totalBrandhomePage}/${listNumberBox}
 				<div class="col-12 pb-1">
 					<nav aria-label="Page navigation">
 						<ul class="pagination justify-content-center mb-3">
 							<li class="page-item ${brandhomePage==1?'disabled':''}"><a
-								class="page-link  " href="index.do?op=FirstPage"
+								class="page-link  " href="index.do?id=${brandId}&op=FirstPage"
 								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 							</a></li>
 							<li class="page-item  ${brandhomePage==1?'disabled':''}"><a
-								class="page-link" href="index.do?op=PreviousPage"
+								class="page-link" href="index.do?id=${brandId}&op=PreviousPage"
 								aria-label="Next"> <span aria-hidden="true"><</span>
 							</a></li>
 							<li
 								class="page-item  ${brandhomePage==listNumberBox.get(0)?'active':''}">
 								<a class="page-link"
-								href="index.do?op=GotoPage&gotoPage=${listNumberBox.get(0)}">
+								href="index.do?id=${brandId}&op=GotoPage&gotoPage=${listNumberBox.get(0)}">
 									${listNumberBox.get(0)} </a>
 							</li>
 							<li
-								class="page-item  ${brandhomePage==listNumberBox.get(1)?'active':''}">
+								class="page-item  ${brandhomePage==listNumberBox.get(1)?'active':''}" style="${totalBrandhomePage <listNumberBox.get(1)?"display: none":""}">
 								<a class="page-link"
-								href="index.do?op=GotoPage&gotoPage=${listNumberBox.get(1)}">
+								href="index.do?id=${brandId}&op=GotoPage&gotoPage=${listNumberBox.get(1)}">
 									${listNumberBox.get(1)} </a>
 							</li>
 
 							<li
-								class="page-item  ${brandhomePage==listNumberBox.get(2)?'active':''}">
+								class="page-item  ${brandhomePage==listNumberBox.get(2)?'active':''}" style="${totalBrandhomePage <listNumberBox.get(2)?"display: none":""}">
 								<a class="page-link"
-								href="index.do?op=GotoPage&gotoPage=${listNumberBox.get(2)}">
+								href="index.do?id=${brandId}&op=GotoPage&gotoPage=${listNumberBox.get(2)}">
 									${listNumberBox.get(2)} </a>
 							</li>
 
 							<li
 								class="page-item ${brandhomePage==totalBrandhomePage?'disabled':''}">
 								<!-- disabled --> <a class="page-link "
-								href="index.do?op=NextPage" aria-label="Next"> <span
+								href="index.do?id=${brandId}&op=NextPage" aria-label="Next"> <span
 									aria-hidden="true">></span>
 							</a>
 							</li>
 							<li
 								class="page-item ${brandhomePage==totalBrandhomePage?'disabled':''}">
 								<!-- disabled --> <a class="page-link "
-								href="index.do?op=LastPage" aria-label="Next"> <span
+								href="index.do?id=${brandId}&op=LastPage" aria-label="Next"> <span
 									aria-hidden="true">&raquo;</span>
 							</a>
 							</li>

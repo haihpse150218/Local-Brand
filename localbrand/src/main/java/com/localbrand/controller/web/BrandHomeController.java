@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.localbrand.entities.Product;
+import com.localbrand.service.implement.BrandHomeService;
+import com.localbrand.service.implement.PagingService;
 import com.localbrand.sessionbeans.BrandCategoryFacade;
 import com.localbrand.sessionbeans.ProductFacade;
 
@@ -34,120 +36,70 @@ public class BrandHomeController extends HttpServlet {
                 index(request, response);
                 break;
             default:
-                request.setAttribute("controller", "error");
+                request.setAttribute("controller", "/error");
                 request.setAttribute("action", "index");
         }
         request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
     }
-    private void index(HttpServletRequest request, HttpServletResponse response) {
-    	
+    private void index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	String brandId = request.getParameter("id");
+    	HttpSession session = request.getSession();
+    	if(brandId == null) {
+    		brandId = (String) session.getAttribute("brandId");
+    	}else {
+    		session.setAttribute("brandId", brandId);
+    	}
+        System.out.println("BrandId: "+brandId);
+        if(brandId == null) {
+        	request.setAttribute("controller", "/error");
+			return;
+        }
+    	PagingService paging = new PagingService();
+    	BrandHomeService brandHomeService = new BrandHomeService();
+    	List<Product> listProduct = new ArrayList<>();
+		listProduct = brandHomeService.findAllProductByBrandId(Integer.parseInt(brandId.toString()));
     	 int pageSize = 6;                       
-         HttpSession session = request.getSession();
-         //Xac dinh so thu tu cua trang hien tai
          Integer page = (Integer) session.getAttribute("brandhomePage");
-         Integer box = (Integer) session.getAttribute("box");
-         
          if (page == null) {
              page = 1;
          }
-         if (box == null) {
-			box = 1;
-		}
-         //Xac dinh tong so trang
+         int count = 0;
+         count = listProduct.size();
+         System.out.println("count: "+ count);
          Integer totalPage = (Integer) session.getAttribute("totalBrandhomePage");
          if (totalPage == null) {
-             int count = pf.count();
-             System.out.println("count"+count);
              totalPage = (int) Math.ceil((double) (count) / pageSize);
-             System.out.println("total================="+totalPage);
+             
          }
+         System.out.println("totalPage: "+ totalPage);
          String op = request.getParameter("op");
-         if (op == null) {
-             op = "FirstPage";
-         }
-         switch (op) {
-             case "FirstPage":
-            	 System.out.println("sc1:" + page);
-                 page = 1;
-                 break;
-             case "PreviousPage":
-                 if (page > 1) {
-                     page--;
-                 }
-                 System.out.println("sc2:" + page);
-                 break;
-             case "NextPage":
-                 if (page < totalPage) {
-                     page++;
-                 }
-                 System.out.println("sc3:" + page);
-                 break;
-             case "LastPage":
-                 page = totalPage;
-                 System.out.println("sc4:" + page);
-                 break;
-             case "GotoPage":
-                 page = Integer.parseInt(request.getParameter("gotoPage"));
-                 System.out.println("sc5:" + page);
-                 break;
-         }
-         int n1 = (page - 1) * pageSize + 1;
-
-         int n2 = n1 + pageSize - 1;
-         List<Product> list = null;
-         try {
-             list = pf.findRange(new int[]{n1, n2});
-         } catch (SQLException ex) {
-        	 System.out.println(ex);
-         }
-         //Luu thong tin vao session va request
-         List<Integer> listNumberBox = new ArrayList<>();
-
-         if(page == 1 || totalPage <= 3) {
-        	 listNumberBox.add(1);
-             listNumberBox.add(2);
-             listNumberBox.add(3);
-
-         }
-         if(page == totalPage) {
-        	 listNumberBox.add(page-2);
-             listNumberBox.add(page-1);
-             listNumberBox.add(page);
-         }
-         if(page > 1 && page < totalPage) {
-        	 listNumberBox.add(page-1);
-             listNumberBox.add(page);
-             listNumberBox.add(page+1);
+         Integer gotoPage = null;
+         if(request.getParameter("gotoPage") != null) {
+        	  gotoPage = Integer.parseInt(request.getParameter("gotoPage"));
          }
          
-         
+         //Paging
+         page = paging.getPage(op,totalPage,page,gotoPage);
+         System.out.println("page: "+page);
+         int n1 = (page - 1) * pageSize ;
+         System.out.println("n1: "+n1);
+         int n2 = 0;
+         if((count - n1) <= pageSize) {
+        	 n2 = count;
+         }else {
+        	 n2 = n1 + pageSize;
+         }
+         System.out.println("n2: "+n2);
+         List<Product> list = listProduct.subList(n1, n2);
+         List<Integer> listNumberBox = paging.getListNumberBox(page, totalPage);
          session.setAttribute("listNumberBox", listNumberBox);
          session.setAttribute("brandhomePage", page);
          session.setAttribute("totalBrandhomePage", totalPage);
          request.setAttribute("list", list);
          
-    	List<Product> listProduct;
-    	
-    	
-		try {
-			listProduct = pf.findAll();
-			for (Product p : listProduct) {
-	    		System.out.println("product: "+ p.getName());				
-			}
-			System.out.println(pf.count());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		String uri = request.getServletPath();
         String controller = uri.substring(uri.lastIndexOf("/"));
         session.setAttribute("uri", controller);
-    	
-    	
-    	
-    	
-
     }
     
     
