@@ -16,7 +16,7 @@ public class Brand implements Serializable {
     private List<BrandAccount> brandAccountList;
    
 
-    private Store storeId;
+    private List<Store> storeList;
   
     private List<BrandCategory> brandCategoryList;
   
@@ -70,16 +70,15 @@ public class Brand implements Serializable {
         this.brandAccountList = brandAccountList;
     }
 
-    public Store getStoreId() {
-        return storeId;
-    }
+    public List<Store> getStoreList() {
+		return storeList;
+	}
 
-    public void setStoreId(Store storeId) {
-        this.storeId = storeId;
-    }
+	public void setStoreList(List<Store> storeList) {
+		this.storeList = storeList;
+	}
 
-
-    public List<BrandCategory> getBrandCategoryList() {
+	public List<BrandCategory> getBrandCategoryList() {
         return brandCategoryList;
     }
 
