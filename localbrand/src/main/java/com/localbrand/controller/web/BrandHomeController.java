@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.localbrand.entities.BrandCategory;
-import com.localbrand.entities.BrandCategoryPK;
 import com.localbrand.entities.Product;
 import com.localbrand.sessionbeans.BrandCategoryFacade;
 import com.localbrand.sessionbeans.ProductFacade;
@@ -104,10 +102,12 @@ public class BrandHomeController extends HttpServlet {
          }
          //Luu thong tin vao session va request
          List<Integer> listNumberBox = new ArrayList<>();
-         if(page == 1) {
-        	 listNumberBox.add(page);
-             listNumberBox.add(page+1);
-             listNumberBox.add(page+2);
+
+         if(page == 1 || totalPage <= 3) {
+        	 listNumberBox.add(1);
+             listNumberBox.add(2);
+             listNumberBox.add(3);
+
          }
          if(page == totalPage) {
         	 listNumberBox.add(page-2);
@@ -164,4 +164,6 @@ public class BrandHomeController extends HttpServlet {
 		doGet(request, response);
 	}
 
+
 }
+
