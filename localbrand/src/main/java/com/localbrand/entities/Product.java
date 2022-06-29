@@ -1,5 +1,6 @@
 package com.localbrand.entities;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 public class Product implements Serializable {
 
@@ -35,11 +36,12 @@ public class Product implements Serializable {
     private List<Product> productList;
     
     private Product parentId;
-    
-   
+     
     private List<OrderDetail> orderDetailList;
   
     private List<Feedback> feedbackList;
+    
+    private Date createDate;
 
     public Product() {
     }
@@ -209,9 +211,17 @@ public class Product implements Serializable {
     public void setFeedbackList(List<Feedback> feedbackList) {
         this.feedbackList = feedbackList;
     }
-
  
-    public boolean equals(Object object) {
+    public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+
+	public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Product)) {
             return false;
