@@ -8,11 +8,10 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import com.localbrand.entities.Brand;
 import com.localbrand.entities.Feedback;
+import com.localbrand.entities.Order;
 import com.localbrand.entities.Product;
 
 public class FeedbackFacade extends AbstractFacade<Feedback> {
@@ -26,8 +25,8 @@ public class FeedbackFacade extends AbstractFacade<Feedback> {
 	
 	@Override
 	protected void create(Connection con, Feedback t) throws SQLException {
-		String sql = "  INSERT INTO [Feedback] ([FeedbackTime],[TextComment],[Voting],[Status],[ProductId])\r\n" + 
-				"values	(?, ?, ?, ?, ?)";
+		String sql = "  INSERT INTO [Feedback] ([FeedbackTime],[TextComment],[Voting],[Status],[ProductId],[OrderId])\r\n" + 
+				"values	(?, ?, ?, ?, ?, ?)";
 		
 		checkNull(t);
 		
@@ -39,6 +38,7 @@ public class FeedbackFacade extends AbstractFacade<Feedback> {
 		ptm.setDouble(3, t.getVoting());
 		ptm.setInt(4, t.getStatus());
 		ptm.setInt(5, t.getProductId().getId());
+		ptm.setInt(6, t.getOrderId().getId());
 		
 		ptm.executeUpdate();
 		
@@ -52,6 +52,7 @@ public class FeedbackFacade extends AbstractFacade<Feedback> {
 				", [Voting] = ?\r\n" + 
 				", [Status] = ?\r\n" + 
 				", [ProductId] = ?\r\n" + 
+				", [OrderId] = ?\r\n" + 
 				"WHERE [Id] = ?";
 		
 		checkNull(t);
@@ -64,7 +65,8 @@ public class FeedbackFacade extends AbstractFacade<Feedback> {
 		ptm.setDouble(3, t.getVoting());
 		ptm.setInt(4, t.getStatus());
 		ptm.setInt(5, t.getProductId().getId());
-		ptm.setInt(6, t.getId());
+		ptm.setInt(6, t.getOrderId().getId());
+		ptm.setInt(7, t.getId());
 		
 		ptm.executeUpdate();
 		
@@ -109,10 +111,15 @@ public class FeedbackFacade extends AbstractFacade<Feedback> {
 			fb.setVoting(rs.getDouble("Voting"));
 			fb.setStatus(rs.getInt("Status"));
 			
-			//???
+			//FK productID
 			Product product = new Product();
 			product.setId(rs.getInt("ProductId"));
 			fb.setProductId(product);
+			
+			//FK orderID
+			Order order = new Order();
+			order.setId(rs.getInt("OrderId"));
+			fb.setOrderId(order);
 			
 		}
 		
@@ -145,10 +152,15 @@ public class FeedbackFacade extends AbstractFacade<Feedback> {
 			fb.setVoting(rs.getDouble("Voting"));
 			fb.setStatus(rs.getInt("Status"));
 			
-			//???
+			//FK productID
 			Product product = new Product();
 			product.setId(rs.getInt("ProductId"));
 			fb.setProductId(product);
+			
+			//FK orderID
+			Order order = new Order();
+			order.setId(rs.getInt("OrderId"));
+			fb.setOrderId(order);
 			
 			list.add(fb);
 		}
@@ -186,10 +198,15 @@ public class FeedbackFacade extends AbstractFacade<Feedback> {
 			fb.setVoting(rs.getDouble("Voting"));
 			fb.setStatus(rs.getInt("Status"));
 			
-			//???
+			//FK productID
 			Product product = new Product();
 			product.setId(rs.getInt("ProductId"));
 			fb.setProductId(product);
+			
+			//FK orderID
+			Order order = new Order();
+			order.setId(rs.getInt("OrderId"));
+			fb.setOrderId(order);
 			
 			list.add(fb);
 		}
