@@ -1,5 +1,6 @@
 package com.localbrand.service.implement;
 
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,9 +13,13 @@ import com.localbrand.entities.Product;
 import com.localbrand.service.IHome;
 import com.localbrand.sessionbeans.ProductFacade;
 
-public class HomeService implements IHome {
-	ProductFacade pf = new ProductFacade();
 
+import com.localbrand.entities.Brand;
+import com.localbrand.entities.Collection;
+import com.localbrand.sessionbeans.BrandFacade;
+
+public class HomeService implements IHome {
+  ProductFacade pf = new ProductFacade();
 	@Override
 	public List<Product> getTrendingProduct() {
 		List<Product> listProduct = new ArrayList<>();
@@ -41,6 +46,24 @@ public class HomeService implements IHome {
 			e.printStackTrace();
 		}
 		return listTrendingProduct;
+  }
+
+	@Override
+	public List<Brand> getBrandList(int start, int end) throws Exception {
+		
+		BrandFacade brandFacade = new BrandFacade();
+		
+		List<Brand> list = brandFacade.findRange(new int[] {start, end});
+		
+		return list;
 	}
+
+	@Override
+	public List<Collection> getTrendingCollection() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 
 }
