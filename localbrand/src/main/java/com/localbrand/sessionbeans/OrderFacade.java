@@ -22,8 +22,7 @@ public class OrderFacade extends AbstractFacade<Order> {
 				"values	(?, ?, ?, ?, ?, ?)";
 		
 		PreparedStatement ptm = con.prepareStatement(sql);
-		ptm.setString(1, 
-			(t.getOrderDate().getYear() + "-" + t.getOrderDate().getMonth() + "-" + t.getOrderDate().getDate()
+		ptm.setString(1,(t.getOrderDate().getYear() + "-" + t.getOrderDate().getMonth() + "-" + t.getOrderDate().getDate()
 			+ " " + t.getOrderDate().getHours() + ":" + t.getOrderDate().getMinutes() + ":" + t.getOrderDate().getSeconds()));
 		ptm.setDouble(2, t.getTotal());
 		ptm.setDouble(3, t.getTax());

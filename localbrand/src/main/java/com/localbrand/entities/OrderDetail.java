@@ -95,9 +95,12 @@ public class OrderDetail implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "OrderDetail[ orderDetailPK=" + orderDetailPK + " ]";
-    }
+	@Override
+	public String toString() {
+		return "OrderDetail [orderDetailPK=" + orderDetailPK + ", quantity=" + quantity + ", discount=" + discount
+				+ ", price=" + price + ", order1=" + order1 + ", product=" + product + "]";
+	}
+
+    
     
 }

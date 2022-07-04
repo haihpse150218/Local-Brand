@@ -124,9 +124,13 @@ public class Order implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "Order[ id=" + id + " ]";
-    }
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", orderDate=" + orderDate + ", total=" + total + ", tax=" + tax + ", customerId="
+				+ customerId + ", payId=" + payId + ", orderDetailList=" + orderDetailList + ", feedbackList="
+				+ feedbackList + ", status=" + status + "]";
+	}
+
+   
     
 }
