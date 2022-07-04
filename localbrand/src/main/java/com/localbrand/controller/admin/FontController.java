@@ -7,6 +7,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.localbrand.entities.BrandAccount;
 
 /**
  * Servlet implementation class FontController
@@ -14,29 +17,33 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns="/admin/*")
 public class FontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    public FontController() {
-        super();
-    }
 	public void init(ServletConfig config) throws ServletException {
 	}
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+	
             throws ServletException, IOException {
+		HttpSession session =  request.getSession();
         response.setContentType("text/html;charset=UTF-8"); 
         String page = "/admin";
         String url= request.getPathInfo(); 
         if(url == null) {
-        	url = "/login/index.do";
+        	BrandAccount admin = (BrandAccount) session.getAttribute("admin");
+        	if(admin == null) {
+        		url = "/login/index.do";
+        	}else {
+        		url ="/home/index.do";
+        	}
         }
         System.out.println("url:" + url);
         String controller = url.substring(0, url.lastIndexOf("/"));
-        String action = url.substring(url.lastIndexOf("/")+1,url.lastIndexOf("."));
+        String action=url.substring(url.lastIndexOf("/")+1,url.lastIndexOf("."));
         System.out.println("ServletPath: "+url);
         System.out.println("Controller: "+controller);
         System.out.println("Action: "+action);
         request.setAttribute("controller", controller);
         request.setAttribute("action", action);
         request.setAttribute("page", page);
-        this.getServletContext().getRequestDispatcher(page + controller).forward(request, response);
+        request.getRequestDispatcher(page+controller).forward(request, response);
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);

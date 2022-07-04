@@ -18,8 +18,8 @@ public class OrderFacade extends AbstractFacade<Order> {
 
 	@Override
 	protected void create(Connection con, Order t) throws SQLException {
-		String sql = "  INSERT INTO [Order] ([OrderDate], [Total], [Tax], [PayId], [CustomerId])\r\n" + 
-				"values	(?, ?, ?, ?, ?)";
+		String sql = "  INSERT INTO [Order] ([OrderDate], [Total], [Tax], [PayId], [CustomerId], [Status])\r\n" + 
+				"values	(?, ?, ?, ?, ?, ?)";
 		
 		PreparedStatement ptm = con.prepareStatement(sql);
 		ptm.setString(1, 
@@ -29,7 +29,7 @@ public class OrderFacade extends AbstractFacade<Order> {
 		ptm.setDouble(3, t.getTax());
 		ptm.setInt(4, t.getPayId().getId());
 		ptm.setInt(5, t.getCustomerId().getId());
-		
+		ptm.setString(6, t.getStatus());
 		ptm.executeUpdate();
 		
 	}
@@ -42,6 +42,7 @@ public class OrderFacade extends AbstractFacade<Order> {
 				", [Tax] = ?\r\n" + 
 				", [PayId] = ?\r\n" + 
 				", [CustomerId] = ?\r\n" + 
+				", [Status] = ?\r\n" + 
 				"WHERE [Id] = ?";
 		
 		PreparedStatement ptm = con.prepareStatement(sql);
@@ -53,7 +54,9 @@ public class OrderFacade extends AbstractFacade<Order> {
 		ptm.setDouble(3, t.getTax());
 		ptm.setInt(4, t.getPayId().getId());
 		ptm.setInt(5, t.getCustomerId().getId());
-		ptm.setInt(6, t.getId());
+		ptm.setString(6, t.getStatus());
+		ptm.setInt(7, t.getId());
+		
 		
 		ptm.executeUpdate();
 		
@@ -107,6 +110,8 @@ public class OrderFacade extends AbstractFacade<Order> {
 			cm.setId(rs.getInt("CustomerId"));
 			order.setCustomerId(cm);
 			
+			order.setStatus(rs.getString("Status"));
+			
 		}
 		
 		return order;
@@ -145,6 +150,7 @@ public class OrderFacade extends AbstractFacade<Order> {
 			Customer cm = new Customer();
 			cm.setId(rs.getInt("CustomerId"));
 			order.setCustomerId(cm);
+			order.setStatus(rs.getString("Status"));
 			
 			list.add(order);
 		}
@@ -189,6 +195,7 @@ public class OrderFacade extends AbstractFacade<Order> {
 			Customer cm = new Customer();
 			cm.setId(rs.getInt("CustomerId"));
 			order.setCustomerId(cm);
+			order.setStatus(rs.getString("Status"));
 			
 			list.add(order);
 		}
