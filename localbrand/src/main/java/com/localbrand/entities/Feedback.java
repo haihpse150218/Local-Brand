@@ -18,6 +18,8 @@ public class Feedback implements Serializable {
     private Integer status;
  
     private Product productId;
+    
+    private Order orderId;
 
     public Feedback() {
     }
@@ -73,9 +75,16 @@ public class Feedback implements Serializable {
     public void setProductId(Product productId) {
         this.productId = productId;
     }
-
     
-    public boolean equals(Object object) {
+    public Order getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Order orderId) {
+		this.orderId = orderId;
+	}
+
+	public boolean equals(Object object) {
       
         if (!(object instanceof Feedback)) {
             return false;
