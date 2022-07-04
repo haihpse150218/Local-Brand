@@ -37,6 +37,63 @@ public class OrderObject {
 		this.status = status;
 	}
 
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Date getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public Double getTotal() {
+		return total;
+	}
+
+	public void setTotal(Double total) {
+		this.total = total;
+	}
+
+	public Double getTax() {
+		return tax;
+	}
+
+	public void setTax(Double tax) {
+		this.tax = tax;
+	}
+
+	public Customer getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(Customer customerId) {
+		this.customerId = customerId;
+	}
+
+	public Payment getPayId() {
+		return payId;
+	}
+
+	public void setPayId(Payment payId) {
+		this.payId = payId;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
 		return "OrderObject [id=" + id + ", orderDate=" + orderDate + ", total=" + total + ", tax=" + tax

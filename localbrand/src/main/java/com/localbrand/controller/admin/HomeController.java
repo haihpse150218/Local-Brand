@@ -37,9 +37,9 @@ public class HomeController extends HttpServlet {
 		
 	}
 	private void index(HttpServletRequest request, HttpServletResponse response) {
-		HttpSession session = request.getSession();
+		/*HttpSession session = request.getSession();
 		BrandAccount admin = (BrandAccount) session.getAttribute("admin");
-		Brand brand = admin.getBrandId();
+		Brand brand = admin.getBrandId();*/
 		
 	}
 	/**
