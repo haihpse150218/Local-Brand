@@ -12,10 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
+import com.localbrand.entities.Brand;
 import com.localbrand.entities.BrandCategory;
 import com.localbrand.entities.BrandCategoryPK;
 import com.localbrand.entities.Customer;
+import com.localbrand.service.IHome;
+import com.localbrand.service.implement.HomeService;
 import com.localbrand.service.implement.LoginService;
 import com.localbrand.service.implement.RegisterService;
 import com.localbrand.sessionbeans.BrandCategoryFacade;
@@ -82,6 +84,16 @@ public class HomeController extends HttpServlet {
 	private void index(HttpServletRequest request, HttpServletResponse response) {
 		// set uri
 		HttpSession session = request.getSession();
+		
+		try {
+			IHome homeService = new HomeService();
+			
+			List<Brand> brandList = homeService.getBrandList(1, 5);
+			
+			session.setAttribute("brandlist", brandList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		String uri = request.getServletPath();
 		String controller = uri.substring(uri.lastIndexOf("/"));
