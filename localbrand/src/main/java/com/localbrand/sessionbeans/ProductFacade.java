@@ -112,11 +112,15 @@ public class ProductFacade extends AbstractFacade<Product> {
 
 	@Override
 	protected Product find(Connection con, Object id) throws SQLException {
-		String sql = "  select * from Product";
-		Product product = new Product();
-		Statement stm = con.createStatement();
-		ResultSet rs = stm.executeQuery(sql);
-		while (rs.next()) {
+		String sql = "  select * from Product where id=?";
+		Product product=null;
+		
+		PreparedStatement ptm = con.prepareStatement(sql);
+		ptm.setInt(1, Integer.parseInt(id.toString()));
+		ResultSet rs = ptm.executeQuery();
+		
+		if (rs.next()) {
+			product = new Product();
 			product.setId(rs.getInt("Id"));
 			product.setName(rs.getNString("Name"));
 			product.setDescription(rs.getNString("Description"));
@@ -129,7 +133,10 @@ public class ProductFacade extends AbstractFacade<Product> {
 			product.setPrice(rs.getDouble("Price"));
 			product.setContainer(rs.getInt("Container"));
 			product.setDiscount(rs.getDouble("Discount"));
-			product.setParentId(new ProductFacade().find(rs.getInt("ParentId")));
+			
+			Integer a = rs.getInt("ParentId");
+			product.setParentId(new Product(a));
+			
 			product.setBrandId(new BrandFacade().find(rs.getInt("BrandId")));
 			product.setCateId(new CategoryFacade().find(rs.getInt("CateId")));
 			product.setStars(rs.getDouble("Stars"));
@@ -154,6 +161,7 @@ public class ProductFacade extends AbstractFacade<Product> {
 		Statement stm = con.createStatement();
 		ResultSet rs = stm.executeQuery(sql);
 		while (rs.next()) {
+			
 			Product product = new Product();
 			product.setId(rs.getInt("Id"));
 			product.setName(rs.getNString("Name"));
@@ -167,7 +175,10 @@ public class ProductFacade extends AbstractFacade<Product> {
 			product.setPrice(rs.getDouble("Price"));
 			product.setContainer(rs.getInt("Container"));
 			product.setDiscount(rs.getDouble("Discount"));
-			product.setParentId(new ProductFacade().find(rs.getInt("ParentId")));
+
+			Integer a = rs.getInt("ParentId");
+			product.setParentId(new Product(a));
+			
 			product.setBrandId(new BrandFacade().find(rs.getInt("BrandId")));
 			product.setCateId(new CategoryFacade().find(rs.getInt("CateId")));
 			product.setStars(rs.getDouble("Stars"));
@@ -208,7 +219,10 @@ public class ProductFacade extends AbstractFacade<Product> {
 			product.setPrice(rs.getDouble("Price"));
 			product.setContainer(rs.getInt("Container"));
 			product.setDiscount(rs.getDouble("Discount"));
-			product.setParentId(new ProductFacade().find(rs.getInt("ParentId")));
+
+			Integer a = rs.getInt("ParentId");
+			product.setParentId(new Product(a));
+			
 			product.setBrandId(new BrandFacade().find(rs.getInt("BrandId")));
 			product.setCateId(new CategoryFacade().find(rs.getInt("CateId")));
 			product.setStars(rs.getDouble("Stars"));

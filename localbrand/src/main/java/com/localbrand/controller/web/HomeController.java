@@ -50,6 +50,7 @@ public class HomeController extends HttpServlet {
 		case "logout":
 			logout(request, response);
 			break;
+			
 		default:
 			request.setAttribute("controller", "/error");
 			request.setAttribute("action", "index");

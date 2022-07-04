@@ -10,6 +10,6 @@ public interface IHome {
 	
 	public List<Collection> getTrendingCollection();
 	
-	public List<Product> getTrendingProducts();
+	public List<Product> getTrendingProduct();
 
 }
