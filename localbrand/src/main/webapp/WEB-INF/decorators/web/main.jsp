@@ -52,8 +52,6 @@
         </div>
     </div> -->
     <!-- Page Header End -->
-
-
     <!-- Shop Start -->
     <jsp:include page="/WEB-INF/views/${page}/${controller}/${action}.jsp" />
     <!-- Shop End -->

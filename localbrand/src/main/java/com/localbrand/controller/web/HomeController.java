@@ -16,7 +16,11 @@ import com.localbrand.entities.Brand;
 import com.localbrand.entities.BrandCategory;
 import com.localbrand.entities.BrandCategoryPK;
 import com.localbrand.entities.Customer;
+
+import com.localbrand.entities.Product;
+
 import com.localbrand.service.IHome;
+
 import com.localbrand.service.implement.HomeService;
 import com.localbrand.service.implement.LoginService;
 import com.localbrand.service.implement.RegisterService;
@@ -47,7 +51,7 @@ public class HomeController extends HttpServlet {
 			logout(request, response);
 			break;
 		default:
-			request.setAttribute("controller", "error");
+			request.setAttribute("controller", "/error");
 			request.setAttribute("action", "index");
 		}
 		request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
@@ -75,6 +79,7 @@ public class HomeController extends HttpServlet {
 
 		// set lai aciton de no van o lai trang cu
 		String uri = (String) session.getAttribute("uri");
+		System.out.println("uri: "+uri);
 		request.setAttribute("controller", uri);
 		request.setAttribute("action", "index");
 		// session.removeAttribute("uri");
@@ -82,22 +87,21 @@ public class HomeController extends HttpServlet {
 	}
 
 	private void index(HttpServletRequest request, HttpServletResponse response) {
-		// set uri
 		HttpSession session = request.getSession();
+
+		// set uri
+		HomeService hs = new HomeService();
+		List<Product> listTrendProduct = hs.getTrendingProduct();
+		request.setAttribute("listTrendProduct", listTrendProduct);
+		System.out.println("listTrend "+listTrendProduct.toString());
 		
-		try {
-			IHome homeService = new HomeService();
-			
-			List<Brand> brandList = homeService.getBrandList(1, 5);
-			
-			session.setAttribute("brandlist", brandList);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
 
 		String uri = request.getServletPath();
 		String controller = uri.substring(uri.lastIndexOf("/"));
 		session.setAttribute("uri", controller);
+		
+		
 	}
 
 	private void logout(HttpServletRequest request, HttpServletResponse response) {
