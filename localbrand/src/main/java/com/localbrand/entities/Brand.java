@@ -1,5 +1,6 @@
 package com.localbrand.entities;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 public class Brand implements Serializable {
 
@@ -12,11 +13,17 @@ public class Brand implements Serializable {
     private String description;
     
     private String status;
+    
+    private String logo;
+    
+    private String banner;
+    
+    private Date createDate;
    
     private List<BrandAccount> brandAccountList;
    
 
-    private Store storeId;
+    private List<Store> storeList;
   
     private List<BrandCategory> brandCategoryList;
   
@@ -60,9 +67,32 @@ public class Brand implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
-
    
-    public List<BrandAccount> getBrandAccountList() {
+    public String getLogo() {
+		return logo;
+	}
+
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+
+	public String getBanner() {
+		return banner;
+	}
+
+	public void setBanner(String banner) {
+		this.banner = banner;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public List<BrandAccount> getBrandAccountList() {
         return brandAccountList;
     }
 
@@ -70,16 +100,15 @@ public class Brand implements Serializable {
         this.brandAccountList = brandAccountList;
     }
 
-    public Store getStoreId() {
-        return storeId;
-    }
+    public List<Store> getStoreList() {
+		return storeList;
+	}
 
-    public void setStoreId(Store storeId) {
-        this.storeId = storeId;
-    }
+	public void setStoreList(List<Store> storeList) {
+		this.storeList = storeList;
+	}
 
-
-    public List<BrandCategory> getBrandCategoryList() {
+	public List<BrandCategory> getBrandCategoryList() {
         return brandCategoryList;
     }
 

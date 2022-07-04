@@ -1,24 +1,17 @@
 package com.localbrand.entities;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
  
     private Integer id;
-  
-  
     private String name;
-   
     private String description;
-   
     private String status;
-   
     private String color;
- 
     private String size;
-   
-    
     private boolean isMaster;
     
     private String imgMaster;
@@ -35,16 +28,20 @@ public class Product implements Serializable {
     private Double stars;
    
     private List<CollectionDetail> collectionDetailList;
+    
+    private Brand brandId;
  
     private Category cateId;
    
     private List<Product> productList;
     
     private Product parentId;
-   
+     
     private List<OrderDetail> orderDetailList;
   
     private List<Feedback> feedbackList;
+    
+    private Date createDate;
 
     public Product() {
     }
@@ -214,9 +211,17 @@ public class Product implements Serializable {
     public void setFeedbackList(List<Feedback> feedbackList) {
         this.feedbackList = feedbackList;
     }
-
  
-    public boolean equals(Object object) {
+    public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+
+	public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Product)) {
             return false;
@@ -232,5 +237,13 @@ public class Product implements Serializable {
     public String toString() {
         return "Product[ id=" + id + " ]";
     }
+
+	public Brand getBrandId() {
+		return brandId;
+	}
+
+	public void setBrandId(Brand brandId) {
+		this.brandId = brandId;
+	}
     
 }

@@ -21,6 +21,8 @@ public class Order implements Serializable {
     private Payment payId;
   
     private List<OrderDetail> orderDetailList;
+    
+    private List<Feedback> feedbackList;
 
     public Order() {
     }
@@ -90,9 +92,16 @@ public class Order implements Serializable {
     public void setOrderDetailList(List<OrderDetail> orderDetailList) {
         this.orderDetailList = orderDetailList;
     }
-
    
-    public boolean equals(Object object) {
+    public List<Feedback> getFeedbackList() {
+		return feedbackList;
+	}
+
+	public void setFeedbackList(List<Feedback> feedbackList) {
+		this.feedbackList = feedbackList;
+	}
+
+	public boolean equals(Object object) {
        
         if (!(object instanceof Order)) {
             return false;

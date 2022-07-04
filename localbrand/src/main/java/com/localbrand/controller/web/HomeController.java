@@ -10,98 +10,128 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-
+import com.localbrand.entities.Brand;
 import com.localbrand.entities.BrandCategory;
 import com.localbrand.entities.BrandCategoryPK;
+import com.localbrand.entities.Customer;
+
+import com.localbrand.entities.Product;
+
+import com.localbrand.service.IHome;
+
+import com.localbrand.service.implement.HomeService;
+import com.localbrand.service.implement.LoginService;
+import com.localbrand.service.implement.RegisterService;
 import com.localbrand.sessionbeans.BrandCategoryFacade;
+import com.localbrand.sessionbeans.CustomerFacade;
 
 
 /**
  * Servlet implementation class HomeController
  */
-@WebServlet(urlPatterns="/web/home")
+@WebServlet(urlPatterns = "/web/home")
 public class HomeController extends HttpServlet {
-
-  
-	BrandCategoryFacade bcfc = new BrandCategoryFacade();
 	private static final long serialVersionUID = 1L;
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        String action = request.getAttribute("action").toString();
-        System.out.println("vao roi:" + action);
-        switch (action) {
-            case "index":
-            	System.out.println("vao roi2:" + action);
-                index(request, response);
-                break;
-            default:
-                request.setAttribute("controller", "error");
-                request.setAttribute("action", "index");
-        }
-        request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
-    }
-    private void index(HttpServletRequest request, HttpServletResponse response) {
 
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setContentType("text/html;charset=UTF-8");
+		String action = request.getAttribute("action").toString();
+		System.out.println("actione ne:"+action);
+		switch (action) {
+		case "index":
+			index(request, response);
+			break;
+		case "login":
+			login(request, response);
+			break;
+		case "logout":
+			logout(request, response);
+			break;
+			
+		default:
+			request.setAttribute("controller", "/error");
+			request.setAttribute("action", "index");
+		}
+		request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
+	}
 
-    	List<BrandCategory> list = new ArrayList<>();
-    	try {
+	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
 
-			BrandCategory newBC = new BrandCategory();
-			newBC.setBrandCategoryPK(new BrandCategoryPK(1, 2));
-			
-			bcfc.create(newBC);
-			
-			list = bcfc.findAll();
-			for (BrandCategory brandCategory : list) {
-				System.out.println(brandCategory.getBrandCategoryPK() + ": " + brandCategory.getName());
-			}
-			
-			System.out.println("===========================================");
-			
-			newBC = bcfc.find(new BrandCategoryPK(1, 2));
-			newBC.setName("Something");
-			
-			bcfc.edit(newBC);
-			
-			list = bcfc.findRange(new int[] {2, 100});
-			for (BrandCategory brandCategory : list) {
-				System.out.println(brandCategory.getBrandCategoryPK() + ": " + brandCategory.getName());
-			}
-			
-			System.out.println("===========================================");
-			
-			bcfc.remove(new BrandCategoryPK(1, 2));
-			System.out.println(bcfc.count());
-			
+		// PARAMETERS
+		String username = request.getParameter("txtusername").toString();
+		String password = request.getParameter("txtpassword").toString();
+
+		Customer loginCustomer = null;
+		LoginService loginService = new LoginService();
+
+		try {
+			loginCustomer = loginService.loginByUsername(username, password);
+
+			session.setAttribute("user", loginCustomer);
+
+			System.out.println("LOGIN SUCCESS");
 		} catch (Exception e) {
-
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			request.setAttribute("LOGIN_ERROR", e.getMessage());
 		}
 
-    	
-        request.setAttribute("listMembershipTier", list);
+		// set lai aciton de no van o lai trang cu
+		String uri = (String) session.getAttribute("uri");
+		System.out.println("uri: "+uri);
+		request.setAttribute("controller", uri);
+		request.setAttribute("action", "index");
+		// session.removeAttribute("uri");
+		// request.getRequestDispatcher(uri + "/index.do").forward(request, response);
+	}
+
+	private void index(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+
+		// set uri
+		HomeService hs = new HomeService();
+		List<Product> listTrendProduct = hs.getTrendingProduct();
+		request.setAttribute("listTrendProduct", listTrendProduct);
+		System.out.println("listTrend "+listTrendProduct.toString());
+		
 
 
+		String uri = request.getServletPath();
+		String controller = uri.substring(uri.lastIndexOf("/"));
+		session.setAttribute("uri", controller);
+		
+		
+	}
 
-    }
-    
-    
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 processRequest(request, response);
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+	private void logout(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		session.setAttribute("user", null);
+
+		String uri = (String) session.getAttribute("uri");
+		if(uri == null) {
+			request.setAttribute("controller", "/home");
+		}else {
+			request.setAttribute("controller", uri);
+		}
+		
+		request.setAttribute("action", "index");
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		processRequest(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 processRequest(request, response);
-		doGet(request, response);
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		processRequest(request, response);
 	}
 
 }

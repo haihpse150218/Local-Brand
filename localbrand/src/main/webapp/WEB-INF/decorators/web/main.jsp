@@ -11,10 +11,15 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
+     <!-- <script src='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css' rel='stylesheet' /> -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
 
     <!-- Favicon -->
     
-    <link href='<c:url value="teamplate/web//teamplate/web/img/favicon.ico" />' rel="icon">
+    <link href='${pageContext.request.contextPath}/teamplate/web//teamplate/web/img/favicon.ico' rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -25,10 +30,10 @@
 
     <!-- Libraries Stylesheet -->
     
-    <link href='<c:url value="teamplate/web/lib/owlcarousel/assets/owl.carousel.min.css" />' rel="stylesheet">
+    <link href='${pageContext.request.contextPath}/teamplate/web/lib/owlcarousel/assets/owl.carousel.min.css' rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href='<c:url value="teamplate/web/css/style.css" />' rel="stylesheet">
+    <link href='${pageContext.request.contextPath}/teamplate/web/css/style.css' rel="stylesheet">
 </head>
 
 <body>
@@ -47,13 +52,9 @@
         </div>
     </div> -->
     <!-- Page Header End -->
-
-
     <!-- Shop Start -->
     <jsp:include page="/WEB-INF/views/${page}/${controller}/${action}.jsp" />
     <!-- Shop End -->
-
-
     <!-- Footer Start -->
    	<jsp:include page="/WEB-INF/decorators/web/footer.jsp" />
     <!-- Back to Top -->
@@ -64,19 +65,19 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     
-    <script src='<c:url value="teamplate/web/lib/easing/easing.min.js" />'></script>
+    <script src='${pageContext.request.contextPath}/teamplate/web/lib/easing/easing.min.js'></script>
     
-    <script src='<c:url value="teamplate/web/lib/owlcarousel/owl.carousel.min.js" />'></script>
+    <script src='${pageContext.request.contextPath}/teamplate/web/lib/owlcarousel/owl.carousel.min.js'></script>
 
     <!-- Contact Javascript File -->
     
-    <script src='<c:url value="teamplate/web/mail/jqBootstrapValidation.min.js" />'></script>
+    <script src='${pageContext.request.contextPath}/teamplate/web/mail/jqBootstrapValidation.min.js'></script>
     
-    <script src='<c:url value="teamplate/web/mail/contact.js" />'></script>
+    <script src='${pageContext.request.contextPath}/teamplate/web/mail/contact.js'></script>
 
     <!-- Template Javascript -->
     
-    <script src='<c:url value="teamplate/js/main.js" />'></script>
+    <script src='${pageContext.request.contextPath}/teamplate/js/main.js"'></script>
 </body>
 
 </html>
