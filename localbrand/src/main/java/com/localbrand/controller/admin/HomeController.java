@@ -18,11 +18,12 @@ import com.localbrand.service.models.OrderObject;
 @WebServlet(name = "HomeControllerAdmin", urlPatterns = { "/admin/home" })
 public class HomeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 		String action = request.getAttribute("action").toString();
-		System.out.println("actione ne:"+action);
+		System.out.println("actione ne:" + action);
 		switch (action) {
 		case "index":
 			index(request, response);
@@ -36,50 +37,58 @@ public class HomeController extends HttpServlet {
 		}
 		request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
 	}
-	
+
 	private void logout(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		
+		HttpSession session = request.getSession();
+		session.removeAttribute("admin");
+		request.setAttribute("controller", "/login");
+		request.setAttribute("action", "index");
+		return;
 	}
+
 	private void index(HttpServletRequest request, HttpServletResponse response) {
-		
-		List<OrderObject> listOrderObject = HomeAdmin.getInstance().getOrderListByBrandId(3);
-		request.setAttribute("listOrder", listOrderObject);
-		double totalSalesThisWeek = HomeAdmin.getInstance().SalesThisWeek(listOrderObject);
-		double totalSalesLastWeek = HomeAdmin.getInstance().SalesLastWeek(listOrderObject);
-		double growth = (totalSalesThisWeek - totalSalesLastWeek)/totalSalesLastWeek;
-		request.setAttribute("salesThisWeek", totalSalesThisWeek);
-		request.setAttribute("salesLastWeek", totalSalesLastWeek);
-		request.setAttribute("growth", growth);
-		double totalOrderThisWeek = HomeAdmin.getInstance().TotalOrdersThisWeek(listOrderObject);
-		double totalOrderLastWeek = HomeAdmin.getInstance().TotalOrdersLastWeek(listOrderObject);
-		double growthOrder = (totalOrderThisWeek - totalOrderLastWeek)/totalOrderLastWeek;
-		request.setAttribute("totalOrderThisWeek", (int)totalOrderThisWeek);
-		request.setAttribute("totalOrderLastWeek", totalOrderLastWeek);
-		request.setAttribute("growthOrder", growthOrder);
-		
-		double newMembers = HomeAdmin.getInstance().NewCustomerThisWeek(listOrderObject);
-		request.setAttribute("newMembers", (int)newMembers);
-		double newMembersLastWeek = HomeAdmin.getInstance().NewCustomerLastWeek(listOrderObject);
-		request.setAttribute("newMembersLastWeek", newMembersLastWeek);
-		double growthNewMembers = (newMembers - newMembersLastWeek)/newMembersLastWeek;
-		request.setAttribute("growthNewMembers", growthNewMembers);
-		
-		
+		HttpSession session = request.getSession();
+		BrandAccount admin = (BrandAccount) session.getAttribute("admin");
+
+		if (admin != null) {
+			System.out.println("admin " + admin.toString());
+			List<OrderObject> listOrderObject = HomeAdmin.getInstance().getOrderListByBrandId(admin.getBrandId().getId());
+			int size = listOrderObject.size();
+			int top = 5;
+			System.out.println("size" + size);
+			if(size < top) top = size;
+			request.setAttribute("listOrder", listOrderObject.subList(0, top));
+			double totalSalesThisWeek = HomeAdmin.getInstance().SalesThisWeek(listOrderObject);
+			double totalSalesLastWeek = HomeAdmin.getInstance().SalesLastWeek(listOrderObject);
+			double growth = (totalSalesThisWeek - totalSalesLastWeek) / totalSalesLastWeek;
+			request.setAttribute("salesThisWeek", totalSalesThisWeek);
+			request.setAttribute("salesLastWeek", totalSalesLastWeek);
+			request.setAttribute("growth", growth);
+			double totalOrderThisWeek = HomeAdmin.getInstance().TotalOrdersThisWeek(listOrderObject);
+			double totalOrderLastWeek = HomeAdmin.getInstance().TotalOrdersLastWeek(listOrderObject);
+			double growthOrder = (totalOrderThisWeek - totalOrderLastWeek) / totalOrderLastWeek;
+			request.setAttribute("totalOrderThisWeek", (int) totalOrderThisWeek);
+			request.setAttribute("totalOrderLastWeek", totalOrderLastWeek);
+			request.setAttribute("growthOrder", growthOrder);
+			double newMembers = HomeAdmin.getInstance().NewCustomerThisWeek(listOrderObject);
+			request.setAttribute("newMembers", (int) newMembers);
+			double newMembersLastWeek = HomeAdmin.getInstance().NewCustomerLastWeek(listOrderObject);
+			request.setAttribute("newMembersLastWeek", newMembersLastWeek);
+			double growthNewMembers = (newMembers - newMembersLastWeek) / newMembersLastWeek;
+			request.setAttribute("growthNewMembers", growthNewMembers);
+		}else {
+			request.setAttribute("controller", "/login");
+			request.setAttribute("action", "index");
+		}
+
 	}
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		processRequest(request, response);
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		processRequest(request, response);
 	}
-
 }

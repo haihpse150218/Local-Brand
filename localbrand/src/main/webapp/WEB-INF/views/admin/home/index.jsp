@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/common/taglib.jsp"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<div class="dashboard-wrapper">
+<div class="">
 	<div class="dashboard-ecommerce">
 		<div class="container-fluid dashboard-content ">
 			<!-- ============================================================== -->
@@ -43,7 +43,25 @@
 					<!-- ============================================================== -->
 					<div class="col-12">
 						<div class="card">
-							<h5 class="card-header">Recent Orders</h5>
+							<div class=" card-header">
+								<h5 class="">Recent Orders</h5>
+								<div class="row">
+									<form action="/localbrand/admin/ordered/search.do" method="get"
+										class="col-4">
+										<div class="input-group">
+											<input type="text" class="form-control"
+												placeholder="Search for orders">
+											<div class="input-group-append">
+												<button class="input-group-text bg-transparent text-primary">
+													<i class="fa fa-search"></i>
+												</button>
+											</div>
+										</div>
+									</form>
+
+
+								</div>
+							</div>
 							<div class="card-body p-0">
 								<div class="table-responsive">
 									<table class="table">
@@ -56,6 +74,7 @@
 												<th class="border-0">Order Time</th>
 												<th class="border-0">Customer</th>
 												<th class="border-0">Status</th>
+												<th class="border-0">Action</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -69,13 +88,18 @@
 															pattern="dd-MM-yyyy" /></td>
 													<td>${order.customerId.name}</td>
 													<td>${order.status}</td>
+													<td><a href="#" class="btn btn-outline-light"
+														data-toggle="modal" data-target=".orderid${order.id}">View
+															Details</a></td>
 												</tr>
-												<tr>
+
 											</c:forEach>
 											<tr>
-												<td colspan="9"><a href="#"
-													class="btn btn-outline-light float-right">View Details</a></td>
+												<td colspan="9"><a
+													href="/localbrand/admin/ordered/index.do"
+													class="btn btn-outline-light float-right">Show All</a></td>
 											</tr>
+
 											<c:if test="">
 
 											</c:if>
@@ -83,51 +107,52 @@
 
 										</tbody>
 									</table>
-									<table class="table">
-										<thead class="bg-light">
-											<tr class="border-0">
-												<th class="border-0">#</th>
-												<th class="border-0">Order Id</th>
-												<th class="border-0">Product Id</th>
-												<th class="border-0">Product Name</th>
-												<th class="border-0">Quantity</th>
-												<th class="border-0">Discount</th>
-												<th class="border-0">Price</th>
-											</tr>
-										</thead>
-										<tbody>
 
-											<c:forEach var="order" items="${listOrder}" varStatus="loop">
-												<c:forEach var="orderDetail"
-													items="${order.listOrderDetail}" varStatus="loop">
-													<tr>
-														<td>${loop.count}</td>
-														<td>${order.id}</td>
-														<td>${orderDetail.product.id}</td>
-														<td>${orderDetail.product.name}</td>
-														<td>${orderDetail.quantity}</td>
-
-														<td><fmt:formatNumber type="percent"
-																value="${orderDetail.discount}" /></td>
-														<td><fmt:setLocale value="en_US" /> <fmt:formatNumber
-																value="${orderDetail.price}" type="currency" /></td>
-													</tr>
-
-												</c:forEach>
-											</c:forEach>
-											<tr>
-												<td colspan="9"><a href="#"
-													class="btn btn-outline-light float-right">Off Details</a></td>
-											</tr>
-											<c:if test="">
-
-											</c:if>
-
-
-										</tbody>
-									</table>
 								</div>
 							</div>
+
+							<!-- popup table orderDetail  -->
+							<c:forEach var="order" items="${listOrder}" varStatus="loop">
+								<div class="modal fade orderid${order.id}" tabindex="-1"
+									role="dialog" aria-labelledby="myLargeModalLabel"
+									aria-hidden="true">
+									<div class="modal-dialog modal-lg">
+										<div class="modal-content">
+											<table class="table">
+												<thead class="bg-light">
+													<tr class="border-0">
+														<th class="border-0">#</th>
+														<th class="border-0">Order Id</th>
+														<th class="border-0">Product Id</th>
+														<th class="border-0">Product Name</th>
+														<th class="border-0">Quantity</th>
+														<th class="border-0">Discount</th>
+														<th class="border-0">Price</th>
+													</tr>
+												</thead>
+												<tbody>
+													<!-- vong for order detail-->
+													<c:forEach var="orderDetail"
+														items="${order.listOrderDetail}" varStatus="loop">
+														<tr>
+															<td>${loop.count}</td>
+															<td>${order.id}</td>
+															<td>${orderDetail.product.id}</td>
+															<td>${orderDetail.product.name}</td>
+															<td>${orderDetail.quantity}</td>
+															<td><fmt:formatNumber type="percent"
+																	value="${orderDetail.discount}" /></td>
+															<td><fmt:setLocale value="en_US" /> <fmt:formatNumber
+																	value="${orderDetail.price}" type="currency" /></td>
+														</tr>
+													</c:forEach>
+													<!-- order detail end -->
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</c:forEach>
 						</div>
 					</div>
 					<!-- ============================================================== -->
@@ -160,7 +185,8 @@
 									class="metric-label d-inline-block float-right ${growth>=0?'text-success':'text-danger'} font-weight-bold">
 									<span
 										class="icon-circle-small icon-box-xs ${growth>=0?'text-success bg-success-light':'text-danger bg-danger-light'}"><i
-										class="fa fa-fw ${growth>=0?'fa-arrow-up':'fa-arrow-down'} "></i></span><span class="ml-1">${growth}%</span>
+										class="fa fa-fw ${growth>=0?'fa-arrow-up':'fa-arrow-down'} "></i></span><span
+										class="ml-1">${growth}%</span>
 								</div>
 							</div>
 						</div>
@@ -182,7 +208,8 @@
 									class="metric-label d-inline-block float-right ${growthNewMembers >=0?'text-success':'text-danger'} font-weight-bold">
 									<span
 										class="icon-circle-small icon-box-xs ${growthNewMembers>=0?'text-success bg-success-light':'text-danger bg-danger-light'}"><i
-										class="fa fa-fw ${growthNewMembers>=0?'fa-arrow-up':'fa-arrow-down'}"></i></span><span class="ml-1">${growthNewMembers}%</span>
+										class="fa fa-fw ${growthNewMembers>=0?'fa-arrow-up':'fa-arrow-down'}"></i></span><span
+										class="ml-1">${growthNewMembers}%</span>
 								</div>
 							</div>
 						</div>
@@ -207,7 +234,8 @@
 									class="metric-label d-inline-block float-right ${growthOrder>=0?'text-success':'text-danger'}  font-weight-bold">
 									<span
 										class="icon-circle-small icon-box-xs ${growthOrder>=0?'text-success bg-success-light':'text-danger bg-danger-light'}  "><i
-										class="fa fa-fw ${growthOrder>=0?'fa-arrow-up':'fa-arrow-down'} "></i></span><span class="ml-1">${growthOrder}%</span>
+										class="fa fa-fw ${growthOrder>=0?'fa-arrow-up':'fa-arrow-down'} "></i></span><span
+										class="ml-1">${growthOrder}%</span>
 								</div>
 							</div>
 						</div>
@@ -257,27 +285,64 @@
 			</div>
 		</div>
 	</div>
-	<!-- ============================================================== -->
-	<!-- footer -->
-	<!-- ============================================================== -->
-	<div class="footer">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-					Copyright © 2018 Concept. All rights reserved. Dashboard by <a
-						href="">Colorlib</a>.
-				</div>
-				<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-					<div class="text-md-right footer-links d-none d-sm-block">
-						<a href="javascript: void(0);">About</a> <a
-							href="javascript: void(0);">Support</a> <a
-							href="javascript: void(0);">Contact Us</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- ============================================================== -->
-	<!-- end footer -->
-	<!-- ============================================================== -->
+
 </div>
+<script>
+	var chart = c3.generate({
+		bindto : "#c3chart_category",
+		data : {
+			columns : [ [ 'Men', 100 ], [ 'Women', 80 ], [ 'Accessories', 50 ],
+					[ 'Children', 40 ], [ 'Apperal', 20 ], ],
+			type : 'donut',
+			onclick : function(d, i) {
+				console.log("onclick", d, i);
+			},
+			onmouseover : function(d, i) {
+				console.log("onmouseover", d, i);
+			},
+			onmouseout : function(d, i) {
+				console.log("onmouseout", d, i);
+			},
+			colors : {
+				Men : '#5969ff',
+				Women : '#ff407b',
+				Accessories : '#25d5f2',
+				Children : '#ffc750',
+				Apperal : '#2ec551',
+			}
+		},
+		donut : {
+			label : {
+				show : false
+			}
+		},
+	});
+	Morris.Area({
+		element : 'morris_totalrevenue',
+		behaveLikeLine : true,
+		data : [ {
+			x : '2018 Q1',
+			y : 0,
+		}, {
+			x : '2018 Q2',
+			y : 7500,
+		}, {
+			x : '2019 Q3',
+			y : 15000,
+		}, {
+			x : '2019 Q4',
+			y : 22500,
+		}, {
+			x : '2020 Q5',
+			y : 30000,
+		}, {
+			x : '2020 Q6',
+			y : 40000,
+		} ],
+		xkey : 'x',
+		ykeys : [ 'y' ],
+		labels : [ 'Y' ],
+		lineColors : [ '#5969ff' ],
+		resize : true
+	});
+</script>
