@@ -26,11 +26,13 @@ public class FontController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8"); 
         String page = "/admin";
         String url= request.getPathInfo(); 
+        System.out.println("url:" + url);
         if(url == null) {
         	BrandAccount admin = (BrandAccount) session.getAttribute("admin");
         	if(admin == null) {
         		url = "/login/index.do";
         	}else {
+        		System.out.println("admin"+admin.getName());
         		url ="/home/index.do";
         	}
         }

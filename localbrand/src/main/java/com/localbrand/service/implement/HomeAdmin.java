@@ -12,6 +12,7 @@ import com.localbrand.entities.OrderDetail;
 import com.localbrand.entities.Product;
 import com.localbrand.service.IHomeAdmin;
 import com.localbrand.service.models.OrderObject;
+import com.localbrand.service.models.ProductRevenue;
 import com.localbrand.sessionbeans.CustomerFacade;
 import com.localbrand.sessionbeans.OrderDetailFacade;
 import com.localbrand.sessionbeans.OrderFacade;
@@ -38,7 +39,6 @@ public class HomeAdmin implements IHomeAdmin {
 
 		List<OrderObject> listOrderObject = new ArrayList<>();
 		try {
-
 			for (OrderDetail od : odf.findAll()) {
 				boolean flag = false;
 
@@ -99,14 +99,13 @@ public class HomeAdmin implements IHomeAdmin {
 		Date start = c.getTime();
 		c.add(Calendar.DATE, 6);
 		Date end = c.getTime();
-		System.out.println("check1: " + start);
-		System.out.println("check2: " + end);
+		
 
 		for (OrderObject orderObject : listOrder) {
 			if (orderObject.getOrderDate().compareTo(start) >= 0 && orderObject.getOrderDate().compareTo(end) < 0) {
-				System.out.println("orderDate: " + orderObject.getOrderDate());
+				
 				totalSales += orderObject.getTotal();
-				System.out.println("totalsales: " + totalSales);
+				
 			}
 		}
 
@@ -123,11 +122,11 @@ public class HomeAdmin implements IHomeAdmin {
 		Date start = c.getTime();
 		c.add(Calendar.DATE, 6);
 		Date end = c.getTime();
-		System.out.println(start + " - " + end);
+		
 		for (OrderObject orderObject : listOrder) {
 			if (orderObject.getOrderDate().compareTo(start) >= 0 && orderObject.getOrderDate().compareTo(end) < 0) {
 				totalSales += orderObject.getTotal();
-				System.out.println("totalSales");
+				
 			}
 		}
 		return totalSales;
@@ -196,17 +195,18 @@ public class HomeAdmin implements IHomeAdmin {
 		for (OrderObject orderObject : listOrderNowAday) {
 			boolean flag = false;
 			for (Customer cus : listCustomer) {
-				if(cus.getId() == orderObject.getCustomerId().getId()) {
-					flag =true;
+				if (cus.getId() == orderObject.getCustomerId().getId()) {
+					flag = true;
 					break;
 				}
 			}
-			if(flag == false) {
+			if (flag == false) {
 				newMembers += 1;
 			}
 		}
 		return newMembers;
 	}
+
 	public int NewCustomerLastWeek(List<OrderObject> listOrder) {
 		int newMembers = 0;
 		Date date = new Date();
@@ -220,7 +220,7 @@ public class HomeAdmin implements IHomeAdmin {
 		List<Customer> listCustomer = new ArrayList<>();
 		List<OrderObject> listOrderNowAday = new ArrayList<>();
 		for (OrderObject orderObject : listOrder) {
-			
+
 			if (orderObject.getOrderDate().compareTo(start) < 0 && orderObject.getOrderDate().compareTo(end) >= 0) {
 				if (!listCustomer.contains(orderObject.getCustomerId())) {
 					listCustomer.add(orderObject.getCustomerId());
@@ -234,15 +234,105 @@ public class HomeAdmin implements IHomeAdmin {
 		for (OrderObject orderObject : listOrderNowAday) {
 			boolean flag = false;
 			for (Customer cus : listCustomer) {
-				if(cus.getId() == orderObject.getCustomerId().getId()) {
-					flag =true;
+				if (cus.getId() == orderObject.getCustomerId().getId()) {
+					flag = true;
 					break;
 				}
 			}
-			if(flag == false) {
+			if (flag == false) {
 				newMembers += 1;
 			}
 		}
 		return newMembers;
 	}
+
+	public boolean isOrdered(OrderObject o) {
+		boolean flag = false;
+
+		if (o.getStatus().equalsIgnoreCase("Delivered") || o.getStatus().equalsIgnoreCase("Completed")) {
+			flag = true;
+		}
+
+		return flag;
+	}
+
+	public boolean isCanceled(OrderObject o) {
+		boolean flag = false;
+
+		if (o.getStatus().equalsIgnoreCase("Canceled") || o.getStatus().equalsIgnoreCase("Cancel")) {
+			flag = true;
+		}
+		return flag;
+	}
+
+	public List<OrderObject> getThisWeekOrderListByBrandId(List<OrderObject> listOrder, Date date) {
+		List<OrderObject> result = new ArrayList<>();
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		int i = c.get(Calendar.DAY_OF_WEEK) - c.getFirstDayOfWeek();
+		c.add(Calendar.DATE, -i + 1);
+		Date start = c.getTime();
+		c.add(Calendar.DATE, 6);
+		Date end = c.getTime();
+		for (OrderObject orderObject : listOrder) {
+			if (orderObject.getOrderDate().compareTo(start) >= 0 && orderObject.getOrderDate().compareTo(end) <= 0) {
+				result.add(orderObject);
+			}
+		}
+
+		return result;
+	}
+
+	public List<ProductRevenue> listReportProduct(List<OrderObject> list) {
+		List<ProductRevenue> result = new ArrayList<>();
+		for (OrderObject o : list) {
+			for (OrderDetail od : o.getListOrderDetail()) {
+				boolean flag = false;
+
+				Product p = od.getProduct();
+				for (ProductRevenue pr : result) {
+					if (pr.getId() == p.getId()) {
+						flag = true;
+						double proceeds = pr.getProceeds();
+						if (isOrdered(o)) {
+							proceeds += od.getPrice() * (1 - od.getDiscount()) * od.getQuantity();
+						}
+						pr.setProceeds(proceeds);
+						int numberOrdered = pr.getNumberOrdered() + od.getQuantity();
+						pr.setNumberOrdered(numberOrdered);
+
+						int numberDelivered = pr.getNumberDelivered() + (isOrdered(o) ? od.getQuantity() : 0);
+						pr.setNumberDelivered(numberDelivered);
+						int numberCancel = pr.getNumberCancel() + (isCanceled(o) ? od.getQuantity() : 0);
+						pr.setNumberCancel(numberCancel);
+
+						flag = true;
+					}
+				}
+				if (flag == false) {
+					ProductRevenue productRevenue = new ProductRevenue();
+					productRevenue.setId(p.getId());
+					productRevenue.setName(p.getName());
+					productRevenue.setImg(p.getIsMaster() ? p.getImgMaster() : p.getImgChild());
+					productRevenue.setDiscount(od.getDiscount());
+					productRevenue.setPrice(od.getPrice());
+					double proceeds = 0;
+
+					if (isOrdered(o)) {
+						proceeds += od.getPrice() * (1 - od.getDiscount()) * od.getQuantity();
+					}
+					productRevenue.setProceeds(proceeds);
+					productRevenue.setNumberOrdered(od.getQuantity());
+					productRevenue.setNumberDelivered(isOrdered(o) ? od.getQuantity() : 0);
+					productRevenue.setNumberCancel(isCanceled(o) ? od.getQuantity() : 0);
+
+					result.add(productRevenue);
+				}
+			}
+
+		}
+
+		return result;
+	}
+
 }

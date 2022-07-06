@@ -1,11 +1,18 @@
 package com.localbrand.controller.admin;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.localbrand.entities.BrandAccount;
+import com.localbrand.service.implement.LoginAdmin;
 
 /**
  * Servlet implementation class LoginController
@@ -21,29 +28,71 @@ public class LoginController extends HttpServlet {
 		switch (action) {
 		case "index":
 			index(request, response);
+			request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
+			break;
+		case "login":
+			login(request, response);
+			request.getRequestDispatcher("/admin/home").include(request, response);
 			break;
 		default:
 			request.setAttribute("controller", "/error");
-			request.setAttribute("action", "index");
+			request.setAttribute("action", "index");			
 		}
-		request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
-	}
-
-	private void index(HttpServletRequest request, HttpServletResponse response) {
 		
-		System.out.println("Vao login admin");
+		
+		return;
 	}
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+    private String bytesToHex(byte[] hash) {
+        StringBuilder hexString = new StringBuilder(2 * hash.length);
+        for (int i = 0; i < hash.length; i++) {
+            String hex = Integer.toHexString(0xff & hash[i]);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
+
+	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String username = request.getParameter("username").toString();
+		String password = request.getParameter("password").toString();
+		String encodePass = null;
+        MessageDigest digest;
+		try {
+            digest = MessageDigest.getInstance("SHA-256"); //   
+            byte[] encodedhash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            encodePass = bytesToHex(encodedhash);// chuyen sang hexa de luu cho gon
+            System.out.println("encode: "+ encodePass);
+
+        } catch (Exception ex) {
+            
+        }
+		//wating database
+		BrandAccount admin = LoginAdmin.getInstance().CheckAccount(username, encodePass);
+		if(admin!=null) {
+			session.setAttribute("admin", admin);	
+			request.setAttribute("page", "/admin");
+			request.setAttribute("controller", "/home");
+			request.setAttribute("action", "index");	
+			return;
+		}
+		else {
+			
+			request.setAttribute("mess", "Wrong Username or Password!!!");
+			request.setAttribute("page", "/admin");
+			request.setAttribute("controller", "/login");
+			request.setAttribute("action", "index");	
+		}
+		
+	}
+	private void index(HttpServletRequest request, HttpServletResponse response) {		
+		System.out.println("hien thi form");
+	}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		 processRequest( request,  response);
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 processRequest(request, response);
 	}
