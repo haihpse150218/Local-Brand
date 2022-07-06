@@ -184,9 +184,9 @@
                                 <div class="row">
                                     <form action="" class="col-4">
                                         <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Search by Name">
+                                            <input type="text" class="form-control" onkeyup="FilterFunction();" id="search-name" placeholder="Search by Name">
                                             <div class="input-group-append">
-                                                <button class="input-group-text bg-transparent text-primary">
+                                                <button onclick="return FilterFunction();" class="input-group-text bg-transparent text-primary">
                                                     <i class="fa fa-search"></i>
                                                 </button>
                                             </div>
@@ -211,7 +211,7 @@
                                                 <th class="border-0">Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="employee-list">
                                             <tr>
                                                 <td>2</td>
                                                 <td>1 </td>
@@ -278,14 +278,14 @@
                             </div>
                         </div>
                     </div>
-                    <c:if>
+                    <!-- <c:if>
                         <script>
                             alert("${requestScope.WARRING}");
                             $(document).ready(function() {
                                 $('#Employee-Modal').modal('show');
                             });
                         </script>
-                    </c:if>
+                    </c:if> -->
                     <script>
                         // kiem tra co thong bao warrning hay khong,neu co thi chay code nay
 
@@ -337,6 +337,25 @@
                                             if (status[j].value === txtstatus) status[j].selected = 'selected';
                                         }
                                     }
+                                }
+                            }
+                            return false;
+                        }
+                        var FilterFunction = function() {
+                            var input = document.getElementById("search-name").value;
+                            var empList = document.getElementById("employee-list")
+                                .getElementsByTagName('tr');
+                            for (var i = 0; i < empList.length; i++) {
+                                empList[i].style.display = "";
+                            }
+                            if (input.length != 0) {
+                                for (var i = 0; i < empList.length; i++) {
+                                    var emp = empList[i].getElementsByTagName("td")[2];
+                                    var empName = emp.textContent ||
+                                        emp.innerText;
+                                    // alert(empName.match(input));
+                                    if (empName.toLowerCase().match(input) == null)
+                                        empList[i].style.display = "none";
                                 }
                             }
                             return false;
