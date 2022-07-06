@@ -244,8 +244,8 @@
                                 <form action="/localbrand/admin/employee/update.do" id="Employee-action" method="get">
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <label for="Employee-id" class="col-form-label">ID :</label>
-                                            <input type="text" name="txtId" class="form-control" id="Employee-id" readonly="true" required="true">
+                                            <label for="Employee-id" id="id-label" class="col-form-label">ID :</label>
+                                            <input type="text" name="txtId" class="form-control" id="Employee-id" readonly="true">
                                         </div>
                                         <div class="form-group">
                                             <label for="Employee-name" class="col-form-label">Name :</label>
@@ -274,7 +274,8 @@
                     <script>
                         var OpenModal = function(value) {
                             if (value == -1) {
-                                document.getElementById("Employee-id").removeAttribute('readonly');
+                                document.getElementById("id-label").setAttribute('hidden', 'true');
+                                document.getElementById("Employee-id").setAttribute('hidden', 'true');
                                 document.getElementById("Employee-id").value = "";
                                 document.getElementById("Employee-name").value = "";
                                 document.getElementById("Employee-password").removeAttribute('readonly');
@@ -283,6 +284,10 @@
                                 document.getElementById("window-Text").innerHTML = "Creater Employee Acount";
                                 document.getElementById("Employee-action").action = "/localbrand/admin/employee/insert.do";
                             } else {
+                                document.getElementById("Employee-id").setAttribute('readonly', 'true');
+                                document.getElementById("Employee-id").removeAttribute('hidden');
+                                document.getElementById("id-label").removeAttribute('hidden');
+                                document.getElementById("Employee-password").setAttribute('readonly', 'true');
                                 var tr = document.getElementsByClassName("employee-table")[0].getElementsByTagName("tr");
                                 for (var i = 1; i < tr.length; i++) {
                                     var id = tr[i].getElementsByTagName("td")[1];
