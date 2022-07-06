@@ -88,7 +88,7 @@
 									</div>
 									<div
 										class="card-footer d-flex justify-content-between bg-light border">
-										<a href="" class="btn btn-sm text-dark p-0"><i
+										<a href="/localbrand/web/detail/index.do?productId=${product.id}" class="btn btn-sm text-dark p-0" name="viewdetail"><i
 											class="fas fa-eye text-primary mr-1"></i>View Detail</a> <a
 											href="" class="btn btn-sm text-dark p-0"><i
 											class="fas fa-shopping-cart text-primary mr-1"></i>Add To
