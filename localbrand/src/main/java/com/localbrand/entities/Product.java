@@ -233,10 +233,18 @@ public class Product implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "Product[ id=" + id + " ]";
-    }
+   
+
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", status=" + status
+				+ ", color=" + color + ", size=" + size + ", isMaster=" + isMaster + ", imgMaster=" + imgMaster
+				+ ", imgChild=" + imgChild + ", price=" + price + ", container=" + container + ", discount=" + discount
+				+ ", stars=" + stars + ", collectionDetailList=" + collectionDetailList + ", brandId=" + brandId
+				+ ", cateId=" + cateId + ", productList=" + productList + ", parentId=" + parentId
+				+ ", orderDetailList=" + orderDetailList + ", feedbackList=" + feedbackList + ", createDate="
+				+ createDate + "]";
+	}
 
 	public Brand getBrandId() {
 		return brandId;

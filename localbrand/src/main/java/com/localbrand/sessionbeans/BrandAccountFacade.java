@@ -10,7 +10,7 @@ import java.util.List;
 import com.localbrand.entities.BrandAccount;
 
 public class BrandAccountFacade extends AbstractFacade<BrandAccount> {
-
+	BrandFacade bf = new BrandFacade();
 	private void checkNull(BrandAccount t) {
 		if (t.getName() == null) {
 			t.setName("");
@@ -30,7 +30,7 @@ public class BrandAccountFacade extends AbstractFacade<BrandAccount> {
 	protected void create(Connection con, BrandAccount t) throws SQLException {
 		// TODO Auto-generated method stub
 		String sql = "INSERT INTO [BrandAccount]"
-				+ "([Name], [Username], [Password], [Role])"
+				+ "([Name], [Username], [Password], [Role], [BrandId])"
 				+ "VALUES (?, ?, ?, ?)";
 	
 		checkNull(t);
@@ -41,6 +41,7 @@ public class BrandAccountFacade extends AbstractFacade<BrandAccount> {
 		ptm.setString(2, t.getUsername());
 		ptm.setString(3, t.getPassword());
 		ptm.setBoolean(4, t.getRole());
+		ptm.setInt(5, t.getBrandId().getId());
 		
 		ptm.executeUpdate();
 	}
@@ -51,7 +52,8 @@ public class BrandAccountFacade extends AbstractFacade<BrandAccount> {
 				+ "SET [Name] = ?, "
 				+ "[Username] = ?, "
 				+ "[Password] = ?, "
-				+ "[Role] = ? "
+				+ "[Role] = ? , "
+				+ "[BrandId] = ?, "
 				+ "WHERE [Id] = ?";
 	
 		checkNull(t);
@@ -62,8 +64,8 @@ public class BrandAccountFacade extends AbstractFacade<BrandAccount> {
 		ptm.setString(2, t.getUsername());
 		ptm.setString(3, t.getPassword());
 		ptm.setBoolean(4, t.getRole());
-		ptm.setInt(5, t.getId());
-	
+		ptm.setInt(5, t.getBrandId().getId());
+		ptm.setInt(6, t.getId());
 		ptm.executeUpdate();
 	}
 
@@ -96,6 +98,7 @@ public class BrandAccountFacade extends AbstractFacade<BrandAccount> {
 			brandAccount.setUsername(rs.getString("Username"));
 			brandAccount.setPassword(rs.getString("Password"));
 			brandAccount.setRole(rs.getBoolean("Role"));
+			brandAccount.setBrandId(bf.find(rs.getInt("BrandId")));
 		}
 		
 		return brandAccount;
@@ -110,6 +113,7 @@ public class BrandAccountFacade extends AbstractFacade<BrandAccount> {
 		PreparedStatement ptm = con.prepareStatement(sql);
 		ResultSet rs = ptm.executeQuery();
 		
+		
 		while (rs.next()) {
 			BrandAccount brandAccount = new BrandAccount();
 			brandAccount.setId(rs.getInt("Id"));
@@ -117,6 +121,7 @@ public class BrandAccountFacade extends AbstractFacade<BrandAccount> {
 			brandAccount.setUsername(rs.getString("Username"));
 			brandAccount.setPassword(rs.getString("Password"));
 			brandAccount.setRole(rs.getBoolean("Role"));
+			brandAccount.setBrandId(bf.find(rs.getInt("BrandId")));
 			list.add(brandAccount);
 		}
 		return list;
@@ -141,6 +146,7 @@ public class BrandAccountFacade extends AbstractFacade<BrandAccount> {
 			brandAccount.setUsername(rs.getString("Username"));
 			brandAccount.setPassword(rs.getString("Password"));
 			brandAccount.setRole(rs.getBoolean("Role"));
+			brandAccount.setBrandId(bf.find(rs.getInt("BrandId")));
 			list.add(brandAccount);
 		}
 		return list;

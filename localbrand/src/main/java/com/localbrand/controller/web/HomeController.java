@@ -79,6 +79,7 @@ public class HomeController extends HttpServlet {
 		}
 
 		// set lai aciton de no van o lai trang cu
+	
 		String uri = (String) session.getAttribute("uri");
 		System.out.println("uri: "+uri);
 		request.setAttribute("controller", uri);

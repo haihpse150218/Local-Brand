@@ -24,8 +24,8 @@ public class BrandFacade extends AbstractFacade<Brand> {
 	
 	@Override
 	protected void create(Connection con, Brand t) throws SQLException {
-		String sql = "  INSERT INTO [Brand] ([Name],[Description],[Status],[CreateDate],[Logo],[Banner])\r\n" + 
-				"values	(?, ?, ?, ?, ?, ?)";
+		String sql = "  INSERT INTO [Brand] ([Name],[Description],[Status],[CreateDate],[Logo],[Banner],[Stars])\r\n" + 
+				"values	(?, ?, ?, ?, ?, ?,?)";
 		
 		checkNull(t);
 		
@@ -38,6 +38,7 @@ public class BrandFacade extends AbstractFacade<Brand> {
 				+ " " + t.getCreateDate().getHours() + ":" + t.getCreateDate().getMinutes() + ":" + t.getCreateDate().getSeconds()));
 		ptm.setString(5, t.getLogo());	
 		ptm.setString(6, t.getBanner());
+		ptm.setDouble(7, t.getStars());
 		
 		ptm.executeUpdate();
 		
@@ -52,6 +53,7 @@ public class BrandFacade extends AbstractFacade<Brand> {
 				", [CreateDate] = ?\r\n" + 
 				", [Logo] = ?\r\n" + 
 				", [Banner] = ?\r\n" + 
+				", [Stars] = ?\r\n" + 
 				"WHERE [Id] = ?";
 		
 		checkNull(t);
@@ -65,8 +67,8 @@ public class BrandFacade extends AbstractFacade<Brand> {
 				+ " " + t.getCreateDate().getHours() + ":" + t.getCreateDate().getMinutes() + ":" + t.getCreateDate().getSeconds()));
 		ptm.setString(5, t.getLogo());	
 		ptm.setString(6, t.getBanner());
-
-		ptm.setInt(7, t.getId());
+		ptm.setDouble(7, t.getStars());
+		ptm.setInt(8, t.getId());
 		ptm.executeUpdate();
 		
 	}
@@ -100,7 +102,7 @@ public class BrandFacade extends AbstractFacade<Brand> {
 			brand.setName(rs.getNString("Name"));
 			brand.setDescription(rs.getNString("Description"));
 			brand.setStatus(rs.getString("Status"));
-			
+			brand.setStars(rs.getDouble("Stars"));
 			String dateTime = rs.getString("CreateDate");
 			SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			try {
@@ -134,7 +136,7 @@ public class BrandFacade extends AbstractFacade<Brand> {
 			brand.setName(rs.getNString("Name"));
 			brand.setDescription(rs.getNString("Description"));
 			brand.setStatus(rs.getString("Status"));
-			
+			brand.setStars(rs.getDouble("Stars"));
 			String dateTime = rs.getString("CreateDate");
 			SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			try {
@@ -173,7 +175,7 @@ public class BrandFacade extends AbstractFacade<Brand> {
 			brand.setName(rs.getNString("Name"));
 			brand.setDescription(rs.getNString("Description"));
 			brand.setStatus(rs.getString("Status"));
-			
+			brand.setStars(rs.getDouble("Stars"));
 			String dateTime = rs.getString("CreateDate");
 			SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			try {
