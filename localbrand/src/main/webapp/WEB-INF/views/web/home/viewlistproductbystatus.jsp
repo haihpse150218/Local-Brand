@@ -63,7 +63,7 @@
 		<div class="col-lg-9 col-md-12">
 			<div class="text-center mb-4">
 				<h2 class="section-title px-5">
-					<span class="px-2">Top Trending Products</span>
+					<span class="px-2">${statusname} Products</span>
 				</h2>
 			</div>
 
@@ -114,24 +114,24 @@
 				<nav aria-label="Page navigation">
 					<ul class="pagination justify-content-center mb-3">
 						<li class="page-item ${homePage==1?'disabled':''}"><a
-							class="page-link  " href="index.do?op=FirstPage"
+							class="page-link  " href="viewlistproductbystatus.do?op=FirstPage"
 							aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 						</a></li>
 						<li class="page-item  ${homePage==1?'disabled':''}"><a
-							class="page-link" href="index.do?op=PreviousPage"
+							class="page-link" href="viewlistproductbystatus.do?op=PreviousPage"
 							aria-label="Next"> <span aria-hidden="true"><</span>
 						</a></li>
 						<li
 							class="page-item  ${homePage==listNumberBox.get(0)?'active':''}">
 							<a class="page-link"
-							href="index.do?op=GotoPage&gotoPage=${listNumberBox.get(0)}">
+							href="viewlistproductbystatus.do?op=GotoPage&gotoPage=${listNumberBox.get(0)}">
 								${listNumberBox.get(0)} </a>
 						</li>
 						<li
 							class="page-item  ${homePage==listNumberBox.get(1)?'active':''}"
 							style="${totalHomePage <listNumberBox.get(1)?" display:none":""}">
 							<a class="page-link"
-							href="index.do?op=GotoPage&gotoPage=${listNumberBox.get(1)}">
+							href="viewlistproductbystatus.do?op=GotoPage&gotoPage=${listNumberBox.get(1)}">
 								${listNumberBox.get(1)} </a>
 						</li>
 
@@ -139,21 +139,21 @@
 							class="page-item  ${homePage==listNumberBox.get(2)?'active':''}"
 							style="${totalHomePage <listNumberBox.get(2)?" display:none":""}">
 							<a class="page-link"
-							href="index.do?op=GotoPage&gotoPage=${listNumberBox.get(2)}">
+							href="viewlistproductbystatus.do?op=GotoPage&gotoPage=${listNumberBox.get(2)}">
 								${listNumberBox.get(2)} </a>
 						</li>
 
 						<li
 							class="page-item ${homePage==totalHomePage?'disabled':''}">
 							<!-- disabled --> <a class="page-link "
-							href="index.do?op=NextPage" aria-label="Next"> <span
+							href="viewlistproductbystatus.do?op=NextPage" aria-label="Next"> <span
 								aria-hidden="true">></span>
 						</a>
 						</li>
 						<li
 							class="page-item ${homePage==totalHomePage?'disabled':''}">
 							<!-- disabled --> <a class="page-link "
-							href="index.do?op=LastPage" aria-label="Next"> <span
+							href="viewlistproductbystatus.do?op=LastPage" aria-label="Next"> <span
 								aria-hidden="true">&raquo;</span>
 						</a>
 						</li>
