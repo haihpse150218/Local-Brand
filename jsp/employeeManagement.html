@@ -60,6 +60,7 @@
                             <tr class="border-0">
                                 <th class="border-0">#</th>
                                 <th class="border-0">ID</th>
+                                <th class="border-0">User Name</th>
                                 <th class="border-0">Name</th>
                                 <th class="border-0">Password</th>
                                 <th class="border-0">Status</th>
@@ -70,6 +71,7 @@
                             <tr>
                                 <td>2</td>
                                 <td>1 </td>
+                                <td>Username1</td>
                                 <td>Rachel J. Wicker </td>
                                 <td>**********</td>
                                 <td><span class="badge-dot badge-success mr-1"></span>active
@@ -105,6 +107,10 @@
                             <input type="text" name="txtId" class="form-control" id="Employee-id" readonly="true">
                         </div>
                         <div class="form-group">
+                            <label for="Employee-username" class="col-form-label">User Name :</label>
+                            <input type="text" name="txtUserName" class="form-control" id="Employee-username" required="true" disabled="true">
+                        </div>
+                        <div class="form-group">
                             <label for="Employee-name" class="col-form-label">Name :</label>
                             <input type="text" name="txtName" class="form-control" id="Employee-name" required="true">
                         </div>
@@ -128,12 +134,26 @@
             </div>
         </div>
     </div>
+    <c:if>
+        <script>
+            alert("${requestScope.WARRING}");
+            $(document).ready(function() {
+                $('#Employee-Modal').modal('show');
+            });
+        </script>
+    </c:if>
     <script>
+        // kiem tra co thong bao warrning hay khong,neu co thi chay code nay
+
+        // document.getElementById("Employee-Modal").classList.add("show");
+        document.getElementById("Employee-Modal").removeAttribute('hidden');
         var OpenModal = function(value) {
             if (value == -1) {
                 document.getElementById("id-label").setAttribute('hidden', 'true');
                 document.getElementById("Employee-id").setAttribute('hidden', 'true');
                 document.getElementById("Employee-id").value = "";
+                document.getElementById("Employee-username").value = "";
+                document.getElementById("Employee-username").removeAttribute('disabled');
                 document.getElementById("Employee-name").value = "";
                 document.getElementById("Employee-password").removeAttribute('readonly');
                 document.getElementById("Employee-password").value = "";
@@ -153,12 +173,19 @@
                         var modalId = document.getElementById("Employee-id");
                         modalId.value = txtid;
 
-                        var name = tr[i].getElementsByTagName("td")[2];
+                        var username = tr[i].getElementsByTagName("td")[2];
+
+                        var txtusername = username.textContent || username.innerText;
+                        var modalUserName = document.getElementById("Employee-username");
+                        modalUserName.setAttribute('disabled', 'true');
+                        modalUserName.value = txtusername;
+
+                        var name = tr[i].getElementsByTagName("td")[3];
                         var txtname = name.textContent || name.innerText;
                         var modalName = document.getElementById("Employee-name");
                         modalName.value = txtname;
 
-                        var status = tr[i].getElementsByTagName("td")[4];
+                        var status = tr[i].getElementsByTagName("td")[5];
                         var txtstatus = status.innerText;
                         var modalstatus = document.getElementById("Employee-status");
                         var status = modalstatus.getElementsByTagName("option");
