@@ -548,6 +548,11 @@ public class HomeService implements IHome {
 		Category cate = ctf.find(cateid);
 		return cate;
 	}
+	
+	public List<Category> getListCate () throws SQLException{
+		List<Category> list = ctf.findAll();
+		return list;
+	}
 
 	public Cart addToCart(int productid, int quantity, Cart cart) throws SQLException {
 		if (cart == null) {

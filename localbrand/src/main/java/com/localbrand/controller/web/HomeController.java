@@ -121,7 +121,9 @@ public class HomeController extends HttpServlet {
 		String controller = uri.substring(uri.lastIndexOf("/"));
 		System.out.println("controller uri : " + controller);
 		session.setAttribute("uri", controller);
+
 		request.setAttribute("action", "viewlistproductbycate");
+		request.setAttribute("controller", controller);
 	}
 
 	private void viewListProductbyStatus(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -175,7 +177,9 @@ public class HomeController extends HttpServlet {
 		String controller = uri.substring(uri.lastIndexOf("/"));
 		System.out.println("controller uri : " + controller);
 		session.setAttribute("uri", controller);
+
 		request.setAttribute("action", "viewlistproductbystatus");
+		request.setAttribute("controller", controller);
 
 	}
 
@@ -202,9 +206,7 @@ public class HomeController extends HttpServlet {
 		// set lai aciton de no van o lai trang cu
 		String uri = request.getPathInfo();
 		System.out.println("uri: " + uri);
-		
-		request.setAttribute("action", "index");
-		
+
 		if (uri == null || uri.equalsIgnoreCase("/home")) {
 			request.setAttribute("controller", "/home");
 			String action = (String) session.getAttribute("uriaction");
@@ -228,14 +230,28 @@ public class HomeController extends HttpServlet {
 				index(request, response);
 		} else
 			request.setAttribute("controller", uri);
-		// session.removeAttribute("uri");
-		// request.getRequestDispatcher(uri + "/index.do").forward(request, response);
+
+		request.setAttribute("action", "index");
 	}
 
 	private void index(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 
 		HomeService service = new HomeService();
+
+		List<Category> listCate = service.getListCate();
+		session.setAttribute("category", listCate);
+
+		Cart cart = (Cart) session.getAttribute("cart");
+		int cartQuantity = 0;
+		if (cart != null) {
+			for (int key : cart.getMap().keySet()) {
+				cartQuantity += cart.getMap().get(key).getQuantity();
+			}
+		}
+		System.out.println("cart quantity la : " + cartQuantity);
+		session.setAttribute("cartQuantity", cartQuantity);
+
 		List<Product> listTopProduct = service.getTopProduct();
 		request.setAttribute("listTopProduct", listTopProduct);
 		System.out.println("top 6 product size : " + listTopProduct.size());
@@ -286,6 +302,9 @@ public class HomeController extends HttpServlet {
 		String controller = uri.substring(uri.lastIndexOf("/"));
 		System.out.println("controller uri : " + controller);
 		session.setAttribute("uri", controller);
+
+		request.setAttribute("controller", controller);
+		request.setAttribute("action", "index");
 	}
 
 	private void logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -295,9 +314,9 @@ public class HomeController extends HttpServlet {
 
 		String uri = (String) session.getAttribute("uri");
 		System.out.println("uri: " + uri);
-		
+
 		request.setAttribute("action", "index");
-		
+
 		if (uri == null || uri.equalsIgnoreCase("/home")) {
 			request.setAttribute("controller", "/home");
 			String action = (String) session.getAttribute("uriaction");
@@ -379,6 +398,7 @@ public class HomeController extends HttpServlet {
 		System.out.println("controller uri : " + controller);
 		session.setAttribute("uri", controller);
 		request.setAttribute("action", "viewlistbrandproduct");
+		request.setAttribute("controller", controller);
 
 	}
 
@@ -393,30 +413,55 @@ public class HomeController extends HttpServlet {
 		System.out.println("product co quantity hien tai la : " + cart.getMap().get(productid).getQuantity());
 		session.setAttribute("cart", cart);
 
-		String action = (String) session.getAttribute("uriaction");
-		System.out.println("uri action : " + action);
-		if (action == null)
-			action = "index";
-		else if (action.equalsIgnoreCase("viewlistbrandproduct")) {
-			int uribrandid = (int) session.getAttribute("uribrandid");
-			System.out.println("uri brand id : " + uribrandid);
-			request.setAttribute("brandid", uribrandid);
-			viewListBrandProduct(request, response);
-		} else if (action.equalsIgnoreCase("viewlistproductbystatus")) {
-			String uristatus = (String) session.getAttribute("uristatus");
-			System.out.println("uri status : " + uristatus);
-			request.setAttribute("status", uristatus);
-			viewListProductbyStatus(request, response);
-		} else if (action.equalsIgnoreCase("viewlistproductbycate")) {
-			int uricateid = (int) session.getAttribute("uricateid");
-			System.out.println("uri cate : " + uricateid);
-			request.setAttribute("cateid", uricateid);
-			viewListProductbyCate(request, response);
-		} else
-			index(request, response);
+		int cartQuantity = 0;
+		if (cart != null) {
+			for (int key : cart.getMap().keySet()) {
+				cartQuantity += cart.getMap().get(key).getQuantity();
+			}
+		}
+		System.out.println("cart quantity la : " + cartQuantity);
+		session.setAttribute("cartQuantity", cartQuantity);
 
-		request.setAttribute("action", action);
-		request.setAttribute("controller", "/home");
+		String uri = request.getServletPath();
+		String controller = uri.substring(uri.lastIndexOf("/"));
+		System.out.println("controller uri cart : " + controller);
+		session.setAttribute("uri", controller);
+		request.setAttribute("controller", controller);
+		
+		//set default la vao trang index cua uri lay duoc
+		request.setAttribute("action", "index");
+
+		//neu dang o trang home thi se vao action phu hop
+		if (controller.equalsIgnoreCase("/home")) {
+			String action = (String) session.getAttribute("uriaction");
+			System.out.println("uri action : " + action);
+			if (action == null)
+				action = "index";
+			else if (action.equalsIgnoreCase("viewlistbrandproduct")) {
+				int uribrandid = (int) session.getAttribute("uribrandid");
+				System.out.println("uri brand id : " + uribrandid);
+				request.setAttribute("brandid", uribrandid);
+				viewListBrandProduct(request, response);
+			} else if (action.equalsIgnoreCase("viewlistproductbystatus")) {
+				String uristatus = (String) session.getAttribute("uristatus");
+				System.out.println("uri status : " + uristatus);
+				request.setAttribute("status", uristatus);
+				viewListProductbyStatus(request, response);
+			} else if (action.equalsIgnoreCase("viewlistproductbycate")) {
+				int uricateid = (int) session.getAttribute("uricateid");
+				System.out.println("uri cate : " + uricateid);
+				request.setAttribute("cateid", uricateid);
+				viewListProductbyCate(request, response);
+			} else
+				index(request, response);
+
+			request.setAttribute("action", action);
+			
+		
+		} 
+		
+		//chinh cho cac trang web khac nhu brandhome,.. o day
+		//else if (controller.equalsIgnoreCase("/brandhome")){}
 
 	}
 
