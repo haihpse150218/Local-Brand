@@ -7,14 +7,7 @@
 	<div
 		class="d-flex flex-column align-items-center justify-content-center"
 		style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/76.jpg'); min-height: 300px">
-		<h1 class="font-weight-semi-bold text-uppercase mb-3">Ten Shop</h1>
-		<div class="d-inline-flex">
-			<p class="m-0">
-				<a href="">Home</a>
-			</p>
-			<p class="m-0 px-2">-</p>
-			<p class="m-0">Ten category</p>
-		</div>
+		<h1 class="font-weight-semi-bold text-uppercase mb-3">${requestScope.brand.getName() }</h1>
 	</div>
 </div>
 <!-- Shop info End -->
@@ -31,13 +24,12 @@
 			<!-- Collection 1 Start -->
 			<div class="container-fluid offer">
 				<div class="row px-xl-5">
+				
 					<div class="col-md-6 pb-4">
 						<div
 							class="position-relative bg-secondary text-center text-md-right text-white mb-2 py-5 px-5">
 							<!--img e                                 <img src="img/offer-1.png" alt=""> -->
 							<div class="position-relative" style="z-index: 1;">
-								<h5 class="text-uppercase text-primary mb-3">20% off the
-									all order</h5>
 								<h1 class="mb-4 font-weight-semi-bold">Spring Collection</h1>
 								<a href="" class="btn btn-outline-primary py-md-2 px-md-3">Shop
 									Now</a>
@@ -49,8 +41,6 @@
 							class="position-relative bg-secondary text-center text-md-left text-white mb-2 py-5 px-5">
 							<!-- 							<img src="img/offer-2.png" alt=""> -->
 							<div class="position-relative" style="z-index: 1;">
-								<h5 class="text-uppercase text-primary mb-3">20% off the
-									all order</h5>
 								<h1 class="mb-4 font-weight-semi-bold">Winter Collection</h1>
 								<a href="" class="btn btn-outline-primary py-md-2 px-md-3">Shop
 									Now</a>
@@ -137,14 +127,14 @@
 				<!-- nav sort -->
 				<div class="col-12 pb-1">
 					<div class="d-flex align-items-center justify-content-between mb-4">
-						<form action="">
+						<form action="/localbrand/web/brandhome/search.do">
 							<div class="input-group">
-								<input type="text" class="form-control"
+								<input type="text" name="search_query" class="form-control"
 									placeholder="Search by name">
 								<div class="input-group-append">
-									<span class="input-group-text bg-transparent text-primary">
+									<button type="submit" class="input-group-text bg-transparent text-primary">
 										<i class="fa fa-search"></i>
-									</span>
+									</button>
 								</div>
 							</div>
 						</form>
@@ -163,15 +153,9 @@
 								id="navbar-vertical"
 								style="width: calc(100% - 30px); z-index: 1;">
 								<div id="cate-list" class="navbar-nav w-100 overflow-hidden">
-									<a href="" class="nav-item nav-link">Shirts</a> <a href=""
-										class="nav-item nav-link">Jeans</a> <a href=""
-										class="nav-item nav-link">Swimwear</a> <a href=""
-										class="nav-item nav-link">Sleepwear</a> <a href=""
-										class="nav-item nav-link">Sportswear</a> <a href=""
-										class="nav-item nav-link">Jumpsuits</a> <a href=""
-										class="nav-item nav-link">Blazers</a> <a href=""
-										class="nav-item nav-link">Jackets</a> <a href=""
-										class="nav-item nav-link">Shoes</a>
+									<c:forEach var="category" items="${requestScope.brand.getBrandCategoryList()}">
+										<a href="/localbrand/web/brandhome/category.do?cateId=${category.getBrandCategoryPK().getCateId()}">${category.getName()}</a>
+									</c:forEach>
 								</div>
 							</nav>
 						</div>
@@ -181,9 +165,8 @@
 								aria-expanded="false">Sort by</button>
 							<div class="dropdown-menu dropdown-menu-right"
 								aria-labelledby="triggerId">
-								<a class="dropdown-item" href="#">Latest</a> <a
-									class="dropdown-item" href="#">Popularity</a> <a
-									class="dropdown-item" href="#">Best Rating</a>
+								<a class="dropdown-item" href="/localbrand/web/brandhome/sortLatest.do">Latest</a> 
+								<a class="dropdown-item" href="/localbrand/web/brandhome/sortRating.do">Best Rating</a>
 							</div>
 						</div>
 					</div>
@@ -287,9 +270,9 @@
 		<div class="col-lg-4 col-md-12 mb-55 pr-3 pr-xl-5">
 
 			<a href="" class="text-decoration-none">
-				<h1 class="mb-4 display-5 font-weight-semi-bold">Ten Shop</h1>
+				<h1 class="mb-4 display-5 font-weight-semi-bold">${requestScope.brand.getName() }</h1>
 			</a>
-			<p>Mong rang se dem lai cho quy khach trai nghiem tot nhat</p>
+			<p>${requestScope.brand.getDescription() }</p>
 			<p class="mb-2">
 				<i class="fa fa-map-marker-alt text-primary mr-3"></i>123 Duong 13,
 				Khu Pho 4, Thu Duc, TP.HCM

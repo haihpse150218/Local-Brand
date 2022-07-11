@@ -23,6 +23,8 @@ public class Order implements Serializable {
     private List<OrderDetail> orderDetailList;
     
     private List<Feedback> feedbackList;
+    
+    private String status;
 
     public Order() {
     }
@@ -30,8 +32,17 @@ public class Order implements Serializable {
     public Order(Integer id) {
         this.id = id;
     }
+    
 
-    public Order(Integer id, Date orderDate) {
+    public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Order(Integer id, Date orderDate) {
         this.id = id;
         this.orderDate = orderDate;
     }
@@ -113,9 +124,13 @@ public class Order implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "Order[ id=" + id + " ]";
-    }
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", orderDate=" + orderDate + ", total=" + total + ", tax=" + tax + ", customerId="
+				+ customerId + ", payId=" + payId + ", orderDetailList=" + orderDetailList + ", feedbackList="
+				+ feedbackList + ", status=" + status + "]";
+	}
+
+   
     
 }

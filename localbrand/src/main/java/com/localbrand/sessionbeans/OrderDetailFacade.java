@@ -97,7 +97,6 @@ public class OrderDetailFacade extends AbstractFacade<OrderDetail> {
 
 		@Override
 		protected List<OrderDetail> findAll(Connection con) throws SQLException {
-
 			List<OrderDetail> list = new ArrayList<>();
 			OrderDetailPK opk = null;
 			OrderDetail od = null;

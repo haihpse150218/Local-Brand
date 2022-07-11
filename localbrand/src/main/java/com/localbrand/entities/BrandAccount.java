@@ -91,9 +91,12 @@ public class BrandAccount implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "BrandAccount[ id=" + id + " ]";
-    }
+	@Override
+	public String toString() {
+		return "BrandAccount [id=" + id + ", name=" + name + ", username=" + username + ", password=" + password
+				+ ", role=" + role + ", brandId=" + brandId + "]";
+	}
+
+    
     
 }

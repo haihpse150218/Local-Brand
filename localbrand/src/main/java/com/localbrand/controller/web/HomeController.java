@@ -203,6 +203,7 @@ public class HomeController extends HttpServlet {
 			request.setAttribute("LOGIN_ERROR", e.getMessage());
 		}
 
+
 		// lay controller tu uri
 		String uri = request.getServletPath();
 		String controller = uri.substring(uri.lastIndexOf("/"));

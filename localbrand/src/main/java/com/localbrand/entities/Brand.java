@@ -19,9 +19,18 @@ public class Brand implements Serializable {
     private String banner;
     
     private Date createDate;
+    private double stars;
+    
    
-    private List<BrandAccount> brandAccountList;
-   
+    public double getStars() {
+		return stars;
+	}
+
+	public void setStars(double stars) {
+		this.stars = stars;
+	}
+
+	private List<BrandAccount> brandAccountList;
 
     private List<Store> storeList;
   
