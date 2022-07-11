@@ -203,12 +203,18 @@ public class HomeController extends HttpServlet {
 			request.setAttribute("LOGIN_ERROR", e.getMessage());
 		}
 
-		// set lai aciton de no van o lai trang cu
-		String uri = request.getPathInfo();
-		System.out.println("uri: " + uri);
+		// lay controller tu uri
+		String uri = request.getServletPath();
+		String controller = uri.substring(uri.lastIndexOf("/"));
+		System.out.println("controller uri truoc khi login : " + controller);
+		session.setAttribute("uri", controller);
+		request.setAttribute("controller", controller);
 
-		if (uri == null || uri.equalsIgnoreCase("/home")) {
-			request.setAttribute("controller", "/home");
+		// set default la vao trang index cua uri lay duoc
+		request.setAttribute("action", "index");
+
+		// neu uri la null hoac /home
+		if (controller == null || controller.equalsIgnoreCase("/home")) {
 			String action = (String) session.getAttribute("uriaction");
 			System.out.println("uri action : " + action);
 			if (action.equalsIgnoreCase("viewlistbrandproduct")) {
@@ -228,10 +234,12 @@ public class HomeController extends HttpServlet {
 				viewListProductbyCate(request, response);
 			} else
 				index(request, response);
-		} else
-			request.setAttribute("controller", uri);
 
-		request.setAttribute("action", "index");
+			// set lai action cho dung
+			request.setAttribute("action", action);
+
+		}
+
 	}
 
 	private void index(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -312,13 +320,18 @@ public class HomeController extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.setAttribute("user", null);
 
-		String uri = (String) session.getAttribute("uri");
-		System.out.println("uri: " + uri);
+		// lay controller tu uri
+		String uri = request.getServletPath();
+		String controller = uri.substring(uri.lastIndexOf("/"));
+		System.out.println("controller uri truoc khi logout : " + controller);
+		session.setAttribute("uri", controller);
+		request.setAttribute("controller", controller);
 
+		// set default la vao trang index cua uri lay duoc
 		request.setAttribute("action", "index");
 
-		if (uri == null || uri.equalsIgnoreCase("/home")) {
-			request.setAttribute("controller", "/home");
+		// neu uri la null hoac /home
+		if (controller == null || controller.equalsIgnoreCase("/home")) {
 			String action = (String) session.getAttribute("uriaction");
 			System.out.println("uri action : " + action);
 			if (action.equalsIgnoreCase("viewlistbrandproduct")) {
@@ -338,8 +351,12 @@ public class HomeController extends HttpServlet {
 				viewListProductbyCate(request, response);
 			} else
 				index(request, response);
-		} else
-			request.setAttribute("controller", uri);
+
+			// set lai action cho dung
+			request.setAttribute("action", action);
+
+		}
+
 	}
 
 	private void viewListBrandProduct(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -422,17 +439,18 @@ public class HomeController extends HttpServlet {
 		System.out.println("cart quantity la : " + cartQuantity);
 		session.setAttribute("cartQuantity", cartQuantity);
 
+		// lay controller tu uri
 		String uri = request.getServletPath();
 		String controller = uri.substring(uri.lastIndexOf("/"));
 		System.out.println("controller uri cart : " + controller);
 		session.setAttribute("uri", controller);
 		request.setAttribute("controller", controller);
-		
-		//set default la vao trang index cua uri lay duoc
+
+		// set default la vao trang index cua uri lay duoc
 		request.setAttribute("action", "index");
 
-		//neu dang o trang home thi se vao action phu hop
-		if (controller.equalsIgnoreCase("/home")) {
+		// neu dang o trang home thi se vao action phu hop
+		if (controller == null || controller.equalsIgnoreCase("/home")) {
 			String action = (String) session.getAttribute("uriaction");
 			System.out.println("uri action : " + action);
 			if (action == null)
@@ -455,13 +473,13 @@ public class HomeController extends HttpServlet {
 			} else
 				index(request, response);
 
+			// set lai action cho dung
 			request.setAttribute("action", action);
-			
-		
-		} 
-		
-		//chinh cho cac trang web khac nhu brandhome,.. o day
-		//else if (controller.equalsIgnoreCase("/brandhome")){}
+
+		}
+
+		// chinh cho cac trang web khac nhu brandhome,.. o day
+		// else if (controller.equalsIgnoreCase("/brandhome")){}
 
 	}
 
