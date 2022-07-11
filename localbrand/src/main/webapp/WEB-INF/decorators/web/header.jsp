@@ -61,7 +61,7 @@
                 </a>
                 <a href="" class="btn border">
                     <i class="fas fa-shopping-cart text-primary"></i>
-                    <span class="badge">0</span>
+                    <span class="badge">${sessionScope.cartQuantity}</span>
                 </a>
             </div>
         </div>
@@ -78,21 +78,13 @@
                     <i class="fa fa-angle-down text-dark"></i>
                 </a>
                 <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 1;">
-                    <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link" data-toggle="dropdown">Dresses <i class="fa fa-angle-down float-right mt-1"></i></a>
-                            <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                                <a href="" class="dropdown-item">Men's Dresses</a>
-                                <a href="" class="dropdown-item">Women's Dresses</a>
-                                <a href="" class="dropdown-item">Baby's Dresses</a>
-                            </div>
+                    <div class="navbar-nav w-100 overflow-hidden" >
+                      <div class="panel-collapse "
+					style="height: 450px; overflow-x: hidden; overflow-y: scroll;">
+                        <c:forEach var="cate" items="${sessionScope.category}">
+                        <a href="/localbrand/web/home/viewlistproductbycate.do?cateid=${cate.id}" class="nav-item nav-link">${cate.name}</a>
+                        </c:forEach>
                         </div>
-                        <a href="" class="nav-item nav-link">Áo</a>
-                        <a href="" class="nav-item nav-link">Quần</a>
-                        <a href="" class="nav-item nav-link">Váy</a>
-                        <a href="" class="nav-item nav-link">Giày</a>
-                        <a href="" class="nav-item nav-link">Túi/Balo</a>
-                        <a href="" class="nav-item nav-link">Phụ kiện</a>
                     </div>
                 </nav>
             </div>
