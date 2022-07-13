@@ -46,12 +46,28 @@ public class ProductDetailController extends HttpServlet {
 		
 		int pid =  Integer.parseInt(request.getParameter("productId")); 
 		ProductDetailService pds = new ProductDetailService();
-		List<Product> listp = pds.getProductDetail(pid);
-		List<Brand> listb = pds.getBrandDetail(pid);
+		Product listp = pds.getProductDetail(pid);
+		if (listp.getProductList().size() > 0) {
+			List<String> listSize = pds.getListSize(listp);
+			request.setAttribute("listSize", listSize);
+			List<String> listColor = pds.getListColor(listp);
+			request.setAttribute("listColor", listColor);
+			System.out.println("color chi tiet" + listColor.size());
+			System.out.println("size chi tiet" + listSize.size());
+		}
+
+		System.out.println("Size: s"+listp.getProductList().size());
+		Brand brand = pds.getBrandDetail(pid);
+		List<Product> child = pds.getProductChild(pid);
+		
+		request.setAttribute("pChild", child);
+		System.out.println("Child: "+child);
+		
 		request.setAttribute("pDetail", listp);
-		request.setAttribute("bDetail", listb);
+		request.setAttribute("bDetail", brand);
+				
 		System.out.println("Product Detail: "+listp);
-		System.out.println("Brand Detail: "+listb);
+		System.out.println("Brand Detail: "+brand);
 	}
 	private void viewDetail(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();

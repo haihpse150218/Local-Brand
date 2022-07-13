@@ -1,9 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+
 <!DOCTYPE html>
 <html lang="en">
-
+ <c:set var = "pChild" scope = "request" value = "${requestScope.pChild}"/>
+ <c:set var = "product" scope = "request" value = "${requestScope.pDetail}"/>
+ <c:set var = "brand" scope = "request" value = "${requestScope.bDetail}"/>
+ <c:set var = "listSize" scope = "request" value = "${requestScope.listSize}"/>
+ <c:set var = "listColor" scope = "request" value = "${requestScope.listColor}"/> 
 <head>
     <meta charset="utf-8">
     <title>EShopper - Bootstrap Shop Template</title>
@@ -31,7 +36,7 @@
 
 <body>
     <!-- Page Header Start -->
-    <c:forEach items="${requestScope.bDetail}" var="brand">
+    
     <div class="container-fluid bg-secondary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
             <h1 class="font-weight-semi-bold text-uppercase mb-3">${brand.name}</h1>
@@ -42,26 +47,36 @@
             </div>
         </div>
     </div>
-    </c:forEach>
+    
     <!-- Page Header End -->
 
     <!-- Shop Detail Start -->
-    <c:forEach items="${requestScope.pDetail}" var="product">
+    
     <div class="container-fluid py-5">
+    <form action="/localbrand/web/cart/index.do" method="GET">
         <div class="row px-xl-5">
             <div class="col-lg-5 pb-5">
                 <div id="product-carousel" class="carousel slide" data-ride="carousel">
                     <!-- neu co nhieu product con thi them vao day-->
                     <div class="carousel-inner border">
-                    <c:if test="${not empty product.imgMaster}">
+                   
+                    <c:if test="${empty pChild}">
                         <div class="carousel-item active">
                             <img class="w-100 h-100" src="${product.imgMaster}" alt="Image">
                         </div>
                      </c:if>
-                     <c:if test="${not empty product.imgChild}">
-                        <div class="carousel-item active">
-                            <img class="w-100 h-100" src="${product.imgChild}" alt="Image">
+                     
+                     <c:if test="${not empty pChild}">
+                     <div class="carousel-item active">
+                            <img class="w-100 h-100" src="${product.imgMaster}" alt="Image">
                         </div>
+                     <c:forEach items="${pChild}" var="pChild">
+                     	<c:if test="${not empty pChild.imgChild}">
+                        	<div class="carousel-item">
+                            	<img class="w-100 h-100" src="${pChild.imgChild}" alt="Image">
+                        	</div>
+                     	</c:if>
+                     </c:forEach>   
                      </c:if>   
                     </div>
                     <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
@@ -85,57 +100,59 @@
                     </div>
                     <small class="pt-1">${product.stars} (50 Reviews)</small>
                 </div>
-                <h3 class="font-weight-semi-bold mb-4">${product.price} VND</h3>
+                <c:if test="${product.discount == 0}">
+                	<h3 class="font-weight-semi-bold mb-4">${product.price} VND</h3>
+                </c:if>
+                <c:if test="${product.discount > 0}">
+                <div class="d-flex">
+					<h3>${product.price} VND</h3>
+					<h3 class="text-muted ml-2">
+						<del>${product.price * (1+product.discount)}</del>
+					</h3>
+				</div>
+				</c:if>
                 <p class="mb-4">${product.description}.</p>
+                <c:if test="${not empty product.size}">
                 <div class="d-flex mb-3">
                     <p class="text-dark font-weight-medium mb-0 mr-3">Sizes:</p>
-                    <form>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="size-1" name="size">
-                            <label class="custom-control-label" for="size-1">XS</label>
+                    <c:if test="${not empty listSize}">
+                    	<c:forEach items="${listSize}" var="listSize">
+                    	
+                    	<div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="${listSize}" name="size" value="${listSize}">
+                            <label class="custom-control-label" for="${listSize}">${listSize}</label>
                         </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="size-2" name="size">
-                            <label class="custom-control-label" for="size-2">S</label>
+                        
+                    	</c:forEach>     	
+                    </c:if>
+                    <c:if test="${empty listSize}">
+                    
+                    	<div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="${product.size}" name="size" value="${product.size}" checked="checked">
+                            <label class="custom-control-label" for="${product.size}">${product.size}</label>
                         </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="size-3" name="size">
-                            <label class="custom-control-label" for="size-3">M</label>
-                        </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="size-4" name="size" checked="checked">
-                            <label class="custom-control-label" for="size-4">L</label>
-                        </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="size-5" name="size">
-                            <label class="custom-control-label" for="size-5">XL</label>
-                        </div>
-                    </form>
+                    </c:if>  
+                                                             	  
                 </div>
+                </c:if>
                 <div class="d-flex mb-4">
                     <p class="text-dark font-weight-medium mb-0 mr-3">Colors:</p>
-                    <form>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="color-1" name="color">
-                            <label class="custom-control-label" for="color-1">Black</label>
+                    
+                    <c:if test="${not empty listColor}">
+                    	<c:forEach items="${listColor}" var="listColor">
+                    	<div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="${listColor}" name="color" value="${listColor}">
+                            <label class="custom-control-label" for="${listColor}">${listColor}</label>
                         </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="color-2" name="color">
-                            <label class="custom-control-label" for="color-2">White</label>
-                        </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="color-3" name="color">
-                            <label class="custom-control-label" for="color-3">Red</label>
-                        </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="color-4" name="color">
-                            <label class="custom-control-label" for="color-4">Blue</label>
-                        </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="color-5" name="color">
-                            <label class="custom-control-label" for="color-5">Green</label>
-                        </div>
-                    </form>
+                    	</c:forEach> 
+                    </c:if>
+                    <c:if test="${empty pChild}">
+                    	<div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="${product.color}" name="color" value="${product.color}" checked="checked" >
+                            <label class="custom-control-label" for="${product.color}">${product.color}</label>
+                        </div>  
+                    </c:if>         
+                    
                 </div>
                 <div class="d-flex align-items-center mb-4 pt-2">
                     <div class="input-group quantity mr-3" style="width: 130px;">
@@ -144,16 +161,36 @@
                             <i class="fa fa-minus"></i>
                             </button>
                         </div>
-                        <input type="text" class="form-control bg-secondary text-center input-number" value="1" min="1" max="10">
+                        <input type="text" class="form-control bg-secondary text-center input-number" value="1" min="1" max="10" name="quantity">
                         <div class="input-group-btn">
                             <button class="btn btn-primary btn-plus">
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
+                    <!-- <c:if test="${empty pChild}">
+                    
+                    <a href="/localbrand/web/cart/index.do?productId=${product.id}&productPrice=${product.price}">
+                    	<button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
+                    </a>
+                    </c:if>
+                    <c:if test="${not empty pChild}">
+                    <a href="/localbrand/web/cart/index.do?productId=${product.id}&productName=${product.name}&productSize=${product.size}&productColor=${product.color}&productPrice=${product.price}">
+                    	<button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
+                    </a>
+                    </c:if> -->
+                    <input type="hidden" id="productId" name="productId" value="${product.id}">
+                    <c:if test="${empty pChild}">
+					 	<input type="hidden" id="productId" name="isMaster" value="${product.isMaster}">
+					</c:if>
+					<c:if test="${not empty pChild}">
+						<input type="hidden" id="productId" name="isMaster" value="false">
+					</c:if>
                     <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
                 </div>
             </div>
+            </div>
+            </form>
         </div>
         <div class="row px-xl-5">
             <div class="col">
@@ -222,7 +259,7 @@
             </div>
         </div>
     </div>
-    </c:forEach>
+    
     <!-- Shop Detail End -->
 
 
@@ -236,7 +273,7 @@
                 <div class="owl-carousel related-carousel">
                     <div class="card product-item border-0">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="img/product-1.jpg" alt="">
+                            <img class="img-fluid w-100" src="" alt="">
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
@@ -252,7 +289,7 @@
                     </div>
                     <div class="card product-item border-0">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="img/product-2.jpg" alt="">
+                            <img class="img-fluid w-100" src="" alt="">
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
@@ -268,7 +305,7 @@
                     </div>
                     <div class="card product-item border-0">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="img/product-3.jpg" alt="">
+                            <img class="img-fluid w-100" src="" alt="">
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
@@ -284,7 +321,7 @@
                     </div>
                     <div class="card product-item border-0">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="img/product-4.jpg" alt="">
+                            <img class="img-fluid w-100" src="" alt="">
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
@@ -300,7 +337,7 @@
                     </div>
                     <div class="card product-item border-0">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="img/product-5.jpg" alt="">
+                            <img class="img-fluid w-100" src="" alt="">
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
