@@ -46,7 +46,11 @@ th {
 							</div>
 						</div>
 					</form>
-					<div class="col-2">
+					<div class="col-3">
+						<button type="button" class="btn btn-primary" data-toggle="modal"
+							data-target=".create-product-modal">
+							<i class="fas fa-plus-square"></i>
+						</button>
 						<button class="btn btn-primary" type="button"
 							data-toggle="collapse" data-target=".multi-collapse"
 							aria-expanded="false"
@@ -60,8 +64,11 @@ th {
 								aria-expanded="false">Fillter by</button>
 							<div class="dropdown-menu dropdown-menu-right "
 								aria-labelledby="triggerId">
-								<a class="dropdown-item" href="/localbrand/admin/product/fillter.do?op=all">All (Tat ca)</a> <a
-									class="dropdown-item" href="/localbrand/admin/product/fillter.do?op=aWeek">1 Week (Tuan nay)</a>
+								<a class="dropdown-item"
+									href="/localbrand/admin/product/fillter.do?op=all">All (Tat
+									ca)</a> <a class="dropdown-item"
+									href="/localbrand/admin/product/fillter.do?op=aWeek">1 Week
+									(Tuan nay)</a>
 							</div>
 						</div>
 					</div>
@@ -72,10 +79,13 @@ th {
 							aria-expanded="false">Sort by</button>
 						<div class="dropdown-menu dropdown-menu-right "
 							aria-labelledby="triggerId">
-							<a class="dropdown-item" href="/localbrand/admin/product/sort.do?op=numberOrder">Number orders (Tong so don
-								dat)</a> <a class="dropdown-item" href="/localbrand/admin/product/sort.do?op=turnover">Turnover (Tong don
-								thanh cong)</a> <a class="dropdown-item" href="/localbrand/admin/product/sort.do?op=proceeds">Proceeds (Tong
-								tien ban duoc)</a>
+							<a class="dropdown-item"
+								href="/localbrand/admin/product/sort.do?op=numberOrder">Number
+								orders (Tong so don dat)</a> <a class="dropdown-item"
+								href="/localbrand/admin/product/sort.do?op=turnover">Turnover
+								(Tong don thanh cong)</a> <a class="dropdown-item"
+								href="/localbrand/admin/product/sort.do?op=proceeds">Proceeds
+								(Tong tien ban duoc)</a>
 						</div>
 					</div>
 				</div>
@@ -103,14 +113,24 @@ th {
 									<tr>
 										<td>${loop.count}</td>
 										<td>${product.id}</td>
-										<td><img class="img-fluid" src="${product.img}" alt="img">
-										</td>
+										<td><img style="height: 150px; width: 120px"
+											src="${product.img}" alt="img"></td>
 										<td>${product.name}</td>
 										<td><fmt:formatNumber value='${product.discount}'
 												type="percent" /></td>
 										<td><fmt:formatNumber value='${product.price}'
 												type="currency" /></td>
-
+										<td>
+											<div class="dropdown">
+												<button class="btn bg-white " type="button"
+													data-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false">...</button>
+												<div class="dropdown-menu dropdown-menu-right ">
+													<a class="dropdown-item" href="#">Edit Product</a> <a
+														class="dropdown-item" href="#">Delete Product</a>
+												</div>
+											</div> <!-- <a href="# " class="btn btn-outline-light " data-toggle="modal " data-target=".orderid1 ">View Details</a> -->
+										</td>
 									</tr>
 
 								</c:forEach>
@@ -145,7 +165,7 @@ th {
 										<td>${product.numberOrdered}</td>
 										<td>${product.numberDelivered}</td>
 										<td>${product.numberCancel}</td>
-										<td>${product.name}</td>
+
 										<td>
 											<div class="dropdown">
 												<button class="btn bg-white " type="button"
@@ -163,6 +183,7 @@ th {
 								<!-- vong for order detail-->
 
 								<!-- order detail end -->
+
 							</tbody>
 						</table>
 					</div>
@@ -170,4 +191,142 @@ th {
 			</div>
 		</div>
 	</div>
+	<!-- Modal Order Detail -->
+
+	<div class="modal fade create-product-modal" tabindex="-1"
+		role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="card">
+					<h5 class="card-header">Create Product</h5>
+					<div class="card-body">
+						<form>
+							<div class="form-group">
+								<label class="col-form-label">Product Name</label> <input
+									name="txtName1" type="text" class="form-control">
+							</div>
+
+							<div class="form-row">
+								<div class="col-md-3 mb-3">
+									<label>Price</label> <input name="txtPrice1" id="product-price"
+										type="number" class="form-control" placeholder="Numbers">
+								</div>
+								<div class="col-md-6 mb-6">
+									<label>Category</label> <select name="txtCategory"
+										class="form-control">
+										<c:forEach var="option" items="${listCate}">
+											<option>option.name</option>
+										</c:forEach>
+
+									</select>
+								</div>
+								<div class="col-md-3 mb-3">
+									<label>Status</label> <select name="txtStatus"
+										class="form-control">
+										<c:forEach var="option" items="${listStatus}">
+											<option>option</option>
+										</c:forEach>
+									</select>
+								</div>
+							</div>
+							<div class="form-group mb-3">
+								<label class="col-form-label">Image</label> <input
+									name="txtImage1" required type="text" class="form-control">
+							</div>
+							<div class="form-row">
+								<div class="col-md-6 mb-3">
+									<label>Size</label> <select name="txtSize1"
+										class="form-control">
+										<option>XS</option>
+										<option>S</option>
+										<option>M</option>
+										<option>L</option>
+										<option>XL</option>
+										<option>XXL</option>
+									</select>
+								</div>
+								<div class="col-md-6 mb-3">
+									<label>Color</label> <input name="txtColor1" type="text"
+										class="form-control" placeholder="State" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label>Description</label>
+								<textarea name="txtDescription" class="form-control" rows="3"></textarea>
+							</div>
+
+							<div id="dependence-product"></div>
+
+							<div class="row">
+								<div class="col-sm-6 pb-2 pb-sm-4 pb-lg-0 pr-0">
+									<button type="button" onclick="return AddDependence();"
+										class="btn btn-space btn-primary">More Dependence</button>
+									<button type='button' onclick='return RemoveDependence();'
+										id="controll-button" class='btn btn-space btn-secondary'
+										hidden="true">Remove Dependence</button>
+								</div>
+								<div class="col-sm-6 pl-0">
+									<p class="text-right">
+										<button type="submit" class="btn btn-space btn-primary">Submit</button>
+										<button type="button" class="btn btn-space btn-secondary"
+											data-dismiss="modal" aria-label="Close">Cancel</button>
+									</p>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		var count = 1;
+		var RemoveDependence = function() {
+			document.getElementById("dependence" + count + "").remove();
+			count--;
+			if (count == 1)
+				document.getElementById("controll-button").setAttribute(
+						'hidden', '');
+			return false;
+		};
+		var AddDependence = function() {
+			count++;
+			var price = document.getElementById("product-price").value;
+			document.getElementById("dependence-product").innerHTML += "<div id='dependence" + count + "'>"
+					+ "<h5 class='card-header'>Create Dependence "
+					+ (count - 1)
+					+ "</h5>"
+					+ "<div class='card-body'>"
+					+ "<div class='form-row'>"
+					+ "<div class='col-md-3 mb-3'>"
+					+ "<label>Price</label>"
+					+ "<input type='number' name='txtPrice" + count + "' class='form-control' value='" + price + "' placeholder='Price'>"
+					/* while (request.getParameter("txtPrice" + (++i) )!= null) */
+
+					+ "</div>"
+					+ "<div class='col-md-6 mb-3'>"
+					+ "<label >Size</label>"
+					+ "<select name='txtSize" + count + "' class='form-control'>"
+					+ "<option>XS</option>"
+					+ "<option>S</option>"
+					+ "<option>M</option>"
+					+ "<option>L</option>"
+					+ "<option>XL</option>"
+					+ "<option>XXL</option>"
+					+ "</select>"
+					+ "</div>"
+					+ "<div class='col-md-3 mb-3'>"
+					+ "<label for='validationTooltip04'>Color</label>"
+					+ "<input type='text' name='txtColor" + count + "' class='form-control' placeholder='Red...' required>"
+					+ "</div>"
+					+ "</div>"
+					+ "<div class='custom-file mb-3'>"
+					+ "<input type='file' name='txtImage" + count + "' class='custom-file-input' id='customFile' >"
+					+ "<label class='custom-file-label' for='customFile'>Image</label>"
+					+ "</div></div></div>";
+			document.getElementById("controll-button")
+					.removeAttribute('hidden');
+			return false;
+		}
+	</script>
 </div>

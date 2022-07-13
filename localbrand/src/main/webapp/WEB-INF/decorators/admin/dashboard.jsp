@@ -43,7 +43,7 @@
 						<div id="submenu-4" class="collapse submenu" style="">
 							<ul class="nav flex-column">
 								<li class="nav-item"><a class="nav-link"
-									href="/localbrand/admin/employee/index.do">Employee
+									href="/localbrand/admin/member/index.do">Employee
 										Management</a></li>
 								<li class="nav-item"><a class="nav-link"
 									href="/localbrand/admin/infomation/index.do">Public
