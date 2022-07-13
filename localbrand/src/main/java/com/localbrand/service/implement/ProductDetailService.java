@@ -30,7 +30,6 @@ public class ProductDetailService implements IProductDetail{
 			listAllProduct = productFacade.findAll();
 			for (Product p : listAllProduct) {
 				if (p.getIsMaster() ==false && p.getParentId().getId() == pid) {
-					System.out.println(p.getSize());
 					listp.add(p);				
 					}
 			}
@@ -74,14 +73,11 @@ public class ProductDetailService implements IProductDetail{
 	@Override
 	public List<String> getListSize(Product product){
 		Set<String> listSize = new HashSet<String>();
-		
 		listSize.add(product.getSize());
-		System.out.println("alooooooo"+product.getProductList().size());
 		for (Product p : product.getProductList())
 		{
 			listSize.add(p.getSize());
 		}
-		System.out.println("okkk1 " + listSize);
 		
 		List<String> result = convertSetToList (listSize);
 		Collections.sort(result, new Comparator<String>() {
@@ -91,7 +87,6 @@ public class ProductDetailService implements IProductDetail{
 				 return o2.compareTo(o1);
 			}
 		});
-		System.out.println("okkk2 " + result);
 		return result;
 	}
 	@Override
@@ -104,7 +99,6 @@ public class ProductDetailService implements IProductDetail{
 		{
 			listColor.add(p.getColor());
 		}
-		System.out.println("okkk1 " + listColor);
 		
 		List<String> result = convertSetToList (listColor);
 		Collections.sort(result, new Comparator<String>() {
@@ -114,7 +108,6 @@ public class ProductDetailService implements IProductDetail{
 				 return o2.compareTo(o1);
 			}
 		});
-		System.out.println("okkk2 " + result);
 		return result;
 	}
 	public static <T> List<T> convertSetToList(Set<T> set)
