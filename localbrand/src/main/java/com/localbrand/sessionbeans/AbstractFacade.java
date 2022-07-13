@@ -10,11 +10,11 @@ public abstract class AbstractFacade<T> {
 	 static String url = "jdbc:sqlserver://"
 
 
-	 		+ "13.250.14.150:1433;"
-//			+ "localhost:1433;"
+//	 		+ "13.250.14.150:1433;"
+			+ "localhost:1433;"
 	 		+ "databaseName=localbrand;"
-	 		+ "user=sa;password=Admin123";
-//	 		+ "user=sa;password=159357";
+//	 		+ "user=sa;password=Admin123";
+	 		+ "user=sa;password=1234567890";
     public AbstractFacade() {
             try {
 				Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
