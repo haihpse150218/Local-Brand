@@ -12,12 +12,21 @@ public class BrandAccount implements Serializable {
    
     private String password;
    
-    private Boolean role;
-  
-    
-    private Brand brandId;
+    private Boolean role; // default 0: employee, 1: admin
 
-    public BrandAccount() {
+    private Brand brandId;
+    private int status; // 1: "Active", 0: "Disable", 2: "removed"
+    
+
+    public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public BrandAccount() {
     }
 
     public BrandAccount(Integer id) {

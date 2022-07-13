@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import com.localbrand.entities.BrandCategory;
 import com.localbrand.entities.Customer;
 import com.localbrand.entities.Order;
 import com.localbrand.entities.OrderDetail;
@@ -13,6 +14,8 @@ import com.localbrand.entities.Product;
 import com.localbrand.service.IHomeAdmin;
 import com.localbrand.service.models.OrderObject;
 import com.localbrand.service.models.ProductRevenue;
+import com.localbrand.sessionbeans.BrandCategoryFacade;
+import com.localbrand.sessionbeans.CategoryFacade;
 import com.localbrand.sessionbeans.CustomerFacade;
 import com.localbrand.sessionbeans.OrderDetailFacade;
 import com.localbrand.sessionbeans.OrderFacade;
@@ -99,13 +102,12 @@ public class HomeAdmin implements IHomeAdmin {
 		Date start = c.getTime();
 		c.add(Calendar.DATE, 6);
 		Date end = c.getTime();
-		
 
 		for (OrderObject orderObject : listOrder) {
 			if (orderObject.getOrderDate().compareTo(start) >= 0 && orderObject.getOrderDate().compareTo(end) < 0) {
-				
+
 				totalSales += orderObject.getTotal();
-				
+
 			}
 		}
 
@@ -122,11 +124,11 @@ public class HomeAdmin implements IHomeAdmin {
 		Date start = c.getTime();
 		c.add(Calendar.DATE, 6);
 		Date end = c.getTime();
-		
+
 		for (OrderObject orderObject : listOrder) {
 			if (orderObject.getOrderDate().compareTo(start) >= 0 && orderObject.getOrderDate().compareTo(end) < 0) {
 				totalSales += orderObject.getTotal();
-				
+
 			}
 		}
 		return totalSales;
@@ -333,6 +335,32 @@ public class HomeAdmin implements IHomeAdmin {
 		}
 
 		return result;
+	}
+
+	public List<BrandCategory> getListBrandCateByBrandId(int brandId) throws SQLException {
+		BrandCategoryFacade bcf = new BrandCategoryFacade();
+		CategoryFacade cf = new CategoryFacade();
+		List<BrandCategory> listCate = new ArrayList<>();
+
+		for (BrandCategory brandCategory : bcf.findAll()) {
+			if (brandCategory.getBrand().getId() == brandId) {
+				brandCategory.setCategory(cf.find(brandCategory.getBrandCategoryPK().getCateId()));
+				listCate.add(brandCategory);
+			}
+
+		}
+		return listCate;
+
+	}
+	
+	public  List<BrandCategory> addBrandCate(String cateName){
+		List<BrandCategory> listCate = new ArrayList<>();
+		
+		
+		
+		
+		
+		return listCate;
 	}
 
 }
