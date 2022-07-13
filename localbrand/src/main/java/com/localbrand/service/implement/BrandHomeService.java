@@ -40,6 +40,82 @@ public class BrandHomeService implements IBrandHome {
 		return resultList;
 	}
 	
+	public Brand findBrand(int id) throws Exception { 
+		Brand brand = bf.find(id);
+		List<Collection> listCollection = new ArrayList<Collection>();
+		for (Collection collection : cf.findAll()) {
+			if (id == collection.getBrandId().getId()) {
+				listCollection.add(collection);
+			}
+		}
+		brand.setCollectionList(listCollection);
+		List<BrandCategory> listBrandCate = new ArrayList<BrandCategory>();
+		for (BrandCategory category : bcf.findAll()) {
+			if (brand.getId().equals(category.getBrandCategoryPK().getBrandId())) {
+				listBrandCate.add(category);
+			}
+		}
+		brand.setBrandCategoryList(listBrandCate);
+		for (BrandCategory brandCategory : listBrandCate) {
+			System.out.println(brandCategory);
+		}
+		return brand;
+	}
+	
+	public List<Product> findAllProduct(int brandId,
+										String txtSearch, 
+										String txtCateId, 
+										String txtSortBy,
+										String txtPriceRange1,
+										String txtPriceRange2) 
+	{
+		int cateId = Integer.parseInt(txtCateId);
+		double priceRange1 = Double.parseDouble(txtPriceRange1);
+		double priceRange2 = Double.parseDouble(txtPriceRange2);
+		
+		if (priceRange1 > priceRange2) {
+    		double t = priceRange1;
+    		priceRange1 = priceRange2;
+    		priceRange2 = t;
+    	}
+		
+		List<Product> resultList = new ArrayList<Product>();
+		try {
+			for (Product product : pf.findAll()) {
+				if (product.getBrandId().getId() == brandId
+						&& product.getIsMaster() == true
+						&& product.getName().contains(txtSearch)
+						&& (cateId==0? true : product.getCateId().getId() == cateId)
+						&& product.getPrice() >= priceRange1
+						&& product.getPrice() <= priceRange2) 
+				{
+					resultList.add(product);
+					//System.out.println(product.getName());
+				}
+			}
+			if (txtSortBy.equals("rating")) {
+				Collections.sort(resultList, new Comparator<Product>() {                 
+					@Override                 
+					public int compare(Product o1, Product o2) {    
+						return o2.getStars().compareTo(o1.getStars());            
+					}            
+				});
+			} else if (txtSortBy.equals("latest")) {
+				Collections.sort(resultList, new Comparator<Product>() {                 
+					@Override                 
+					public int compare(Product o1, Product o2) {    
+						return o2.getCreateDate().compareTo(o1.getCreateDate());            
+					}            
+				});
+			}
+		} catch (SQLException e) {
+			System.out.println("BrandHomeService searchAll err");
+			e.printStackTrace();
+		}
+		return resultList;
+	}
+	
+	/*
 	public List<Product> findAllProductByName(String name, int brandId) {
 		List<Product> resultList = new ArrayList<Product>();
 		try {
@@ -81,27 +157,7 @@ public class BrandHomeService implements IBrandHome {
 		return resultList;
 	}
 	
-	public Brand findBrand(int id) throws Exception { 
-		Brand brand = bf.find(id);
-		List<Collection> listCollection = new ArrayList<Collection>();
-		for (Collection collection : cf.findAll()) {
-			if (id == collection.getBrandId().getId()) {
-				listCollection.add(collection);
-			}
-		}
-		brand.setCollectionList(listCollection);
-		List<BrandCategory> listBrandCate = new ArrayList<BrandCategory>();
-		for (BrandCategory category : bcf.findAll()) {
-			if (brand.getId().equals(category.getBrandCategoryPK().getBrandId())) {
-				listBrandCate.add(category);
-			}
-		}
-		brand.setBrandCategoryList(listBrandCate);
-		for (BrandCategory brandCategory : listBrandCate) {
-			System.out.println(brandCategory);
-		}
-		return brand;
-	}
+	
 	
 	public List<Product> sortAllByLatest(int brandId) {
 		List<Product> resultList = new ArrayList<Product>();
@@ -148,4 +204,23 @@ public class BrandHomeService implements IBrandHome {
 		}
 		return resultList;
 	}
+	
+	public List<Product> findProductsInPriceRange(double[] range, int brandId) {
+		List<Product> resultList = new ArrayList<Product>();
+		try {
+			for (Product product : pf.findAll()) {
+				if(product.getBrandId().getId() == brandId
+						&& product.getPrice() >= range[0]
+						&& product.getPrice() <= range[1]) {
+					resultList.add(product);
+					System.out.println(product.getName());
+				}
+			}
+		} catch (SQLException e) {
+			System.out.println("BrandHomeService findAllByCate err");
+			e.printStackTrace();
+		}
+		return resultList;
+	}
+	*/
 }
