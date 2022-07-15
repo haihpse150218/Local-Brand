@@ -7,7 +7,7 @@ import com.localbrand.entities.Brand;
 import com.localbrand.entities.Category;
 import com.localbrand.entities.Collection;
 import com.localbrand.entities.Product;
-import com.localbrand.service.Models.Cart;
+import com.localbrand.service.models.Cart;
 
 public interface IHome {
 	public List<Brand> getBrandList() throws Exception;

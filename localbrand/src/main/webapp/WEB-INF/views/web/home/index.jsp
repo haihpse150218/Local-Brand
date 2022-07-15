@@ -41,7 +41,7 @@
 												class="far fa-star"></small>
 										</div>
 										</p>
-										<a href="#">View shop</a>
+										<a href="/localbrand/web/brandhome/index.do?id=${brand.id}">View shop</a>
 									</div>
 								</div>
 							</tr>
