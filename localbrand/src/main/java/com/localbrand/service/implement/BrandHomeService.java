@@ -10,6 +10,7 @@ import com.localbrand.entities.Brand;
 import com.localbrand.entities.BrandCategory;
 import com.localbrand.entities.Product;
 import com.localbrand.entities.Collection;
+import com.localbrand.entities.CollectionDetail;
 import com.localbrand.service.IBrandHome;
 import com.localbrand.sessionbeans.BrandCategoryFacade;
 import com.localbrand.sessionbeans.BrandFacade;
@@ -30,7 +31,7 @@ public class BrandHomeService implements IBrandHome {
 				if(product.getBrandId().getId() == brandId
 						&& product.getIsMaster() == true) {
 					resultList.add(product);
-					System.out.println(product.getName());
+					//System.out.println(product.getName());
 				}
 			}
 		} catch (SQLException e) {
@@ -69,7 +70,12 @@ public class BrandHomeService implements IBrandHome {
 										String txtPriceRange1,
 										String txtPriceRange2) 
 	{
-		int cateId = Integer.parseInt(txtCateId);
+		int cateId = 0;
+		try {
+			cateId = Integer.parseInt(txtCateId);
+		} catch (Exception e) {
+			cateId = 0;
+		}
 		double priceRange1 = Double.parseDouble(txtPriceRange1);
 		double priceRange2 = Double.parseDouble(txtPriceRange2);
 		
@@ -112,6 +118,22 @@ public class BrandHomeService implements IBrandHome {
 			System.out.println("BrandHomeService searchAll err");
 			e.printStackTrace();
 		}
+		return resultList;
+	}
+	
+	public List<Collection> findAllCollection(int brandId) {
+		List<Collection> resultList = new ArrayList<Collection>();
+		try {
+			for (Collection collection : cf.findAll()) {
+				if (collection.getBrandId().getId() == brandId) {
+					resultList.add(collection);
+					System.out.println(collection);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return resultList;
 	}
 	

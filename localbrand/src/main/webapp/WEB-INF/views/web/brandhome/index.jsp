@@ -24,45 +24,60 @@
 				<!-- Collection 1 Start -->
 				<div class="container-fluid offer">
 					<div class="row px-xl-5">
-
-						<div class="col-md-6 pb-4">
-							<div
-								class="position-relative bg-secondary text-center text-md-right text-white mb-2 py-5 px-5">
-								<!--img e                                 <img src="img/offer-1.png" alt=""> -->
-								<div class="position-relative" style="z-index: 1;">
-									<h1 class="mb-4 font-weight-semi-bold">Spring Collection</h1>
-									<a href="" class="btn btn-outline-primary py-md-2 px-md-3">Shop
-										Now</a>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 pb-4">
-							<div
-								class="position-relative bg-secondary text-center text-md-left text-white mb-2 py-5 px-5">
-								<!-- 							<img src="img/offer-2.png" alt=""> -->
-								<div class="position-relative" style="z-index: 1;">
-									<h1 class="mb-4 font-weight-semi-bold">Winter Collection</h1>
-									<a href="" class="btn btn-outline-primary py-md-2 px-md-3">Shop
-										Now</a>
-								</div>
-							</div>
-						</div>
+						<c:choose>
+							<c:when test="${requestScope.collections.size()>1}">
+								<c:forEach var="collection" items="${requestScope.collections}" varStatus="i">
+									<div class="col-md-6 pb-4">
+										<div
+											style="	background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%,rgba(255,255,255,0.3) 100%), url('${collection.getImageUrl()}'); 
+													background-size: cover;"
+											class="img-responsive position-relative bg-secondary text-center ${(i.index%2==0)?('text-md-right'):('text-md-left')} text-white mb-2 py-5 px-5">
+											<!--img e                                 <img src="img/offer-1.png" alt=""> -->
+											<div class="position-relative" style="z-index: 1;">
+												<h1 class="mb-4 font-weight-semi-bold">${collection.getName()}</h1>
+												<a href="/localbrand/web/brandhome/collection/index.do?collectionId=${collection.getId()}" class="btn btn-outline-primary py-md-2 px-md-3">Shop
+													Now</a>
+											</div>
+										</div>
+									</div>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<c:forEach var="collection" items="${requestScope.collections}" varStatus="i">
+									<div class="col-md-12 pb-4">
+										<div
+											style="	background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%,rgba(255,255,255,0.3) 100%), url('${collection.getImageUrl()}'); 
+													background-size: cover;"
+											class="img-responsive position-relative bg-secondary text-center text-md-center text-white mb-2 py-5 px-5">
+											<!--img e                                 <img src="img/offer-1.png" alt=""> -->
+											<div class="position-relative" style="z-index: 1;">
+												<h1 class="mb-4 font-weight-semi-bold">${collection.getName()}</h1>
+												<a href="/localbrand/web/brandhome/collection/index.do?collectionId=${collection.getId()}" class="btn btn-outline-primary py-md-2 px-md-3">Shop
+													Now</a>
+											</div>
+										</div>
+									</div>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 				<!-- Collection 1 Start-->
 			</div>
 		</div>
-		<a class="carousel-control-prev" href="#header-carousel"
-			data-slide="prev">
-			<div class="btn btn-dark" style="width: 45px; height: 45px;">
-				<span class="carousel-control-prev-icon mb-n2"></span>
-			</div>
-		</a> <a class="carousel-control-next" href="#header-carousel"
-			data-slide="next">
-			<div class="btn btn-dark" style="width: 45px; height: 45px;">
-				<span class="carousel-control-next-icon mb-n2"></span>
-			</div>
-		</a>
+		<c:if test="${requestScope.collections.size()>1}">
+			<a class="carousel-control-prev" href="#header-carousel"
+				data-slide="prev">
+				<div class="btn btn-dark" style="width: 45px; height: 45px;">
+					<span class="carousel-control-prev-icon mb-n2"></span>
+				</div>
+			</a> <a class="carousel-control-next" href="#header-carousel"
+				data-slide="next">
+				<div class="btn btn-dark" style="width: 45px; height: 45px;">
+					<span class="carousel-control-next-icon mb-n2"></span>
+				</div>
+			</a>
+		</c:if>
 	</div>
 	<!-- Collection end -->
 
@@ -86,7 +101,7 @@
 						
 						
 						<span id="rangeval1">${(requestScope.txtPriceRange1 == null)? (0) : (requestScope.txtPriceRange1)}<!-- Default value --></span><br> <input
-							type="range" id="range1" class="form-range w-75"
+							type="range" id="range1" class="form-range w-75 text-primary"
 							name="txtPriceRange1" min="0" max="10000000" step="1000"
 							value="${(requestScope.txtPriceRange1 == null)? (0) : (requestScope.txtPriceRange1)}"
 							onChange="document.getElementById('rangeval1').innerText = document.getElementById('range1').value">
@@ -189,26 +204,24 @@
 										class="card-body border-left border-right text-center p-0 pt-4 pb-3">
 										<h6 class="text-truncate mb-3">${product.name}</h6>
 										<div class="d-flex justify-content-center">
-											<h6>${product.price * (1+product.discount)}</h6>
+											<h6>${product.price * (1-product.discount)}</h6>
+											<c:if test="${product.discount != 0}">
 											<h6 class="text-muted ml-2">
 												<del>${product.price}</del>
 											</h6>
+											</c:if>
 										</div>
 									</div>
 									<div
 										class="card-footer d-flex justify-content-between bg-light border">
-										<a href="" class="btn btn-sm text-dark p-0"><i
-											class="fas fa-eye text-primary mr-1"></i>View Detail</a> <a
-											href="" class="btn btn-sm text-dark p-0"><i
-											class="fas fa-shopping-cart text-primary mr-1"></i>Add To
-											Cart</a>
+										<a href="/localbrand/web/detail/index.do?productId=${product.id}" class="mx-auto btn btn-sm text-dark p-0"><i
+											class="fas fa-eye text-primary mr-1"></i>View Detail</a> 
 									</div>
 								</div>
 							</div>
 						</div>
 					</c:forEach>
 					<!-- Phan trang -->
-					${brandhomePage}/${totalBrandhomePage}/${listNumberBox}
 					<div class="col-12 pb-1">
 						<nav aria-label="Page navigation">
 							<ul class="pagination justify-content-center mb-3">

@@ -15,10 +15,10 @@ import com.localbrand.entities.Category;
 import com.localbrand.entities.Collection;
 import com.localbrand.entities.Customer;
 import com.localbrand.entities.Product;
-import com.localbrand.service.Models.Cart;
 import com.localbrand.service.implement.HomeService;
 import com.localbrand.service.implement.LoginService;
 import com.localbrand.service.implement.PagingService;
+import com.localbrand.service.models.Cart;
 
 /**
  * Servlet implementation class HomeController

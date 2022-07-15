@@ -1,4 +1,4 @@
-package com.localbrand.service.Models;
+package com.localbrand.service.models;
 
 import java.util.Date;
 import java.util.List;
