@@ -13,7 +13,7 @@ import com.localbrand.entities.OrderDetail;
 import com.localbrand.entities.Product;
 import com.localbrand.entities.Store;
 import com.localbrand.service.IHome;
-import com.localbrand.service.Models.Cart;
+import com.localbrand.service.models.Cart;
 import com.localbrand.sessionbeans.BrandFacade;
 import com.localbrand.sessionbeans.CategoryFacade;
 import com.localbrand.sessionbeans.CollectionDetailFacade;

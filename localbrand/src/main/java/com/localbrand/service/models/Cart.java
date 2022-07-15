@@ -1,4 +1,4 @@
-package com.localbrand.service.Models;
+package com.localbrand.service.models;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
