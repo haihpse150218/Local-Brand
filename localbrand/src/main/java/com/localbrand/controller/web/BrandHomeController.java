@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.localbrand.entities.Brand;
+import com.localbrand.entities.Collection;
 import com.localbrand.entities.Product;
 import com.localbrand.service.IBrandHome;
 import com.localbrand.service.implement.BrandHomeService;
@@ -30,7 +31,9 @@ public class BrandHomeController extends HttpServlet {
 	
 	ProductFacade pf = new ProductFacade();
 	BrandCategoryFacade bcfc = new BrandCategoryFacade();
+	
 	private static final long serialVersionUID = 1L;
+	
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -150,6 +153,9 @@ public class BrandHomeController extends HttpServlet {
     													txtPriceRange1,
     													txtPriceRange2
     													);  
+    	
+    	List<Collection> listCollection = brandHomeService.findAllCollection(Integer.parseInt(brandId));
+		request.setAttribute("collections", listCollection);
     	
         Integer page = (Integer) session.getAttribute("brandhomePage");
         int count = 0;
@@ -492,12 +498,15 @@ public class BrandHomeController extends HttpServlet {
 			return;
         }
       //Paging
-        int pageSize = 6;
+        int pageSize = PAGE_SIZE;
     	PagingService paging = new PagingService();
     	
-    	List<Product> listProduct = new ArrayList<>();
-		listProduct = brandHomeService.findAllProductByBrandId(Integer.parseInt(brandId.toString()));               
-         Integer page = (Integer) session.getAttribute("brandhomePage");
+		List<Product> listProduct = brandHomeService.findAllProductByBrandId(Integer.parseInt(brandId.toString()));
+		List<Collection> listCollection = brandHomeService.findAllCollection(Integer.parseInt(brandId.toString()));
+		
+		request.setAttribute("collections", listCollection);
+		
+         Integer page = (Integer)session.getAttribute("brandhomePage");
          int count = 0;
          count = listProduct.size();
          Integer totalPage = (int) Math.ceil((double) (count) / pageSize);;
