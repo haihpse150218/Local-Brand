@@ -14,7 +14,7 @@ public abstract class AbstractFacade<T> {
 			+ "localhost:1433;"
 	 		+ "databaseName=localbrand;"
 //	 		+ "user=sa;password=Admin123";
-	 		+ "user=sa;password=1234567890";
+	 		+ "user=sa;password=sa";
     public AbstractFacade() {
             try {
 				Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
