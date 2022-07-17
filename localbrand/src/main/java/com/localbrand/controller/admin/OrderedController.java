@@ -1,10 +1,12 @@
 package com.localbrand.controller.admin;
 
 import java.io.IOException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,6 +41,10 @@ public class OrderedController extends HttpServlet {
 			case "sort":
 				sort(request, response);
 				break;
+			case "search":
+				search(request, response);
+				break;
+			
 			default:
 				request.setAttribute("controller", "/error");
 				request.setAttribute("action", "index");
@@ -50,6 +56,38 @@ public class OrderedController extends HttpServlet {
 		}
 
 		request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
+	}
+
+	
+	private static String removeAccent(String s) {
+		  
+		  String temp = Normalizer.normalize(s, Normalizer.Form.NFD);
+		  Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+		  return pattern.matcher(temp).replaceAll("");
+		 }
+	
+	private void search(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		BrandAccount admin = (BrandAccount) session.getAttribute("admin");
+		
+		List<OrderObject> listOrderObject = HomeAdmin.getInstance().getOrderListByBrandId(admin.getBrandId().getId());
+		
+		request.setAttribute("listOrder", listOrderObject);
+		List<OrderObject> listResult = new ArrayList<>();
+		String searchByCustomerName = request.getParameter("searchCustomerName");
+		request.setAttribute("searchCustomerName", searchByCustomerName);
+		
+
+		String cusName = removeAccent(searchByCustomerName).toLowerCase();
+		for (OrderObject orderObject : listOrderObject) {
+			if(removeAccent(orderObject.getCustomerId().getName().toLowerCase()).contains(cusName)){
+				listResult.add(orderObject);
+			}
+		}
+		
+		request.setAttribute("listOrder", listResult);
+		request.setAttribute("action", "index");
+		
 	}
 
 	private void sort(HttpServletRequest request, HttpServletResponse response) {
@@ -137,10 +175,13 @@ public class OrderedController extends HttpServlet {
 	private void index(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		BrandAccount admin = (BrandAccount) session.getAttribute("admin");
-		System.out.println("admin " + admin.toString());
+		
 		List<OrderObject> listOrderObject = HomeAdmin.getInstance().getOrderListByBrandId(admin.getBrandId().getId());
+		
 		request.setAttribute("listOrder", listOrderObject);
-
+		
+		
+		
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
