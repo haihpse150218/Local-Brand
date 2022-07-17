@@ -137,6 +137,28 @@ public class BrandHomeService implements IBrandHome {
 		return resultList;
 	}
 	
+	public List<Product> sortAllByLatest(int brandId) {
+		List<Product> resultList = new ArrayList<Product>();
+		try {
+			for (Product product : pf.findAll()) {
+				if(product.getBrandId().getId() == brandId
+						&& product.getIsMaster() == true) {
+					resultList.add(product);
+					System.out.println(product.getName());
+				}
+			}
+			Collections.sort(resultList, new Comparator<Product>() {                 
+				@Override                 
+				public int compare(Product o1, Product o2) {    
+					return o2.getCreateDate().compareTo(o1.getCreateDate());            
+				}            
+			});
+		} catch (SQLException e) {
+			System.out.println("BrandHomeService sortAllByLatest err");
+			e.printStackTrace();
+		}
+		return resultList;
+	}
 	/*
 	public List<Product> findAllProductByName(String name, int brandId) {
 		List<Product> resultList = new ArrayList<Product>();
@@ -176,31 +198,6 @@ public class BrandHomeService implements IBrandHome {
 	
 	public List<Product> findRangeProductByBrandId(int brandId, int begin, int end){
 		List<Product> resultList = findAllProductByBrandId(brandId).subList(begin, end);
-		return resultList;
-	}
-	
-	
-	
-	public List<Product> sortAllByLatest(int brandId) {
-		List<Product> resultList = new ArrayList<Product>();
-		try {
-			for (Product product : pf.findAll()) {
-				if(product.getBrandId().getId() == brandId
-						&& product.getIsMaster() == true) {
-					resultList.add(product);
-					System.out.println(product.getName());
-				}
-			}
-			Collections.sort(resultList, new Comparator<Product>() {                 
-				@Override                 
-				public int compare(Product o1, Product o2) {    
-					return o2.getCreateDate().compareTo(o1.getCreateDate());            
-				}            
-			});
-		} catch (SQLException e) {
-			System.out.println("BrandHomeService sortAllByLatest err");
-			e.printStackTrace();
-		}
 		return resultList;
 	}
 	

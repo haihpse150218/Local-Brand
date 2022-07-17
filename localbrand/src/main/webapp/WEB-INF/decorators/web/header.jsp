@@ -98,17 +98,20 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="index.html" class="nav-item nav-link">Home</a>
-                            <a href="shop.html" class="nav-item nav-link active">Shop</a>
-                            <a href="detail.html" class="nav-item nav-link">Shop Detail</a>
-                            <div class=" nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="cart.html" class="dropdown-item">Shopping Cart</a>
-                                    <a href="checkout.html" class="dropdown-item">Checkout</a>
-                                </div>
-                            </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a 
+                            	href="${sessionScope.brandId==null?
+                            		'/localbrand' : '/localbrand/web/brandhome/index.do'}" 
+                            	class="nav-item nav-link">Home</a>
+                            <c:if test="${requestScope.collectionId != null}">
+                            	<a href=""
+                            		class="nav-item nav-link active">Collections</a>
+                            </c:if>
+                            <c:if test="${sessionScope.brandId != null}">
+                            	<a href="/localbrand/web/brandhome/latest.do"
+                            		class="nav-item nav-link">Latest</a>
+                            	<a href="/localbrand/web/brandhome/ranking.do'" 
+                            		class="nav-item nav-link">Ranking</a>
+                            </c:if>
                         </div>
                         <c:choose>
                         	<c:when test="${sessionScope.user == null}">

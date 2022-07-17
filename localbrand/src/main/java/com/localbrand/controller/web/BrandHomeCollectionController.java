@@ -68,6 +68,7 @@ public class BrandHomeCollectionController extends HttpServlet {
 	private void index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	String brandId = request.getParameter("id");
     	String collectionId = request.getParameter("collectionId");
+    	request.setAttribute("collectionId", collectionId);
     	
     	HttpSession session = request.getSession();
     	
