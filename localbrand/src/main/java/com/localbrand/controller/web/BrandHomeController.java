@@ -45,11 +45,11 @@ public class BrandHomeController extends HttpServlet {
             case "search":
             	search(request, response);
             	break;
+            case "latest":
+            	latest(request, response);
+            	break;
             /*case "category":
             	category(request, response);
-            	break;
-            case "sortLatest":
-            	sortLatest(request, response);
             	break;
             case "sortRating":
             	sortRating(request, response);
@@ -197,6 +197,71 @@ public class BrandHomeController extends HttpServlet {
         session.setAttribute("uri", controller);
         request.setAttribute("action", "index");
     }
+    
+    private void latest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	
+    	HttpSession session = request.getSession();
+    	
+    	String brandId = (String) session.getAttribute("brandId");
+    	
+        BrandHomeService brandHomeService = new BrandHomeService();
+        Brand currentBrand = null;
+    	try {
+    		currentBrand = brandHomeService.findBrand(Integer.parseInt(brandId));
+    		request.setAttribute("brand", currentBrand);
+    	} catch (Exception e) {
+    		request.setAttribute("BRAND_ERROR", "Loading brand error!");
+    	}
+        if(currentBrand == null) {
+        	request.setAttribute("controller", "/error");
+			return;
+        }
+        //Paging
+        int pageSize = 8;
+    	PagingService paging = new PagingService();
+    	
+    	List<Product> listProduct = new ArrayList<>();
+    	listProduct = brandHomeService.sortAllByLatest(Integer.parseInt(brandId));
+    	
+        Integer page = (Integer)session.getAttribute("brandhomePage");
+        int count = 0;
+        count = listProduct.size();
+        
+        Integer totalPage = (int) Math.ceil((double) (count) / pageSize);;
+        System.out.println("totalPage: "+ totalPage);
+        String op = request.getParameter("op");
+        Integer gotoPage = null;
+        
+        if(request.getParameter("gotoPage") != null) {
+        	gotoPage = Integer.parseInt(request.getParameter("gotoPage"));
+        }
+        page = paging.getPage(op,totalPage,page,gotoPage);
+        
+        System.out.println("page: "+page);
+        
+        int n1 = (page - 1) * pageSize ;
+        int n2 = 0;
+        
+        if((count - n1) <= pageSize) {
+        	n2 = count;
+        } else {
+        	n2 = n1 + pageSize;
+        }
+        
+        List<Product> list = listProduct.subList(n1, n2);
+        List<Integer> listNumberBox = paging.getListNumberBox(page, totalPage);
+        
+        session.setAttribute("listNumberBox", listNumberBox);
+        session.setAttribute("brandhomePage", page);
+        session.setAttribute("totalBrandhomePage", totalPage);
+        request.setAttribute("list", list);
+        request.setAttribute("brand", currentBrand);
+        
+        String uri = request.getServletPath();
+        String controller = uri.substring(uri.lastIndexOf("/"));
+        
+        session.setAttribute("uri", controller);
+    }
     /*
     private void category(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	int cateId = Integer.parseInt(request.getParameter("cateId"));
@@ -265,71 +330,7 @@ public class BrandHomeController extends HttpServlet {
         request.setAttribute("action", "index");
     }
     
-    private void sortLatest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	
-    	HttpSession session = request.getSession();
-    	
-    	String brandId = (String) session.getAttribute("brandId");
-    	
-        BrandHomeService brandHomeService = new BrandHomeService();
-        Brand currentBrand = null;
-    	try {
-    		currentBrand = brandHomeService.findBrand(Integer.parseInt(brandId));
-    		request.setAttribute("brand", currentBrand);
-    	} catch (Exception e) {
-    		request.setAttribute("BRAND_ERROR", "Loading brand error!");
-    	}
-        if(currentBrand == null) {
-        	request.setAttribute("controller", "/error");
-			return;
-        }
-        //Paging
-        int pageSize = PAGE_SIZE;
-    	PagingService paging = new PagingService();
-    	
-    	List<Product> listProduct = new ArrayList<>();
-    	listProduct = brandHomeService.sortAllByLatest(Integer.parseInt(brandId));
-    	
-        Integer page = (Integer) session.getAttribute("brandhomePage");
-        int count = 0;
-        count = listProduct.size();
-        
-        Integer totalPage = (int) Math.ceil((double) (count) / pageSize);;
-        System.out.println("totalPage: "+ totalPage);
-        String op = request.getParameter("op");
-        Integer gotoPage = null;
-        
-        if(request.getParameter("gotoPage") != null) {
-        	gotoPage = Integer.parseInt(request.getParameter("gotoPage"));
-        }
-        page = paging.getPage(op,totalPage,page,gotoPage);
-        
-        System.out.println("page: "+page);
-        
-        int n1 = (page - 1) * pageSize ;
-        int n2 = 0;
-        
-        if((count - n1) <= pageSize) {
-        	n2 = count;
-        } else {
-        	n2 = n1 + pageSize;
-        }
-        
-        List<Product> list = listProduct.subList(n1, n2);
-        List<Integer> listNumberBox = paging.getListNumberBox(page, totalPage);
-        
-        session.setAttribute("listNumberBox", listNumberBox);
-        session.setAttribute("brandhomePage", page);
-        session.setAttribute("totalBrandhomePage", totalPage);
-        request.setAttribute("list", list);
-        request.setAttribute("brand", currentBrand);
-        
-        String uri = request.getServletPath();
-        String controller = uri.substring(uri.lastIndexOf("/"));
-        
-        session.setAttribute("uri", controller);
-        request.setAttribute("action", "index");
-    }
+    
 
     private void sortRating(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	

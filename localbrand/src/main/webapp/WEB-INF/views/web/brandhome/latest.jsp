@@ -8,7 +8,7 @@
 			class="d-flex flex-column align-items-center justify-content-center"
 			style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/76.jpg'); min-height: 300px">
 			<h1 class="font-weight-semi-bold text-uppercase mb-3">${requestScope.brand.getName() }</h1>
-			<h2 class="font-weight-semi-bold text-uppercase mb-3">${requestScope.collection.getName()}</h2>
+			<h2 class="font-weight-semi-bold text-uppercase mb-3">LATEST PRODUCTS</h2>
 		</div>
 	</div>
 	<!-- Shop info End -->
@@ -58,24 +58,24 @@
 						<nav aria-label="Page navigation">
 							<ul class="pagination justify-content-center mb-3">
 								<li class="page-item ${brandhomePage==1?'disabled':''}"><a
-									class="page-link" href="/localbrand/web/collection/index.do?id=${brandId}&op=FirstPage"
+									class="page-link  " href="latest.do?id=${brandId}&op=FirstPage"
 									aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 								</a></li>
 								<li class="page-item  ${brandhomePage==1?'disabled':''}"><a
-									class="page-link" href="/localbrand/web/collection/index.do?id=${brandId}&op=PreviousPage"
+									class="page-link" href="latest.do?id=${brandId}&op=PreviousPage"
 									aria-label="Next"> <span aria-hidden="true"><</span>
 								</a></li>
 								<li
 									class="page-item  ${brandhomePage==listNumberBox.get(0)?'active':''}">
 									<a class="page-link"
-									href="/localbrand/web/collection/index.do?id=${brandId}&op=GotoPage&gotoPage=${listNumberBox.get(0)}">
+									href="latest.do?id=${brandId}&op=GotoPage&gotoPage=${listNumberBox.get(0)}">
 										${listNumberBox.get(0)} </a>
 								</li>
 								<li
 									class="page-item  ${brandhomePage==listNumberBox.get(1)?'active':''}"
 									style="${totalBrandhomePage <listNumberBox.get(1)?" display:none":""}">
 									<a class="page-link"
-									href="/localbrand/web/collection/index.do?id=${brandId}&op=GotoPage&gotoPage=${listNumberBox.get(1)}">
+									href="latest.do?id=${brandId}&op=GotoPage&gotoPage=${listNumberBox.get(1)}">
 										${listNumberBox.get(1)} </a>
 								</li>
 
@@ -83,21 +83,21 @@
 									class="page-item  ${brandhomePage==listNumberBox.get(2)?'active':''}"
 									style="${totalBrandhomePage <listNumberBox.get(2)?" display:none":""}">
 									<a class="page-link"
-									href="/localbrand/web/collection/index.do?id=${brandId}&op=GotoPage&gotoPage=${listNumberBox.get(2)}">
+									href="latest.do?id=${brandId}&op=GotoPage&gotoPage=${listNumberBox.get(2)}">
 										${listNumberBox.get(2)} </a>
 								</li>
 
 								<li
 									class="page-item ${brandhomePage==totalBrandhomePage?'disabled':''}">
 									<!-- disabled --> <a class="page-link "
-									href="/localbrand/web/collection/index.do?id=${brandId}&op=NextPage" aria-label="Next">
+									href="latest.do?id=${brandId}&op=NextPage" aria-label="Next">
 										<span aria-hidden="true">></span>
 								</a>
 								</li>
 								<li
 									class="page-item ${brandhomePage==totalBrandhomePage?'disabled':''}">
 									<!-- disabled --> <a class="page-link "
-									href="/localbrand/web/collection/index.do?id=${brandId}&op=LastPage" aria-label="Next">
+									href="latest.do?id=${brandId}&op=LastPage" aria-label="Next">
 										<span aria-hidden="true">&raquo;</span>
 								</a>
 								</li>
