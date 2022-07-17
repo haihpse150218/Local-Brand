@@ -1,5 +1,7 @@
 package com.localbrand.service.models;
 
+import java.util.Date;
+
 public class ProductRevenue {
 	private int id;
 	private String name;
@@ -10,6 +12,18 @@ public class ProductRevenue {
 	private int numberOrdered;
 	private int numberDelivered;
 	private int numberCancel;
+	private Date orderDate;
+	private boolean isMaster;
+	private String status;
+	private String color;
+	private String size;
+	
+	public Date getOrderDate() {
+		return orderDate;
+	}
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
 	public ProductRevenue() {
 		super();
 	}
@@ -18,6 +32,33 @@ public class ProductRevenue {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	
+	
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
+	}
+	public String getSize() {
+		return size;
+	}
+	public void setSize(String size) {
+		this.size = size;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public boolean getIsMaster() {
+		return isMaster;
+	}
+	public void setMaster(boolean isMaster) {
+		this.isMaster = isMaster;
 	}
 	public String getName() {
 		return name;
@@ -72,8 +113,10 @@ public class ProductRevenue {
 	public String toString() {
 		return "ProductRevenue [id=" + id + ", name=" + name + ", img=" + img + ", discount=" + discount + ", price="
 				+ price + ", proceeds=" + proceeds + ", numberOrdered=" + numberOrdered + ", numberDelivered="
-				+ numberDelivered + ", numberCancel=" + numberCancel + "]";
+				+ numberDelivered + ", numberCancel=" + numberCancel + ", orderDate=" + orderDate + "]";
 	}
+
+
 	
 	
 	

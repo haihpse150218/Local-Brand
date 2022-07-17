@@ -1,10 +1,12 @@
 package com.localbrand.service.implement;
 
 import java.sql.SQLException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import com.localbrand.entities.BrandCategory;
 import com.localbrand.entities.Customer;
@@ -44,11 +46,8 @@ public class HomeAdmin implements IHomeAdmin {
 		try {
 			for (OrderDetail od : odf.findAll()) {
 				boolean flag = false;
-
 				Product product = pf.find(od.getProduct().getId());
-
 				Order order = of.find(od.getOrder1().getId());
-
 				if (product.getBrandId().getId() == id) {
 					for (OrderObject o : listOrderObject) {
 						if (o.getId() == order.getId()) {
@@ -285,6 +284,7 @@ public class HomeAdmin implements IHomeAdmin {
 		return result;
 	}
 
+	
 	public List<ProductRevenue> listReportProduct(List<OrderObject> list) {
 		List<ProductRevenue> result = new ArrayList<>();
 		for (OrderObject o : list) {
@@ -308,6 +308,9 @@ public class HomeAdmin implements IHomeAdmin {
 						int numberCancel = pr.getNumberCancel() + (isCanceled(o) ? od.getQuantity() : 0);
 						pr.setNumberCancel(numberCancel);
 
+						if (pr.getOrderDate().compareTo(o.getOrderDate()) < 0) {
+							pr.setOrderDate(o.getOrderDate());
+						}
 						flag = true;
 					}
 				}
@@ -318,8 +321,10 @@ public class HomeAdmin implements IHomeAdmin {
 					productRevenue.setImg(p.getIsMaster() ? p.getImgMaster() : p.getImgChild());
 					productRevenue.setDiscount(od.getDiscount());
 					productRevenue.setPrice(od.getPrice());
-					double proceeds = 0;
+					productRevenue.setOrderDate(o.getOrderDate());
+					productRevenue.setMaster(p.getIsMaster());
 
+					double proceeds = 0;
 					if (isOrdered(o)) {
 						proceeds += od.getPrice() * (1 - od.getDiscount()) * od.getQuantity();
 					}
@@ -352,15 +357,67 @@ public class HomeAdmin implements IHomeAdmin {
 		return listCate;
 
 	}
-	
-	public  List<BrandCategory> addBrandCate(String cateName){
+
+	public List<BrandCategory> addBrandCate(String cateName) {
 		List<BrandCategory> listCate = new ArrayList<>();
-		
-		
-		
-		
-		
 		return listCate;
 	}
 
+	public List<ProductRevenue> ListAllReportProduct(List<ProductRevenue> listReportProduct, Integer brandId) {
+		System.out.println("brandID" + brandId);
+		List<ProductRevenue> result = new ArrayList<>(listReportProduct);
+
+		ProductFacade pf = new ProductFacade();
+		try {
+			for (Product p : pf.findAll()) {
+				if (p.getBrandId().getId() == brandId) {
+					boolean flag = true;
+					for (ProductRevenue productRevenue : listReportProduct) {
+						if (p.getId() == productRevenue.getId()) {
+							
+							// set again price folow new price and discount
+							productRevenue.setPrice(p.getPrice());
+							productRevenue.setDiscount(p.getDiscount());
+							productRevenue.setStatus(p.getStatus());
+							if(productRevenue.getStatus().equalsIgnoreCase("Disable")) {
+								result.remove(productRevenue);
+							}
+							flag = false;
+							break;
+						}
+					}
+					if (flag) {
+						ProductRevenue productRevenue = new ProductRevenue();
+						productRevenue.setId(p.getId());
+						productRevenue.setName(p.getName());
+						productRevenue.setImg(p.getIsMaster() ? p.getImgMaster() : p.getImgChild());
+						productRevenue.setDiscount(p.getDiscount());
+						productRevenue.setPrice(p.getPrice());
+						productRevenue.setProceeds(0);
+						productRevenue.setNumberOrdered(0);
+						productRevenue.setNumberDelivered(0);
+						productRevenue.setNumberCancel(0);
+						productRevenue.setMaster(p.getIsMaster());
+						productRevenue.setStatus(p.getStatus());
+						if(productRevenue.getStatus().equalsIgnoreCase("Active")) {
+							result.add(productRevenue);
+						}
+						
+					}
+				}
+
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	
+	private static String removeAccent(String s) {
+		  String temp = Normalizer.normalize(s, Normalizer.Form.NFD);
+		  Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+		  return pattern.matcher(temp).replaceAll("");
+		 }
 }

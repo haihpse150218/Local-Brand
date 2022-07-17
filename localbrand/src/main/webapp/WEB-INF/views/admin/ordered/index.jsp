@@ -12,8 +12,9 @@
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item"><a href="#"
 								class="breadcrumb-link">E-commerce</a></li>
-							<li class="breadcrumb-item active" aria-current="page">E-Commerce
-								Ordered</li>
+							<li class="breadcrumb-item active" aria-current="page">
+							E-Commerce Ordered
+							</li>
 						</ol>
 					</nav>
 				</div>
@@ -28,8 +29,8 @@
 					<form action="/localbrand/admin/ordered/search.do" method="get"
 						class="col-4">
 						<div class="input-group">
-							<input type="text" class="form-control"
-								placeholder="Search for orders">
+							<input type="text" name="searchCustomerName" value="${searchCustomerName}" class="form-control"
+								placeholder="Search By Customer Name">
 							<div class="input-group-append">
 								<button class="input-group-text bg-transparent text-primary">
 									<i class="fa fa-search"></i>
