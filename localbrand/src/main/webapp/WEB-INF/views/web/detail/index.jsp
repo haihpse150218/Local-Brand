@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
-
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html lang="en">
  <c:set var = "pChild" scope = "request" value = "${requestScope.pChild}"/>
+ <c:set var = "fDetail" scope = "request" value = "${requestScope.fDetail}"/>
+ <c:set var = "cusDetail" scope = "request" value = "${requestScope.cusDetail}"/>
+ 
  <c:set var = "product" scope = "request" value = "${requestScope.pDetail}"/>
  <c:set var = "brand" scope = "request" value = "${requestScope.bDetail}"/>
  <c:set var = "listSize" scope = "request" value = "${requestScope.listSize}"/>
@@ -62,6 +65,7 @@
                    
                     <c:if test="${empty pChild}">
                         <div class="carousel-item active">
+                           <!-- <img class="w-100 h-100" src="views/Images/imgMaster/Product1/product1.jpg" alt="Image"> -->
                             <img class="w-100 h-100" src="${product.imgMaster}" alt="Image">
                         </div>
                      </c:if>
@@ -192,11 +196,13 @@
             </div>
             </form>
         </div>
+        <form action="/localbrand/web/detail/createfb.do" method="GET">
+        <input type="hidden" id="productId" name="productId" value="${product.id}">
         <div class="row px-xl-5">
             <div class="col">
                 <div class="nav nav-tabs justify-content-center border-secondary mb-4">
                     <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">Description</a>
-                    <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">Reviews (0)</a>
+                    <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">Reviews (${fn:length(fDetail)})</a>
                 </div>
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="tab-pane-1">
@@ -205,23 +211,51 @@
                     </div>
                     <div class="tab-pane fade" id="tab-pane-2">
                         <div class="row">
+                        <c:if test="${empty fDetail}">
                             <div class="col-md-6">
-                                <h4 class="mb-4">1 review for "${product.name}"</h4>
+                                <h4 class="mb-4">0 review for "${product.name}"</h4>
                                 <div class="media mb-4">
-                                    <img src="" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
+                                    
                                     <div class="media-body">
-                                        <h6>John Doe<small> - <i>01 Jan 2045</i></small></h6>
-                                        <div class="text-primary mb-2">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star-half-alt"></i>
-                                            <i class="far fa-star"></i>
-                                        </div>
-                                        <p>Diam amet duo labore stet elitr ea clita ipsum, tempor labore accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed sed eirmod ipsum.</p>
+                                        
+                                        <p>No review</p>
                                     </div>
                                 </div>
                             </div>
+                            </c:if>
+                            <c:if test="${not empty fDetail}"> 
+                            
+                            <div class="col-md-6">
+                                <h4 class="mb-4">${fn:length(fDetail)} review for "${product.name}"</h4>
+                                <c:forEach items="${fDetail}" var="fDetail" varStatus="fCount" >
+                                <c:forEach items="${cusDetail}" var="cusDetail" varStatus="cusCount"  >
+                                	
+                                	<c:if test="${fCount.count == cusCount.count}">
+                                	
+                                		<div class="media mb-4">
+                                    	<img src="${cusDetail.avatar}" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
+                                    	<div class="media-body">
+                                        	<h6>${cusDetail.name}<small> - <i>${fDetail.feedbackTime}</i></small></h6>
+                                        	<div class="text-primary mb-2">
+                                            	<i class="fas fa-star"></i>
+                                            	<i class="fas fa-star"></i>
+                                            	<i class="fas fa-star"></i>
+                                            	<i class="fas fa-star-half-alt"></i>
+                                            	<i class="far fa-star"></i>
+                                            	${fDetail.voting}
+                                        	</div>
+                                        	<p>${fDetail.textComment}</p>
+                                        	
+                                    	</div>
+                                		</div>
+                                	    
+                                	</c:if>                                 	                  
+                                	
+                                </c:forEach>
+                                </c:forEach>
+                            </div>
+                            
+                            </c:if>
                             <div class="col-md-6">
                                 <h4 class="mb-4">Leave a review</h4>
                                 <small>Your email address will not be published. Required fields are marked *</small>
@@ -235,10 +269,11 @@
                                         <i class="far fa-star"></i>
                                     </div>
                                 </div>
+                                
                                 <form>
                                     <div class="form-group">
                                         <label for="message">Your Review *</label>
-                                        <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
+                                        <textarea id="message" cols="30" rows="5" class="form-control" name="textComment"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="name">Your Name *</label>
@@ -251,13 +286,14 @@
                                     <div class="form-group mb-0">
                                         <input type="submit" value="Leave Your Review" class="btn btn-primary px-3">
                                     </div>
-                                </form>
+                                </form>     
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        </form>
     </div>
     
     <!-- Shop Detail End -->

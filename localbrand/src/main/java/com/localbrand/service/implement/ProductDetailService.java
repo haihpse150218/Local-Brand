@@ -10,34 +10,58 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.localbrand.entities.Brand;
+import com.localbrand.entities.Customer;
+import com.localbrand.entities.Feedback;
+import com.localbrand.entities.Order;
 import com.localbrand.entities.Product;
 import com.localbrand.service.IProductDetail;
 import com.localbrand.sessionbeans.BrandFacade;
+import com.localbrand.sessionbeans.CustomerFacade;
+import com.localbrand.sessionbeans.FeedbackFacade;
+import com.localbrand.sessionbeans.OrderFacade;
 import com.localbrand.sessionbeans.ProductFacade;
 
 public class ProductDetailService implements IProductDetail{
 	private static ProductFacade productFacade = new ProductFacade();
 	private static BrandFacade brandFacade = new BrandFacade();
+	private static FeedbackFacade feedbackFacade = new FeedbackFacade();
+	private static OrderFacade orderFacade = new OrderFacade();
+	private static CustomerFacade customerFacade = new CustomerFacade();
 	@Override
 	public Product getProductDetail(int pid) {
 		Product product = null;
 		List<Product> listAllProduct = new ArrayList<>();
 		List<Product> listp = new ArrayList<>();
+		List<Feedback> listAllFeedback = new ArrayList<>();
+		List<Feedback> listf = new ArrayList<>();
 		try {
 			product = new Product();
 			product = productFacade.find(pid);
 			
 			listAllProduct = productFacade.findAll();
+			listAllFeedback = feedbackFacade.findAll();
 			for (Product p : listAllProduct) {
 				if (p.getIsMaster() ==false && p.getParentId().getId() == pid) {
 					listp.add(p);				
 					}
+			}
+			for (Feedback f : listAllFeedback) {
+				// master
+				if (product.getId() == f.getProductId().getId()) {
+					listf.add(f);
+				}
+				for (Product var : listp) {
+					if (var.getId() == f.getProductId().getId() && f.getTextComment() != null) {
+						listf.add(f);
+					}
+				}
 			}
 			} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		product.setProductList(listp);
+		product.setFeedbackList(listf);
 		return product;
 	}
 	@Override
@@ -109,6 +133,38 @@ public class ProductDetailService implements IProductDetail{
 			}
 		});
 		return result;
+	}
+	@Override
+	public void createFeedback(Feedback f) {
+		try {
+			feedbackFacade.create(f);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Override
+	public List<Customer> getCusByFb (List<Feedback> fb){
+		List<Order> listAllOrder = new ArrayList<>();
+		List<Customer> listcus = new ArrayList<>(); 
+		Customer cus = null;
+		
+		try {
+			listAllOrder = orderFacade.findAll();	
+			for (Feedback f:fb){
+				 for (Order o :listAllOrder) {
+					if (f.getOrderId().getId() == o.getId()) {
+						cus = customerFacade.find(o.getCustomerId().getId());
+						listcus.add(cus);
+					}
+				}
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return listcus;
 	}
 	public static <T> List<T> convertSetToList(Set<T> set)
     {
