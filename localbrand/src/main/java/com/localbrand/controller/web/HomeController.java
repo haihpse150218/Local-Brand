@@ -433,7 +433,7 @@ public class HomeController extends HttpServlet {
 		cart = service.addToCart(productid, quantity, cart);
 		System.out.println("product co quantity hien tai la : " + cart.getMap().get(productid).getQuantity());
 		session.setAttribute("cart", cart);
-
+		
 		int cartQuantity = 0;
 		if (cart != null) {
 			for (int key : cart.getMap().keySet()) {

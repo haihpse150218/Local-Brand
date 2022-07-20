@@ -21,7 +21,7 @@ import com.localbrand.service.models.Cart;
 /**
  * Servlet implementation class CartController
  */
-@WebServlet("/CartController")
+@WebServlet(urlPatterns="/web/cart")
 public class CartController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -126,7 +126,7 @@ public class CartController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		processRequest(request, response);
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -136,8 +136,7 @@ public class CartController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		processRequest(request, response);
 	}
 
 }

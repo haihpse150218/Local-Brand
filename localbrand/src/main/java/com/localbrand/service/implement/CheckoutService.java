@@ -24,7 +24,7 @@ public class CheckoutService implements ICheckoutService {
 	IViewCartService vcsv = new ViewCartService();
 	
 	public void checkout (Cart cart,int cusid) throws SQLException {
-		double total = vcsv.getDiscount(cusid)*vcsv.getTotalInCart(cart);
+		double total = (1-vcsv.getDiscount(cusid))*vcsv.getTotalInCart(cart);
 		//chia cart ra thanh cac order le
 		List<Cart> list = vcsv.getListCartProductByBrand(cart);
 		
@@ -39,14 +39,20 @@ public class CheckoutService implements ICheckoutService {
 			order.setOrderDate(new Date());
 			//mac dinh shipping
 			order.setStatus("shipping");
+			//tinh total tung brand
+			double totalByBrand = 0;
+			for (int key : brandOrders.getMap().keySet()) {
+				totalByBrand += brandOrders.getMap().get(key).getProduct().getPrice()
+						*(1-vcsv.getDiscount(cusid) - brandOrders.getMap().get(key).getProduct().getDiscount());
+			}
 			//tax 10%
-			order.setTax(total*0.1);
-			order.setTotal(total);
+			order.setTax(totalByBrand*0.1);
+			order.setTotal(totalByBrand);
 			orfc.create(order);
 			
 			//add order details
 			for (int key : brandOrders.getMap().keySet()) {
-				Product product = new Product();
+				Product product = brandOrders.getMap().get(key).getProduct();
 				OrderDetail orderDetails = new OrderDetail();
 				//discount = tier dis + product dis
 				orderDetails.setDiscount(vcsv.getDiscount(cusid)+product.getDiscount());

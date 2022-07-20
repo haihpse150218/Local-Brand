@@ -110,7 +110,7 @@ public class ViewCartService implements IViewCartService {
 			int quantity = cart.getMap().get(key).getQuantity() ;
 			double dis = cart.getMap().get(key).getProduct().getDiscount();
 			double price = cart.getMap().get(key).getProduct().getPrice();
-			total += quantity*dis*price;
+			total += quantity*(1-dis)*price;
 		}
 		return total;
 	}
