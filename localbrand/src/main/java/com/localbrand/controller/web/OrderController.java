@@ -34,7 +34,7 @@ public class OrderController extends HttpServlet {
 			case "index":
 				index(request, response);
 				break;
-			case "setStatusOrder":
+			case "setstatusorder":
 				setStatusOrder(request, response);
 				break;
 			
@@ -49,7 +49,7 @@ public class OrderController extends HttpServlet {
 		request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
 	}
 
-	private void index(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+	public void index(HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		HttpSession session = request.getSession();
 		Customer cus = (Customer) session.getAttribute("user");
 		

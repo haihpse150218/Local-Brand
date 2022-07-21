@@ -38,7 +38,7 @@ public class CheckoutService implements ICheckoutService {
 			//set Date
 			order.setOrderDate(new Date());
 			//mac dinh shipping
-			order.setStatus("shipping");
+			order.setStatus("Shipping");
 			//tinh total tung brand
 			double totalByBrand = 0;
 			for (int key : brandOrders.getMap().keySet()) {
@@ -56,7 +56,7 @@ public class CheckoutService implements ICheckoutService {
 				OrderDetail orderDetails = new OrderDetail();
 				//discount = tier dis + product dis
 				orderDetails.setDiscount(vcsv.getDiscount(cusid)+product.getDiscount());
-				orderDetails.setPrice(product.getPrice()*product.getDiscount());
+				orderDetails.setPrice(product.getPrice()* ( 1 - vcsv.getDiscount(cusid) - product.getDiscount()));
 				orderDetails.setProduct(new Product(product.getId()));
 				orderDetails.setQuantity(brandOrders.getMap().get(key).getQuantity());
 				
