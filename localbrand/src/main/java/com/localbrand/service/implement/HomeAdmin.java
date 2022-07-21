@@ -5,10 +5,14 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import com.localbrand.entities.BrandCategory;
+import com.localbrand.entities.Collection;
+import com.localbrand.entities.CollectionDetail;
 import com.localbrand.entities.Customer;
 import com.localbrand.entities.Order;
 import com.localbrand.entities.OrderDetail;
@@ -18,6 +22,8 @@ import com.localbrand.service.models.OrderObject;
 import com.localbrand.service.models.ProductRevenue;
 import com.localbrand.sessionbeans.BrandCategoryFacade;
 import com.localbrand.sessionbeans.CategoryFacade;
+import com.localbrand.sessionbeans.CollectionDetailFacade;
+import com.localbrand.sessionbeans.CollectionFacade;
 import com.localbrand.sessionbeans.CustomerFacade;
 import com.localbrand.sessionbeans.OrderDetailFacade;
 import com.localbrand.sessionbeans.OrderFacade;
@@ -414,6 +420,95 @@ public class HomeAdmin implements IHomeAdmin {
 		return result;
 	}
 
+	private static int YEAR_COUNT = 2;
+	public Map<Integer, Double> calculateRevenueByTime(int brandId) {
+		Map<Integer, Double> result = new HashMap<Integer, Double>();
+		OrderFacade of = new OrderFacade();
+		OrderDetailFacade odf = new OrderDetailFacade();
+		ProductFacade pf = new ProductFacade();
+		try {
+			for (OrderDetail od : odf.findAll()) {
+				Product prod = pf.find(od.getOrderDetailPK().getProductId());
+				if (prod.getBrandId().getId() == brandId) {
+					Order o = of.find(od.getOrderDetailPK().getOrderId());
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(o.getOrderDate());
+					int orderYear = calendar.get(Calendar.YEAR);
+					calendar.setTime(new Date());
+					int thisYear = calendar.get(Calendar.YEAR);
+					if (thisYear - orderYear <= YEAR_COUNT) {
+						if (result.containsKey(orderYear)) {
+							double newPrice = result.get(orderYear) + od.getPrice();
+							result.put(orderYear, newPrice);
+						} else {
+							result.put(orderYear, od.getPrice());
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	private double calculateRevenueFromProduct(int productId) {
+		double result = 0;
+		OrderDetailFacade odf = new OrderDetailFacade();
+		try {
+			for (OrderDetail od : odf.findAll()) {
+				if (od.getOrderDetailPK().getProductId() == productId) {
+					result += od.getPrice();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	private List<Product> getProductFromCollection(int collectionId) {
+		List<Product> list = new ArrayList<Product>();
+		ProductFacade pf = new ProductFacade();
+		CollectionDetailFacade cdf = new CollectionDetailFacade();
+		try {
+			for (CollectionDetail cd : cdf.findAll()) {
+				if (cd.getCollectionDetailPK().getCollectionId() == collectionId) {
+					list.add(pf.find(cd.getCollectionDetailPK().getProductId()));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	private List<Collection> getCollectionFromBrand(int brandId) {
+		List<Collection> list = new ArrayList<Collection>();
+		CollectionFacade cf = new CollectionFacade();
+		try {
+			for (Collection c : cf.findAll()) {
+				if (c.getBrandId().getId() == brandId) {
+					list.add(c);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public Map<Collection, Double> getCollectionRevenue(int brandId) {
+		Map<Collection, Double> revenueList = new HashMap<Collection, Double>();
+		for (Collection collection : getCollectionFromBrand(brandId)) {
+			Double revenue = 0d;
+			for (Product product : getProductFromCollection(collection.getId())) {
+				revenue += calculateRevenueFromProduct(product.getId());
+			}
+			revenueList.put(collection, revenue);
+		}
+		return revenueList;
+	}
 	
 	private static String removeAccent(String s) {
 		  String temp = Normalizer.normalize(s, Normalizer.Form.NFD);
