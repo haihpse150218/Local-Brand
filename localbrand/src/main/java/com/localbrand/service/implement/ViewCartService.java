@@ -68,18 +68,8 @@ public class ViewCartService implements IViewCartService {
 	
 	public double getDiscount (int cusid) throws SQLException {
 		Customer cus = getCustomer(cusid);
-		double discount = 0;
-		List <MembershipTier> list = new ArrayList<>();
-		//chay vong lap check tung tier
-		for (MembershipTier tier : list) {
-			//neu coin khong du tier thi dung vong lap
-			if (cus.getCoins()<tier.getMinimumCoins()) {
-				break;
-			}
-			//gan discount cua tier hien tai vao, bat dau tu unrank
-			discount = tier.getDiscount();
-		}
-		return discount;
+		MembershipTier mbt = msfc.find(cus.getRankId().getId());
+		return mbt.getDiscount();
 	}
 	
 	public Cart updateOrderQuantity (int productid, int updQuantity, Cart cart) throws SQLException {

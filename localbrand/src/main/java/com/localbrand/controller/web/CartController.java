@@ -92,8 +92,13 @@ public class CartController extends HttpServlet {
 
 		Cart cart = (Cart) session.getAttribute("cart");
 		cosv.checkout(cart, user.getId());
+		
+		//xoa cart
+		session.removeAttribute("cart");
 
 		// chuyen toi trang order
+		OrderController orctr = new OrderController();
+		orctr.index(request,response);
 		request.setAttribute("controller", "/order");
 		request.setAttribute("action", "index");
 
@@ -105,14 +110,15 @@ public class CartController extends HttpServlet {
 		HttpSession session = request.getSession();
 		Customer user = (Customer) session.getAttribute("user");
 		Cart cart = (Cart) session.getAttribute("cart");
-
-		double memberDiscount = vcsv.getDiscount(user.getId());
-		request.setAttribute("memberDiscount", memberDiscount);
-
-		List<Cart> list = vcsv.getListCartProductByBrand(cart);
+		double total = 0;
+		if (cart == null) {
+			System.out.println("cart null !");
+		} else {
+			List<Cart> list = vcsv.getListCartProductByBrand(cart);
 		request.setAttribute("listCartByBrand", list);
+		total = vcsv.getTotalInCart(cart) * vcsv.getDiscount(user.getId());
+		}
 
-		double total = vcsv.getTotalInCart(cart) * vcsv.getDiscount(user.getId());
 		request.setAttribute("totalPrice", total);
 
 		// index cua view cart

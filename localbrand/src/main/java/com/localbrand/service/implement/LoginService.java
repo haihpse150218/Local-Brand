@@ -19,6 +19,11 @@ public class LoginService implements ILogin {
 			
 			for (Customer customer : list) {
 				if ((username.trim()).equalsIgnoreCase(customer.getUsername())) {
+					
+					MembershipTierFacade service = new MembershipTierFacade();
+					MembershipTier mbt = service.find(customer.getRankId().getId());
+					customer.setRankId(mbt);
+					
 					returnCustomer = customer;
 					break;
 				}
@@ -39,10 +44,6 @@ public class LoginService implements ILogin {
 			loginCustomer = null;
 			throw new Exception("Incorrect Password!");
 		}
-		
-		MembershipTierFacade service = new MembershipTierFacade();
-		MembershipTier mbt = service.find(loginCustomer);
-		loginCustomer.setRankId(mbt);
 		
 		return loginCustomer;
 	}

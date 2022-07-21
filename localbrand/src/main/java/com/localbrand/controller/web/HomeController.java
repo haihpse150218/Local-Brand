@@ -204,6 +204,7 @@ public class HomeController extends HttpServlet {
 			System.out.println("LOGIN SUCCESS");
 		} catch (Exception e) {
 			request.setAttribute("LOGIN_ERROR", e.getMessage());
+			System.out.println("LOGIN FAIL");
 		}
 
 
