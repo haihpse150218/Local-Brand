@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/libs/css/style.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <title>Concept - Bootstrap 4 Admin Dashboard Template</title>
+
+    <style>
+        #map {
+            height: 100%;
+        }
+    </style>
+    <!-- <script src='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css' rel='stylesheet' /> -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
+
+</head>
+
+<body>
+
+    <div class="dashboard-main-wrapper">
+        <div class="dashboard-wrapper">
+            <div class=" card-header">
+                <h5 class="">Public Infomation</h5>
+                <button class="btn bg-primary" type="button" onclick="return OpenModal(-1);" data-toggle="modal" data-target="#Information-Modal">
+                        Change Information</i> 
+                    </button>
+            </div>
+            <div class="mb-3 container-fluid">
+                <div class="row  h-100" style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/76.jpg');min-height: 300px">
+                    <div class="col-4 align-items-center text-center p-3 py-5">
+                        <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+                    </div>
+                    <div class="col-8 d-flex flex-column align-items-center justify-content-center">
+                        <h1 class="font-weight-semi-bold text-uppercase mb-3">Ten Shop</h1>
+                        <div class="d-inline-flex">
+                            <p class="m-0"><a href="">Home</a></p>
+                            <p class="m-0 px-2">-</p>
+                            <p class="m-0">Public Infomation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid text-dark" style="background-color: #ecafaa ">
+                <div class="row px-xl-5 pt-5">
+                    <div class="col-lg-4 col-md-12 mb-55 pr-3 pr-xl-5">
+
+                        <a href="" class="text-decoration-none">
+                            <h1 class="mb-4 display-5 font-weight-semi-bold">Ten Shop</h1>
+                        </a>
+                        <p>Mong rang se dem lai cho quy khach trai nghiem tot nhat</p>
+                        <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>123 Duong 13, Khu Pho 4, Thu Duc, TP.HCM</p>
+                        <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>Lo 37 Khu CNC, Quan 9, TP.HCM</p>
+
+                        <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>info@example.com</p>
+                        <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>+012 345 67890</p>
+
+                    </div>
+                    <div class="col-lg-8 col-md-12">
+                        <div class=" mb-5">
+                            <div id="map" style="height: 250px ;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bd-example-modal-lg" id="Information-Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="window-Text">Edit Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/localbrand/admin/information/update.do" id="Information-action" method="get">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-4">
+                                <label for="Information-id" id="id-label" class="col-form-label">ID :</label>
+                                <input type="text" name="txtId" class="form-control" id="Information-id" readonly="true">
+                            </div>
+                            <div class="form-group col-8">
+                                <label for="Information-brandname" class="col-form-label">Brand Name :</label>
+                                <input type="text" name="txtBrandName" class="form-control" id="Information-brandname" required="true">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Information-address" class="col-form-label">Address :</label>
+                            <input type="text" name="txtAddress" class="form-control" id="Information-address" required="true">
+                        </div>
+                        <div class="row">
+                            <div class='form-group col-6'>
+                                <label class='col-form-label'>Lat :</label>
+                                <input type='text' name='txtLat' class='form-control' required="true">
+                            </div>
+                            <div class='form-group col-6'>
+                                <label class='col-form-label'>Long :</label>
+                                <input type='text' name='txtLong' class='form-control ' required="true">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class='form-group col-6'>
+                                <label class='col-form-label'>Icon :</label>
+                                <input type='text' name='txtIcon' class='form-control' required="true">
+                            </div>
+                            <div class='form-group col-6'>
+                                <label class='col-form-label'>Image :</label>
+                                <input type='text' name='txtImage' class='form-control' required="true">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Information-email" class="col-form-label">Email :</label>
+                            <input type="text" name="txtEmail" class="form-control" id="Information-email" required="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="Information-phone" class="col-form-label">Phone :</label>
+                            <input type="text" name="txtPhone" class="form-control" id="Information-phone" required="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="Information-description">Desctiption :</label>
+                            <textarea class="form-control" id="Information-description" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="Information-status" class="col-form-label">Status :</label>
+                            <select class="form-control" name="txtStatus" id="Information-status">
+                                <option>active</option>
+                                <option>close</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- end main wrapper  -->
+    <script>
+        // chinh sua view o day 
+        var map = L.map('map').setView([10.8432898, 106.79821], 13);
+        // vi tri cac chi nhanh o day
+        L.marker([10.8432898, 106.79821]).addTo(map);
+
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1,
+            accessToken: 'pk.eyJ1Ijoibmd1eWVubmFtMDIwNjIwMSIsImEiOiJjbDM0YTl4N3oybnEyM2pvNXl0eXJpOWs5In0.Otjl-Mb7GrEYE5kXxW4qAQ'
+        }).addTo(map);
+        var x = document.getElementById("demo");
+        // function lay location cua user
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
+        }
+
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    x.innerHTML = "User denied the request for Geolocation."
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    x.innerHTML = "Location information is unavailable."
+                    break;
+                case error.TIMEOUT:
+                    x.innerHTML = "The request to get user location timed out."
+                    break;
+                case error.UNKNOWN_ERROR:
+                    x.innerHTML = "An unknown error occurred."
+                    break;
+            }
+        }
+        getLocation();
+    </script>
+    <!-- ============================================================== -->
+    <!-- Optional JavaScript -->
+    <!-- jquery 3.3.1  -->
+    <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <!-- bootstap bundle js-->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <!-- slimscroll js-->
+    <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+    <!-- main js-->
+    <script src="assets/libs/js/main-js.js"></script>
+</body>
+
+
+</html>
