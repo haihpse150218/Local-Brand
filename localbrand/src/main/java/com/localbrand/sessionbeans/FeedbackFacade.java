@@ -1,6 +1,7 @@
 package com.localbrand.sessionbeans;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,9 +32,11 @@ public class FeedbackFacade extends AbstractFacade<Feedback> {
 		checkNull(t);
 		
 		PreparedStatement ptm = con.prepareStatement(sql);
-		ptm.setString(1, 
-			(t.getFeedbackTime().getYear() + "-" + t.getFeedbackTime().getMonth() + "-" + t.getFeedbackTime().getDate()
-			+ " " + t.getFeedbackTime().getHours() + ":" + t.getFeedbackTime().getMinutes() + ":" + t.getFeedbackTime().getSeconds()));
+		//ptm.setString(1, 
+		//	(t.getFeedbackTime().getYear() + "-" + t.getFeedbackTime().getMonth() + "-" + t.getFeedbackTime().getDate()
+		//	+ " " + t.getFeedbackTime().getHours() + ":" + t.getFeedbackTime().getMinutes() + ":" + t.getFeedbackTime().getSeconds()));
+		java.sql.Date sqlFeedbackTime = new java.sql.Date(t.getFeedbackTime().getTime());
+		ptm.setDate(1, sqlFeedbackTime);
 		ptm.setNString(2, t.getTextComment());
 		ptm.setDouble(3, t.getVoting());
 		ptm.setInt(4, t.getStatus());

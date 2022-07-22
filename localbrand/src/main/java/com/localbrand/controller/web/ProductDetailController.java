@@ -54,7 +54,7 @@ public class ProductDetailController extends HttpServlet {
 	}
 	private void index(HttpServletRequest request, HttpServletResponse response) {
 		
-		int pid =  Integer.parseInt(request.getParameter("productId")); 
+		int pid =  Integer.parseInt(request.getParameter("productid")); 
 		System.out.println("pid " + pid);
 		ProductDetailService pds = new ProductDetailService();
 		Product listp = pds.getProductDetail(pid);
@@ -87,15 +87,12 @@ public class ProductDetailController extends HttpServlet {
 		Double voting = Double.parseDouble(request.getParameter("stars"));
 		int pid =  Integer.parseInt(request.getParameter("productId"));
 		int oid =  Integer.parseInt(request.getParameter("orderId"));
-		
-		Date today = new Date();
-		Date date =  new Date(today.getYear()+1900 ,today.getMonth()+1,today.getDate(), today.getHours(),today.getMinutes(),today.getSeconds());
 		Product p = new Product();
 		Order o = new Order();
 		Feedback f = new Feedback();
 		p.setId(pid);
 		o.setId(oid);
-		f.setFeedbackTime(date);
+		f.setFeedbackTime(new Date());
 		f.setTextComment(tcmt);
 		f.setVoting(voting);
 		f.setStatus(1);
