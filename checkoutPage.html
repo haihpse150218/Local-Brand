@@ -232,7 +232,7 @@
             option_str.length = 0;
             option_str.options[0] = new Option('Select Distric', '');
             option_str.selectedIndex = 0;
-            var distric_arr = s_a[city_index].split("|");
+            var distric_arr = s_a[city_index - 1].split("|");
 
             for (var i = 0; i < distric_arr.length; i++) {
 
