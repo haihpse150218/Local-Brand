@@ -54,30 +54,34 @@
     <!-- Page Header End -->
 
     <!-- Shop Detail Start -->
-    
+
+  
     <div class="container-fluid py-5">
-    <form action="/localbrand/web/cart/index.do" method="GET">
+    <form action="/localbrand/web/home/addtocart.do" method="GET">
         <div class="row px-xl-5">
             <div class="col-lg-5 pb-5">
                 <div id="product-carousel" class="carousel slide" data-ride="carousel">
                     <!-- neu co nhieu product con thi them vao day-->
-                    <div class="carousel-inner border">
+                    <div class="carousel-inner border">	
                    
                     <c:if test="${empty pChild}">
                         <div class="carousel-item active">
-                           <!-- <img class="w-100 h-100" src="views/Images/imgMaster/Product1/product1.jpg" alt="Image"> -->
-                            <img class="w-100 h-100" src="${product.imgMaster}" alt="Image">
+                          <!--  <img class="w-100 h-100" src="/localbrand/assets/img/Product1/product1.jpg" alt="Image"> -->
+                            <img class="w-100 h-100" src="${product.imgMaster}" alt="Image"> 
                         </div>
                      </c:if>
-                     
+                    
                      <c:if test="${not empty pChild}">
                      <div class="carousel-item active">
-                            <img class="w-100 h-100" src="${product.imgMaster}" alt="Image">
+                     
+                    <!--  <img class="w-100 h-100" src="/localbrand/assets/img/Product1/product1.jpg" alt="Image"> -->
+                            <img class="w-100 h-100" src="${product.imgMaster}" alt="Image"> 
                         </div>
                      <c:forEach items="${pChild}" var="pChild">
                      	<c:if test="${not empty pChild.imgChild}">
                         	<div class="carousel-item">
-                            	<img class="w-100 h-100" src="${pChild.imgChild}" alt="Image">
+                        	<!-- <img class="w-100 h-100" src="/localbrand/assets/img/Product1/product1.jpg" alt="Image"> -->
+                            	 <img class="w-100 h-100" src="${pChild.imgChild}" alt="Image"> 
                         	</div>
                      	</c:if>
                      </c:forEach>   
@@ -161,13 +165,13 @@
                 <div class="d-flex align-items-center mb-4 pt-2">
                     <div class="input-group quantity mr-3" style="width: 130px;">
                         <div class="input-group-btn">
-                            <button class="btn btn-primary btn-minus">
+                            <button class="btn btn-primary btn-minus" onclick="buttonClickDecrease();" type="button">
                             <i class="fa fa-minus"></i>
                             </button>
                         </div>
-                        <input type="text" class="form-control bg-secondary text-center input-number" value="1" min="1" max="10" name="quantity">
+                        <input type="text" class="form-control bg-secondary text-center input-number" value="1" min="1" max="10" name="quantity" id="quantity">
                         <div class="input-group-btn">
-                            <button class="btn btn-primary btn-plus">
+                            <button class="btn btn-primary btn-plus" onclick="buttonClickIncrease();" type="button">
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>
@@ -183,12 +187,12 @@
                     	<button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
                     </a>
                     </c:if> -->
-                    <input type="hidden" id="productId" name="productId" value="${product.id}">
+                    <input type="hidden" id="productId" name="productid" value="${product.id}">
                     <c:if test="${empty pChild}">
-					 	<input type="hidden" id="productId" name="isMaster" value="${product.isMaster}">
+					 	<input type="hidden" id="productid" name="isMaster" value="${product.isMaster}">
 					</c:if>
 					<c:if test="${not empty pChild}">
-						<input type="hidden" id="productId" name="isMaster" value="false">
+						<input type="hidden" id="productid" name="isMaster" value="false">
 					</c:if>
                     <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
                 </div>
@@ -409,6 +413,14 @@
 	-->
     <!-- Template Javascript 
     <script src="js/main.js"></script>-->
+    <script>
+    function buttonClickDecrease() {       
+        document.getElementById('quantity').value --;
+    }
+    function buttonClickIncrease() {       
+        document.getElementById('quantity').value ++;
+    }
+	</script>
 </body>
 
 </html>
