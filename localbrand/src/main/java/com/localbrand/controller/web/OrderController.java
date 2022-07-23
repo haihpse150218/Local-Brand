@@ -72,10 +72,10 @@ public class OrderController extends HttpServlet {
 		IMemberOrderHistory mosv = new MemberOrderService();
 
 		int orderid = Integer.parseInt(request.getParameter("orderid"));
-		String orderstatus = request.getParameter("orderstatus");
+		String orderstatus = request.getParameter("updorderstatus");
 
 		mosv.setOrderStatus(orderid, orderstatus);
-
+		
 		// quay ve trang index order
 		index(request, response);
 		request.setAttribute("controller", "/order");
