@@ -42,7 +42,7 @@
 						<div class="dropdown float-right">
 							<button class="btn bg-white dropdown-toggle " type="button"
 								id="triggerId" data-toggle="dropdown" aria-haspopup="true"
-								aria-expanded="false">Fillter by</button>
+								aria-expanded="false">Filter by</button>
 							<div class="dropdown-menu dropdown-menu-right "
 								aria-labelledby="triggerId">
 								<a class="dropdown-item" href="/localbrand/admin/ordered/fillter.do?op=intransit">InTransit</a> <a
