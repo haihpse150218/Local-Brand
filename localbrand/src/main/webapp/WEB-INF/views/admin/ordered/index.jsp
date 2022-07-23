@@ -71,10 +71,12 @@
 							<tr class="border-0">
 								<th class="border-0">#</th>
 								<th class="border-0">Order ID</th>
-								<th class="border-0">Total Quantity</th>
 								<th class="border-0">Total Price</th>
 								<th class="border-0">Order Time</th>
-								<th class="border-0">Customer</th>
+								<th class="border-0">Customer Name</th>
+								<th class="border-0">Customer Phone</th>
+								<th class="border-0">Customer Address</th>
+								<th class="border-0">Customer Email</th>
 								<th class="border-0">Status</th>
 								<th class="border-0">Action</th>
 							</tr>
@@ -84,11 +86,16 @@
 								<tr>
 									<td>${loop.count}</td>
 									<td>${order.id}</td>
-									<td>${order.quantity}</td>
-									<td>${order.total}</td>
+									<td>
+									<fmt:setLocale value="vi_VN" /> <fmt:formatNumber
+													value="${order.total}" type="currency" />
+									</td>
 									<td><fmt:formatDate value="${order.orderDate}"
 											pattern="dd-MM-yyyy" /></td>
 									<td>${order.customerId.name}</td>
+									<td>${order.customerId.phone}</td>
+									<td>${order.customerId.address}</td>
+									<td>${order.customerId.email}</td>
 									<td>${order.status}</td>
 									<td><a href="#" class="btn btn-outline-light"
 										data-toggle="modal" data-target=".orderid${order.id}">View
@@ -132,7 +139,7 @@
 											<td>${orderDetail.quantity}</td>
 											<td><fmt:formatNumber type="percent"
 													value="${orderDetail.discount}" /></td>
-											<td><fmt:setLocale value="en_US" /> <fmt:formatNumber
+											<td><fmt:setLocale value="vi_VN" /> <fmt:formatNumber
 													value="${orderDetail.price}" type="currency" /></td>
 										</tr>
 									</c:forEach>

@@ -87,7 +87,7 @@ public class HomeAdmin implements IHomeAdmin {
 
 	public double caculateTotalPrice(OrderDetail od) {
 		OrderDetailFacade of = new OrderDetailFacade();
-		double totalPrice = od.getPrice() * (1 - od.getDiscount()) * od.getQuantity();
+		double totalPrice = od.getPrice() ;
 		return totalPrice;
 	}
 

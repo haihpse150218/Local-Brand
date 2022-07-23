@@ -43,7 +43,10 @@
 								<tr>
 									<td>${loop.count}</td>
 									<td>${order.id}</td>
-									<td>${order.total}</td>
+									<td>
+									<fmt:setLocale value="vi_VN" /> <fmt:formatNumber
+													value="${order.total}" type="currency" />
+									</td>
 									<td><fmt:formatDate value="${order.orderDate}"
 											pattern="dd-MM-yyyy" /></td>
 									<td>${order.status}</td>
@@ -100,7 +103,7 @@
 											<td>${orderDetail.quantity}</td>
 											<td><fmt:formatNumber type="percent"
 													value="${orderDetail.discount}" /></td>
-											<td><fmt:setLocale value="en_US" /> <fmt:formatNumber
+											<td><fmt:setLocale value="vi_VN" /> <fmt:formatNumber
 													value="${orderDetail.price}" type="currency" /></td>
 										</tr>
 									</c:forEach>
