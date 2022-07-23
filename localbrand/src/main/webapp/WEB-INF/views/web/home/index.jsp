@@ -110,7 +110,7 @@
 			</div>
 
 
-
+			<%-- trang home khong can phan trang
 			<!-- Phan trang -->
 			<div class="col-12 pb-1">
 				<nav aria-label="Page navigation">
@@ -163,6 +163,7 @@
 				</nav>
 			</div>
 			<!-- end phan trang -->
+			--%>
 		</div>
 	</div>
 	<!-- Shop Product End -->

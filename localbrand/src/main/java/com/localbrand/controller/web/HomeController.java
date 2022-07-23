@@ -266,12 +266,12 @@ public class HomeController extends HttpServlet {
 		session.setAttribute("cartQuantity", cartQuantity);
 
 		List<Product> listTopProduct = service.getTopProduct();
-		request.setAttribute("listTopProduct", listTopProduct);
+		request.setAttribute("list", listTopProduct);
 		System.out.println("top 6 product size : " + listTopProduct.size());
 
-		List<Collection> listTopCollection = service.getTopCollection();
-		request.setAttribute("listTopCollection", listTopCollection);
-		System.out.println("top 5 collection size : " + listTopCollection.size());
+		//List<Collection> listTopCollection = service.getTopCollection();
+		//request.setAttribute("listTopCollection", listTopCollection);
+		//System.out.println("top 5 collection size : " + listTopCollection.size());
 
 		// List <Product> listAllProduct = service.getListProduct();
 		List<Brand> listAllBrand = service.getBrandList();
@@ -279,7 +279,8 @@ public class HomeController extends HttpServlet {
 		session.setAttribute("listAllBrand", listAllBrand);
 
 		session.setAttribute("uriaction", "index");
-
+		
+		/*
 		// setup parameter paging
 		int pageSize = 6;
 		PagingService paging = new PagingService();
@@ -315,8 +316,9 @@ public class HomeController extends HttpServlet {
 		String controller = uri.substring(uri.lastIndexOf("/"));
 		System.out.println("controller uri : " + controller);
 		session.setAttribute("uri", controller);
+		*/
 
-		request.setAttribute("controller", controller);
+		request.setAttribute("controller", "/home");
 		request.setAttribute("action", "index");
 	}
 

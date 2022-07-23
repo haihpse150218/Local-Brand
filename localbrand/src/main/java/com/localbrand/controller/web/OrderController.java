@@ -19,15 +19,15 @@ import com.localbrand.service.implement.MemberOrderService;
 /**
  * Servlet implementation class OrderController
  */
-@WebServlet(urlPatterns="/web/order")
+@WebServlet(urlPatterns = "/web/order")
 public class OrderController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 		try {
-			
+
 			String action = request.getAttribute("action").toString();
 			System.out.println("actione ne:" + action);
 			switch (action) {
@@ -37,7 +37,7 @@ public class OrderController extends HttpServlet {
 			case "setstatusorder":
 				setStatusOrder(request, response);
 				break;
-			
+
 			default:
 				request.setAttribute("controller", "/error");
 				request.setAttribute("action", "index");
@@ -52,42 +52,52 @@ public class OrderController extends HttpServlet {
 	public void index(HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		HttpSession session = request.getSession();
 		Customer cus = (Customer) session.getAttribute("user");
-		
+
 		IMemberOrderHistory mosv = new MemberOrderService();
+		String orderstatus = request.getParameter("orderstatus");
 		
-		List<Order> listOrder = mosv.getMemberListOrder(cus.getId());
+		List<Order> listOrder = mosv.getMemberListOrder(cus.getId(),orderstatus);
+		
+		if (orderstatus == "")
+			orderstatus = "ALL";
+		
+		request.setAttribute("orderstatus", orderstatus);		
 		request.setAttribute("LIST_ORDER", listOrder);
 
 		request.setAttribute("controller", "/order");
 		request.setAttribute("action", "index");
 	}
-	
+
 	private void setStatusOrder(HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		IMemberOrderHistory mosv = new MemberOrderService();
-		
+
 		int orderid = Integer.parseInt(request.getParameter("orderid"));
 		String orderstatus = request.getParameter("orderstatus");
-		
+
 		mosv.setOrderStatus(orderid, orderstatus);
-		
-		//quay ve trang index order
-		index(request,response);
+
+		// quay ve trang index order
+		index(request, response);
 		request.setAttribute("controller", "/order");
 		request.setAttribute("action", "index");
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		processRequest(request, response);
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		processRequest(request, response);
 	}
 

@@ -37,8 +37,8 @@ public class CheckoutService implements ICheckoutService {
 			order.setPayId(new Payment(3));
 			//set Date
 			order.setOrderDate(new Date());
-			//mac dinh shipping
-			order.setStatus("Shipping");
+			//mac dinh preparing
+			order.setStatus("Preparing");
 			//tinh total tung brand
 			double totalByBrand = 0;
 			for (int key : brandOrders.getMap().keySet()) {
