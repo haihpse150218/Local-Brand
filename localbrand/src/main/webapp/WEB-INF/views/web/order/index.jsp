@@ -52,10 +52,10 @@
 									<td>${order.status}</td>
 									<td>
 									<c:if test="${order.status == 'Preparing'}">
-									<a href="/localbrand/web/order/setstatusorder?orderstatus=Canceled" class="nav-item nav-link">Cancel order</a>
+									<a href="/localbrand/web/order/setstatusorder.do?updorderstatus=Canceled&orderid=${order.id}&orderstatus=" class="nav-item nav-link">Cancel order</a>
 									</c:if>
 									<c:if test="${order.status == 'Shipping'}">
-									<a href="/localbrand/web/order/setstatusorder?orderstatus=Received" class="nav-item nav-link">I received order successfully!</a>
+									<a href="/localbrand/web/order/setstatusorder.do?updorderstatus=Received&orderid=${order.id}&orderstatus=" class="nav-item nav-link">I received order successfully!</a>
 									</c:if>
 									<c:if test="${order.status == 'Received'}">
 									feedback o day
