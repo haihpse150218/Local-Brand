@@ -96,7 +96,26 @@
 									<td>${order.customerId.phone}</td>
 									<td>${order.customerId.address}</td>
 									<td>${order.customerId.email}</td>
-									<td>${order.status}</td>
+									<td>
+										<button class="btn btn-primary dropdown-toggle" 
+											type="button" id="dropdownMenuButton" 
+											data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+   	 										${order.status}
+  										</button>
+										<span class="dropdown-menu"
+											aria-labelledby="triggerId">
+											<a class="dropdown-item"
+												href="/localbrand/admin/ordered/update.do?orderId=${order.id}&status=Received">Received</a>
+											<a class="dropdown-item"
+												href="/localbrand/admin/ordered/update.do?orderId=${order.id}&status=Shipping Failed">Shipping Failed</a> 
+											<a class="dropdown-item"
+												href="/localbrand/admin/ordered/update.do?orderId=${order.id}&status=Shipping">Shipping</a>
+											<a class="dropdown-item"
+												href="/localbrand/admin/ordered/update.do?orderId=${order.id}&status=Preparing">Preparing</a>
+											<a class="dropdown-item"
+												href="/localbrand/admin/ordered/update.do?orderId=${order.id}&status=Cancelled">Cancelled</a>
+										</span>
+									</td>
 									<td><a href="#" class="btn btn-outline-light"
 										data-toggle="modal" data-target=".orderid${order.id}">View
 											Details</a></td>
