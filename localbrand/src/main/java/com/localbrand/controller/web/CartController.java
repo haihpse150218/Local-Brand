@@ -104,13 +104,13 @@ public class CartController extends HttpServlet {
 		double total = 0;
 		double totalDis = 0;
 		double totalCart = 0;
-		int feeShip = 0;
+		double feeShip = 0;
 
 		if (cart == null) {
 			System.out.println("cart null !");
 		} else {
 			if (user != null)
-				total = vcsv.getTotalInCart(cart) * (1 - vcsv.getDiscount(user.getId()));
+				total = vcsv.getTotalInCart(cart) * (1 - user.getRankId().getDiscount());
 			else
 				total = vcsv.getTotalInCart(cart);
 			totalCart = vcsv.getTotalInCart(cart);
@@ -119,11 +119,7 @@ public class CartController extends HttpServlet {
 			feeShip = 30000 * list.size();
 		}
 
-		if (user != null)
-			totalDis = total * user.getRankId().getDiscount();
-
 		request.setAttribute("totalPrice", total + feeShip);
-		request.setAttribute("totalDis", totalDis);
 		request.setAttribute("totalCart", totalCart);
 		request.setAttribute("feeShip", feeShip);
 		session.setAttribute("cartQuantity", hosv.CartQuantityCount(cart));
@@ -148,9 +144,10 @@ public class CartController extends HttpServlet {
 		String phone = request.getParameter("phone");
 		String address = request.getParameter("address");
 
-		if (user.getAddress()!=address) {
+		if (!user.getAddress().equalsIgnoreCase(address)) {
 			String city = request.getParameter("city");
 			String district = request.getParameter("district");
+			if (city != null && district != null)
 			address += ", " + district + ", " + city;
 			System.out.println("address ne : " + address);
 		}
@@ -195,7 +192,7 @@ public class CartController extends HttpServlet {
 			cosv.checkout(cart, user.getId());
 			// xoa cart
 			session.removeAttribute("cart");
-			session.setAttribute("cartQuantity", hosv.CartQuantityCount(cart));
+			session.setAttribute("cartQuantity", 0);
 
 			// chuyen toi trang order
 			request.setAttribute("orderstatus", "");
@@ -212,14 +209,13 @@ public class CartController extends HttpServlet {
 		Customer user = (Customer) session.getAttribute("user");
 		Cart cart = (Cart) session.getAttribute("cart");
 		double total = 0;
-		double totalDis = 0;
 		double totalCart = 0;
-		int feeShip = 0;
+		double feeShip = 0;
 		if (cart == null) {
 			System.out.println("cart null !");
 		} else {
 			if (user != null)
-				total = vcsv.getTotalInCart(cart) * (1 - vcsv.getDiscount(user.getId()));
+				total = vcsv.getTotalInCart(cart) * (1 - user.getRankId().getDiscount());
 			else
 				total = vcsv.getTotalInCart(cart);
 			totalCart = vcsv.getTotalInCart(cart);
@@ -228,11 +224,7 @@ public class CartController extends HttpServlet {
 			feeShip = 30000 * list.size();
 		}
 
-		if (user != null)
-			totalDis = total * user.getRankId().getDiscount();
-
 		request.setAttribute("totalPrice", total + feeShip);
-		request.setAttribute("totalDis", totalDis);
 		request.setAttribute("totalCart", totalCart);
 		request.setAttribute("feeShip", feeShip);
 

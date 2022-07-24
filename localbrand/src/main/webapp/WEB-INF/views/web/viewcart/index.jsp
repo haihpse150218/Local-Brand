@@ -138,7 +138,7 @@
 						<h6 class="font-weight-medium"></h6>
 						<h6 class="font-weight-medium">
 							<fmt:setLocale value="vi_VN" />
-							<fmt:formatNumber value="-${requestScope.totalDis}"
+							<fmt:formatNumber value="-${requestScope.totalCart + requestScope.feeShip - requestScope.totalPrice}"
 								type="currency" />
 						</h6>
 					</div>
