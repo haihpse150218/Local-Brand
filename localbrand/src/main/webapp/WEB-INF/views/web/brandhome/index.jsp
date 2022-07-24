@@ -214,7 +214,7 @@
 									</div>
 									<div
 										class="card-footer d-flex justify-content-between bg-light border">
-										<a href="/localbrand/web/detail/index.do?productId=${product.id}" class="mx-auto btn btn-sm text-dark p-0"><i
+										<a href="/localbrand/web/detail/index.do?productid=${product.id}" class="mx-auto btn btn-sm text-dark p-0" target="_blank"><i
 											class="fas fa-eye text-primary mr-1"></i>View Detail</a> 
 									</div>
 								</div>

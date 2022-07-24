@@ -96,11 +96,14 @@
 									</div>
 									<div
 										class="card-footer d-flex justify-content-between bg-light border">
-										<a href="/localbrand/web/detail/index.do?productId=${product.id}" class="btn btn-sm text-dark p-0"><i
-											class="fas fa-eye text-primary mr-1"></i>View Detail</a> <a
+										<a href="/localbrand/web/detail/index.do?productid=${product.id}" class="mx-auto btn btn-sm text-dark p-0" target="_blank"><i
+											class="fas fa-eye text-primary mr-1"></i>View Detail</a> 
+											<%--
+											<a
 											href="/localbrand/web/home/addtocart.do?productid=${product.id}&quantity=1" class="btn btn-sm text-dark p-0"><i
 											class="fas fa-shopping-cart text-primary mr-1"></i>Add To
 											Cart</a>
+											--%>
 									</div>
 								</div>
 							</div>

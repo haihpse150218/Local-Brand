@@ -27,7 +27,8 @@ public class OrderController extends HttpServlet {
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 		try {
-
+			HttpSession session = request.getSession();
+			session.removeAttribute("brandId");
 			String action = request.getAttribute("action").toString();
 			System.out.println("actione ne:" + action);
 			switch (action) {

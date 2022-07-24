@@ -20,7 +20,9 @@ import com.localbrand.entities.Customer;
 import com.localbrand.entities.Feedback;
 import com.localbrand.entities.Order;
 import com.localbrand.entities.Product;
+import com.localbrand.service.implement.HomeService;
 import com.localbrand.service.implement.ProductDetailService;
+import com.localbrand.service.models.Cart;
 
 /**
  * Servlet implementation class ProductDetailController
@@ -28,23 +30,31 @@ import com.localbrand.service.implement.ProductDetailService;
 @WebServlet(urlPatterns = "/web/detail")
 public class ProductDetailController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 		String action = request.getAttribute("action").toString();
 		String tcmt = request.getParameter("textComment");
-		System.out.println("action ne:"+action);
-		System.out.println("cmt ne: "+tcmt);
+		System.out.println("action ne:" + action);
+		System.out.println("cmt ne: " + tcmt);
 		switch (action) {
 		case "index":
 			index(request, response);
-			break;		
+			break;
 		case "viewdetail":
 			viewDetail(request, response);
 			break;
 		case "createfb":
 			createFeedback(request, response);
+			break;
+		case "addtocart":
+			try {
+				addToCart(request, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			break;
 		default:
 			request.setAttribute("controller", "/error");
@@ -52,9 +62,45 @@ public class ProductDetailController extends HttpServlet {
 		}
 		request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
 	}
-	private void index(HttpServletRequest request, HttpServletResponse response) {
+
+	private void addToCart(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		Cart cart = (Cart) session.getAttribute("cart");
 		
-		int pid =  Integer.parseInt(request.getParameter("productid")); 
+		int productid = Integer.parseInt(request.getParameter("productid"));
+		int quantity = Integer.parseInt(request.getParameter("quantity"));
+		HomeService service = new HomeService();
+
+		cart = service.addToCart(productid, quantity, cart);
+		System.out.println("product vua add co quantity trong cart hien tai la : " + cart.getMap().get(productid).getQuantity());
+		session.setAttribute("cart", cart);
+
+		//set cartQuantity cho front end
+		int cartQuantity = 0;
+		if (cart != null) {
+			for (int key : cart.getMap().keySet()) {
+				cartQuantity += cart.getMap().get(key).getQuantity();
+			}
+		}
+		System.out.println("cart quantity la : " + cartQuantity);
+		session.setAttribute("cartQuantity", cartQuantity);
+
+		// lay controller tu uri
+		String uri = request.getServletPath();
+		String controller = uri.substring(uri.lastIndexOf("/"));
+		System.out.println("controller uri cart : " + controller);
+		session.setAttribute("uri", controller);
+		request.setAttribute("controller", controller);
+
+		// set default la vao trang index cua uri lay duoc
+		request.setAttribute("action", "index");
+
+
+	}
+
+	private void index(HttpServletRequest request, HttpServletResponse response) {
+
+		int pid = Integer.parseInt(request.getParameter("productid"));
 		System.out.println("pid " + pid);
 		ProductDetailService pds = new ProductDetailService();
 		Product listp = pds.getProductDetail(pid);
@@ -64,29 +110,29 @@ public class ProductDetailController extends HttpServlet {
 			List<String> listColor = pds.getListColor(listp);
 			request.setAttribute("listColor", listColor);
 		}
-		
+
 		List<Feedback> listf = pds.getProductDetail(pid).getFeedbackList();
 		List<Customer> listcus = pds.getCusByFb(listf);
-		
+
 		Brand brand = pds.getBrandDetail(pid);
 		List<Product> child = pds.getProductChild(pid);
-		System.out.println("listcus " +listcus );
+		System.out.println("listcus " + listcus);
 		request.setAttribute("pChild", child);
 		request.setAttribute("fDetail", listf);
-		
+
 		request.setAttribute("cusDetail", listcus);
 		request.setAttribute("pDetail", listp);
 		request.setAttribute("bDetail", brand);
-		
 
 	}
+
 	private void createFeedback(HttpServletRequest request, HttpServletResponse response) {
-		
+
 		ProductDetailService pds = new ProductDetailService();
 		String tcmt = request.getParameter("textComment");
 		Double voting = Double.parseDouble(request.getParameter("stars"));
-		int pid =  Integer.parseInt(request.getParameter("productId"));
-		int oid =  Integer.parseInt(request.getParameter("orderId"));
+		int pid = Integer.parseInt(request.getParameter("productId"));
+		int oid = Integer.parseInt(request.getParameter("orderId"));
 		Product p = new Product();
 		Order o = new Order();
 		Feedback f = new Feedback();
@@ -99,42 +145,44 @@ public class ProductDetailController extends HttpServlet {
 		f.setProductId(p);
 		f.setOrderId(o);
 		pds.createFeedback(f);
-		
+
 		request.setAttribute("action", "index");
 		request.setAttribute("productId", pid);
 		index(request, response);
-		
-		
-		
+
 	}
+
 	private void viewDetail(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 
 		// set uri
-		
-		
-		
+
 	}
-    public ProductDetailController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	public ProductDetailController() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+
 		processRequest(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+
 		processRequest(request, response);
 	}
 

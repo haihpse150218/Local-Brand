@@ -98,18 +98,19 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
+                            <c:if test="${sessionScope.brandId != null}">
                             <a 
-                            	href="${sessionScope.brandId==null?
-                            		'/localbrand' : '/localbrand/web/brandhome/index.do'}" 
-                            	class="nav-item nav-link">Home</a>
+                            	href="/localbrand/web/brandhome/index.do" 
+                            	class="nav-item nav-link">Brand Home</a>
+                            	</c:if>
                             <c:if test="${requestScope.collectionId != null}">
                             	<a href=""
                             		class="nav-item nav-link active">Collections</a>
                             </c:if>
                             <c:if test="${sessionScope.brandId != null}">
                             	<a href="/localbrand/web/brandhome/latest.do"
-                            		class="nav-item nav-link">Latest</a>
-                            	<a href="/localbrand/web/brandhome/ranking.do'" 
+                            		class="nav-item nav-link">Latest Products</a>
+                            	<a href="/localbrand/web/brandhome/ranking.do" 
                             		class="nav-item nav-link">Ranking</a>
                             </c:if>
                         </div>
