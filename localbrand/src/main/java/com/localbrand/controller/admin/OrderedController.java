@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.localbrand.entities.BrandAccount;
+import com.localbrand.service.implement.AdminOrderService;
 import com.localbrand.service.implement.HomeAdmin;
 import com.localbrand.service.models.OrderObject;
 
@@ -44,7 +45,9 @@ public class OrderedController extends HttpServlet {
 			case "search":
 				search(request, response);
 				break;
-			
+			case "update":
+				update(request, response);
+				break;
 			default:
 				request.setAttribute("controller", "/error");
 				request.setAttribute("action", "index");
@@ -179,9 +182,18 @@ public class OrderedController extends HttpServlet {
 		List<OrderObject> listOrderObject = HomeAdmin.getInstance().getOrderListByBrandId(admin.getBrandId().getId());
 		
 		request.setAttribute("listOrder", listOrderObject);
+	}
+	
+	private void update(HttpServletRequest request, HttpServletResponse response) {
 		
+		int orderId = Integer.parseInt(request.getParameter("orderId"));
+		String newStatus = request.getParameter("status");
 		
+		AdminOrderService adminOrderService = new AdminOrderService();
+		adminOrderService.updateOrderStatus(orderId, newStatus);
 		
+		index(request, response);
+		request.setAttribute("action", "index");
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
