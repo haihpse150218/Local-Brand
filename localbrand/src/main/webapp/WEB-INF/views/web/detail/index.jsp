@@ -110,13 +110,14 @@
 						<small class="pt-1">${product.stars} (50 Reviews)</small>
 					</div>
 					<c:if test="${product.discount == 0}">
-						<h3 class="font-weight-semi-bold mb-4">${product.price}VND</h3>
+						<h3 class="font-weight-semi-bold mb-4">
+						${product.price}VND</h3>
 					</c:if>
 					<c:if test="${product.discount > 0}">
 						<div class="d-flex">
-							<h3>${product.price}VND</h3>
+							<h3>${product.price* (1-product.discount)}VND</h3>
 							<h3 class="text-muted ml-2">
-								<del>${product.price * (1+product.discount)}</del>
+								<del>${product.price}</del>
 							</h3>
 						</div>
 					</c:if>
@@ -200,13 +201,6 @@
                     </c:if> -->
 						<input type="hidden" name="productid"
 							value="${product.id}">
-						<c:if test="${empty pChild}">
-							<input type="hidden" id="productid" name="isMaster"
-								value="${product.isMaster}">
-						</c:if>
-						<c:if test="${not empty pChild}">
-							<input type="hidden" id="productid" name="isMaster" value="false">
-						</c:if>
 						<button class="btn btn-primary px-3">
 							<i class="fa fa-shopping-cart mr-1"></i> Add To Cart
 						</button>

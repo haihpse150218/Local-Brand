@@ -33,7 +33,7 @@ public class HomeController extends HttpServlet {
 		try {
 			HttpSession session = request.getSession();
 			session.removeAttribute("brandId");
-			
+
 			String action = request.getAttribute("action").toString();
 			System.out.println("actione ne:" + action);
 			switch (action) {
@@ -183,7 +183,7 @@ public class HomeController extends HttpServlet {
 
 	}
 
-	private void login(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void login(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 
 		// PARAMETERS
@@ -204,47 +204,34 @@ public class HomeController extends HttpServlet {
 			System.out.println("LOGIN FAIL");
 		}
 
+		// check uri action
+		String action = (String) session.getAttribute("uriaction");
+		System.out.println("uri action : " + action);
 
-		// lay controller tu uri
-		String uri = request.getServletPath();
-		String controller = uri.substring(uri.lastIndexOf("/"));
-		System.out.println("controller uri truoc khi login : " + controller);
-		session.setAttribute("uri", controller);
-		request.setAttribute("controller", controller);
-
-		// set default la vao trang index cua uri lay duoc
-		request.setAttribute("action", "index");
-
-		// neu uri la null hoac /home
-		if (controller == null || controller.equalsIgnoreCase("/home")) {
-			String action = (String) session.getAttribute("uriaction");
-			System.out.println("uri action : " + action);
-			if (action.equalsIgnoreCase("viewlistbrandproduct")) {
-				int uribrandid = (int) session.getAttribute("uribrandid");
-				System.out.println("uri brand id : " + uribrandid);
-				request.setAttribute("brandid", uribrandid);
-				viewListBrandProduct(request, response);
-			} else if (action.equalsIgnoreCase("viewlistproductbystatus")) {
-				String uristatus = (String) session.getAttribute("uristatus");
-				System.out.println("uri status : " + uristatus);
-				request.setAttribute("status", uristatus);
-				viewListProductbyStatus(request, response);
-			} else if (action.equalsIgnoreCase("viewlistproductbycate")) {
-				int uricateid = (int) session.getAttribute("uricateid");
-				System.out.println("uri cate : " + uricateid);
-				request.setAttribute("cateid", uricateid);
-				viewListProductbyCate(request, response);
-			} else
-				index(request, response);
-
-			// set lai action cho dung
-			request.setAttribute("action", action);
-
-		}
+		if (action.equalsIgnoreCase("viewlistbrandproduct")) {
+			int uribrandid = (int) session.getAttribute("uribrandid");
+			System.out.println("uri brand id : " + uribrandid);
+			request.setAttribute("brandid", uribrandid);
+			viewListBrandProduct(request, response);
+		} else if (action.equalsIgnoreCase("viewlistproductbystatus")) {
+			String uristatus = (String) session.getAttribute("uristatus");
+			System.out.println("uri status : " + uristatus);
+			request.setAttribute("status", uristatus);
+			viewListProductbyStatus(request, response);
+		} else if (action.equalsIgnoreCase("viewlistproductbycate")) {
+			int uricateid = (int) session.getAttribute("uricateid");
+			System.out.println("uri cate : " + uricateid);
+			request.setAttribute("cateid", uricateid);
+			viewListProductbyCate(request, response);
+		} else if (action.equalsIgnoreCase("viewcheckout")) {
+			CartController cartctr = new CartController();
+			cartctr.viewcheckout(request, response);
+		} else
+			index(request, response);
 
 	}
 
-	private void index(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void index(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 
 		HomeService service = new HomeService();
@@ -253,12 +240,7 @@ public class HomeController extends HttpServlet {
 		session.setAttribute("category", listCate);
 
 		Cart cart = (Cart) session.getAttribute("cart");
-		int cartQuantity = 0;
-		if (cart != null) {
-			for (int key : cart.getMap().keySet()) {
-				cartQuantity += cart.getMap().get(key).getQuantity();
-			}
-		}
+		int cartQuantity = service.CartQuantityCount(cart);
 		System.out.println("cart quantity la : " + cartQuantity);
 		session.setAttribute("cartQuantity", cartQuantity);
 
@@ -266,9 +248,9 @@ public class HomeController extends HttpServlet {
 		request.setAttribute("list", listTopProduct);
 		System.out.println("top 6 product size : " + listTopProduct.size());
 
-		//List<Collection> listTopCollection = service.getTopCollection();
-		//request.setAttribute("listTopCollection", listTopCollection);
-		//System.out.println("top 5 collection size : " + listTopCollection.size());
+		// List<Collection> listTopCollection = service.getTopCollection();
+		// request.setAttribute("listTopCollection", listTopCollection);
+		// System.out.println("top 5 collection size : " + listTopCollection.size());
 
 		// List <Product> listAllProduct = service.getListProduct();
 		List<Brand> listAllBrand = service.getBrandList();
@@ -276,91 +258,39 @@ public class HomeController extends HttpServlet {
 		session.setAttribute("listAllBrand", listAllBrand);
 
 		session.setAttribute("uriaction", "index");
-		
-		/*
-		// setup parameter paging
-		int pageSize = 6;
-		PagingService paging = new PagingService();
-		Integer page = (Integer) session.getAttribute("homePage");
-		int count = listTopProduct.size();
-		Integer totalPage = (int) Math.ceil((double) (count) / pageSize);
-		System.out.println("totalPage: " + totalPage);
-		String op = request.getParameter("op");
-		Integer gotoPage = null;
-		if (request.getParameter("gotoPage") != null) {
-			gotoPage = Integer.parseInt(request.getParameter("gotoPage"));
-		}
-		// pagination
-		page = paging.getPage(op, totalPage, page, gotoPage);
-		System.out.println("page: " + page);
-		int n1 = (page - 1) * pageSize;
-		System.out.println("n1: " + n1);
-		int n2 = 0;
-		if ((count - n1) <= pageSize) {
-			n2 = count;
-		} else {
-			n2 = n1 + pageSize;
-		}
-		System.out.println("n2 " + n2);
-		List<Product> list = listTopProduct.subList(n1, n2);
-		List<Integer> listNumberBox = paging.getListNumberBox(page, totalPage);
-		session.setAttribute("listNumberBox", listNumberBox);
-		session.setAttribute("homePage", page);
-		session.setAttribute("totalHomePage", totalPage);
-		request.setAttribute("list", list);
 
-		String uri = request.getServletPath();
-		String controller = uri.substring(uri.lastIndexOf("/"));
-		System.out.println("controller uri : " + controller);
-		session.setAttribute("uri", controller);
-		*/
+		/*
+		 * // setup parameter paging int pageSize = 6; PagingService paging = new
+		 * PagingService(); Integer page = (Integer) session.getAttribute("homePage");
+		 * int count = listTopProduct.size(); Integer totalPage = (int)
+		 * Math.ceil((double) (count) / pageSize); System.out.println("totalPage: " +
+		 * totalPage); String op = request.getParameter("op"); Integer gotoPage = null;
+		 * if (request.getParameter("gotoPage") != null) { gotoPage =
+		 * Integer.parseInt(request.getParameter("gotoPage")); } // pagination page =
+		 * paging.getPage(op, totalPage, page, gotoPage); System.out.println("page: " +
+		 * page); int n1 = (page - 1) * pageSize; System.out.println("n1: " + n1); int
+		 * n2 = 0; if ((count - n1) <= pageSize) { n2 = count; } else { n2 = n1 +
+		 * pageSize; } System.out.println("n2 " + n2); List<Product> list =
+		 * listTopProduct.subList(n1, n2); List<Integer> listNumberBox =
+		 * paging.getListNumberBox(page, totalPage);
+		 * session.setAttribute("listNumberBox", listNumberBox);
+		 * session.setAttribute("homePage", page); session.setAttribute("totalHomePage",
+		 * totalPage); request.setAttribute("list", list);
+		 * 
+		 * String uri = request.getServletPath(); String controller =
+		 * uri.substring(uri.lastIndexOf("/")); System.out.println("controller uri : " +
+		 * controller); session.setAttribute("uri", controller);
+		 */
 
 		request.setAttribute("controller", "/home");
 		request.setAttribute("action", "index");
 	}
 
 	private void logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		HttpSession session = request.getSession();
 		session.setAttribute("user", null);
-
-		// lay controller tu uri
-		String uri = request.getServletPath();
-		String controller = uri.substring(uri.lastIndexOf("/"));
-		System.out.println("controller uri truoc khi logout : " + controller);
-		session.setAttribute("uri", controller);
-		request.setAttribute("controller", controller);
-
-		// set default la vao trang index cua uri lay duoc
-		request.setAttribute("action", "index");
-
-		// neu uri la null hoac /home
-		if (controller == null || controller.equalsIgnoreCase("/home")) {
-			String action = (String) session.getAttribute("uriaction");
-			System.out.println("uri action : " + action);
-			if (action.equalsIgnoreCase("viewlistbrandproduct")) {
-				int uribrandid = (int) session.getAttribute("uribrandid");
-				System.out.println("uri brand id : " + uribrandid);
-				request.setAttribute("brandid", uribrandid);
-				viewListBrandProduct(request, response);
-			} else if (action.equalsIgnoreCase("viewlistproductbystatus")) {
-				String uristatus = (String) session.getAttribute("uristatus");
-				System.out.println("uri status : " + uristatus);
-				request.setAttribute("status", uristatus);
-				viewListProductbyStatus(request, response);
-			} else if (action.equalsIgnoreCase("viewlistproductbycate")) {
-				int uricateid = (int) session.getAttribute("uricateid");
-				System.out.println("uri cate : " + uricateid);
-				request.setAttribute("cateid", uricateid);
-				viewListProductbyCate(request, response);
-			} else
-				index(request, response);
-
-			// set lai action cho dung
-			request.setAttribute("action", action);
-
-		}
-
+		session.removeAttribute("cart");
+		index(request, response);
 	}
 
 	private void viewListBrandProduct(HttpServletRequest request, HttpServletResponse response) throws Exception {

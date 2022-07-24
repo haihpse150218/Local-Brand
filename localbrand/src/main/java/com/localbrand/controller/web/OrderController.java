@@ -59,7 +59,7 @@ public class OrderController extends HttpServlet {
 		
 		List<Order> listOrder = mosv.getMemberListOrder(cus.getId(),orderstatus);
 		
-		if (orderstatus == "")
+		if (orderstatus == "" || orderstatus == null)
 			orderstatus = "ALL";
 		
 		request.setAttribute("orderstatus", orderstatus);		

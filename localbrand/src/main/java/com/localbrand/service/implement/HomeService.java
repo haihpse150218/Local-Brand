@@ -562,4 +562,42 @@ public class HomeService implements IHome {
 		return cart;
 	}
 
+	public int getVarId (int productid, String size, String color) throws SQLException {
+		Product product = pf.find(productid);
+		//kiem tra voi master
+		if (product.getSize().equalsIgnoreCase(size) && product.getColor().equalsIgnoreCase(color)) {
+			return product.getId();
+		}
+		
+		List<Product> list = pf.findAll();
+		List<Product> vars = new ArrayList<>();
+		// lay list variants cua product 
+		for (Product pr : list) {
+			if (pr.getIsMaster()==false && pr.getParentId().getId()==product.getId()) {
+				vars.add(pr);
+			}
+		}
+		//tim var giong yeu cau
+		for (Product pr : vars) {
+			if (pr.getSize().equalsIgnoreCase(size) && pr.getColor().equalsIgnoreCase(color)) {
+				return pr.getId();
+			}
+		}
+				
+		return 0;
+	}
+	
+	public int CartQuantityCount (Cart cart) {
+		int cartQuantity = 0;
+		if (cart != null) {
+			for (int key : cart.getMap().keySet()) {
+				cartQuantity += cart.getMap().get(key).getQuantity();
+			}
+		}
+		return cartQuantity;
+	}
+	public Cart UpdateQuantityCart (Cart cart,int productid, int updquantity) {
+		cart.update(productid, updquantity);
+		return cart;
+	}
 }

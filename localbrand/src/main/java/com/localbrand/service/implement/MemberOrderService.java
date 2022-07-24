@@ -30,7 +30,7 @@ public class MemberOrderService implements IMemberOrderHistory {
 		for (Order or : listOr) {
 			// cusid = cusid trong order
 			if (or.getCustomerId().getId() == cusid) {
-				if (status == "") {
+				if (status == "" || status == null) {
 					List<OrderDetail> listOdbyOr = new ArrayList<>();
 					for (OrderDetail od : listOd) {
 						// orderid = orderid trong order details
