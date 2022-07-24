@@ -83,8 +83,7 @@ public class RegisterController extends HttpServlet {
 			request.setAttribute("REGISTER_ERROR", e.getMessage());
 		}
 		
-		String uri = (String)session.getAttribute("uri");
-		request.setAttribute("controller", uri);
+		request.setAttribute("controller", "/home");
 		request.setAttribute("action", "index");
 	}
 

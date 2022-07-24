@@ -1,15 +1,11 @@
 package com.localbrand.service.models;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import com.localbrand.entities.CollectionDetail;
-import com.localbrand.entities.Feedback;
-import com.localbrand.entities.OrderDetail;
 import com.localbrand.entities.Product;
+import com.localbrand.sessionbeans.BrandFacade;
 import com.localbrand.sessionbeans.CollectionDetailFacade;
 import com.localbrand.sessionbeans.FeedbackFacade;
 import com.localbrand.sessionbeans.OrderDetailFacade;
@@ -22,6 +18,7 @@ public class Cart {
 	CollectionDetailFacade cf = new CollectionDetailFacade();
 	FeedbackFacade ff = new FeedbackFacade();
 	OrderDetailFacade of = new OrderDetailFacade();
+	BrandFacade brfc = new BrandFacade();
 
 	public Cart() {
 		map = new HashMap();
@@ -30,6 +27,7 @@ public class Cart {
 	public void add(int id, int quantity) throws SQLException {
 		if (map.get(id) == null) {
 			Product product = pf.find(id);
+			product.setBrandId(brfc.find(product.getBrandId().getId()));
 			Item item = new Item();	
 			item.setProduct(product);
 			item.setQuantity(quantity);

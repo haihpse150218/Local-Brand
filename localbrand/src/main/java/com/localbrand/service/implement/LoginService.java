@@ -3,8 +3,10 @@ package com.localbrand.service.implement;
 import java.util.List;
 
 import com.localbrand.entities.Customer;
+import com.localbrand.entities.MembershipTier;
 import com.localbrand.service.ILogin;
 import com.localbrand.sessionbeans.CustomerFacade;
+import com.localbrand.sessionbeans.MembershipTierFacade;
 
 public class LoginService implements ILogin {
 
@@ -17,6 +19,11 @@ public class LoginService implements ILogin {
 			
 			for (Customer customer : list) {
 				if ((username.trim()).equalsIgnoreCase(customer.getUsername())) {
+					
+					MembershipTierFacade service = new MembershipTierFacade();
+					MembershipTier mbt = service.find(customer.getRankId().getId());
+					customer.setRankId(mbt);
+					
 					returnCustomer = customer;
 					break;
 				}
@@ -30,7 +37,6 @@ public class LoginService implements ILogin {
 	@Override
 	public Customer loginByUsername(String username, String password) throws Exception {
 		Customer loginCustomer = findByUsername(username);
-		
 		if (loginCustomer == null) {
 			throw new Exception("Username not found!");
 		}

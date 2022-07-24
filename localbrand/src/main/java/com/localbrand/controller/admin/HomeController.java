@@ -2,6 +2,7 @@ package com.localbrand.controller.admin;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import com.localbrand.entities.Brand;
 import com.localbrand.entities.BrandAccount;
+import com.localbrand.entities.Collection;
 import com.localbrand.service.implement.HomeAdmin;
 import com.localbrand.service.models.OrderObject;
 
@@ -60,6 +62,10 @@ public class HomeController extends HttpServlet {
 			request.setAttribute("listOrder", listOrderObject.subList(0, top));
 			double totalSalesThisWeek = HomeAdmin.getInstance().SalesThisWeek(listOrderObject);
 			double totalSalesLastWeek = HomeAdmin.getInstance().SalesLastWeek(listOrderObject);
+			Map<Collection, Double> revenueByCollection = HomeAdmin.getInstance().getCollectionRevenue(admin.getBrandId().getId());
+			Map<Integer, Double> revenueByTime = HomeAdmin.getInstance().calculateRevenueByTime(admin.getBrandId().getId());
+			request.setAttribute("revenueByTime", revenueByTime);
+			request.setAttribute("revenueByCollection", revenueByCollection);
 			double growth = (totalSalesThisWeek - totalSalesLastWeek) / totalSalesLastWeek;
 			request.setAttribute("salesThisWeek", totalSalesThisWeek);
 			request.setAttribute("salesLastWeek", totalSalesLastWeek);
