@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import com.localbrand.entities.Brand;
 import com.localbrand.entities.BrandAccount;
 import com.localbrand.entities.SystemAccount;
+import com.localbrand.service.implement.LoginAdmin;
+import com.localbrand.service.implement.MemberAdminService;
 import com.localbrand.service.implement.SystemAdminService;
 
 /**
@@ -24,7 +26,7 @@ public class BrandAccountController extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-		String action = request.getAttribute("action").toString();
+		String action = request.getAttribute("action").toString().toLowerCase();
 		System.out.println("actione ne:" + action);
 		HttpSession session = request.getSession();
 		SystemAccount sysAdmin = (SystemAccount) session.getAttribute("sysAdmin");
@@ -47,7 +49,8 @@ public class BrandAccountController extends HttpServlet {
 			request.setAttribute("controller", "/login");
 			request.setAttribute("action", "index");
 	}
-		request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
+		request.setAttribute("sysAdmin", sysAdmin);
+		request.getRequestDispatcher("/sysAdmin/home").forward(request, response);
 	}
     /**
      * @see HttpServlet#HttpServlet()
@@ -59,12 +62,15 @@ public class BrandAccountController extends HttpServlet {
 	}
 	private void create(HttpServletRequest request, HttpServletResponse response) {
 		SystemAdminService sas = new SystemAdminService();
-		BrandAccount bAcc = new BrandAccount();
+		BrandAccount bAcc = new BrandAccount();	
 		Brand b = new Brand(); 
 		
 		String name = request.getParameter("name");
 		String username = request.getParameter("username");
+				
 		String password = request.getParameter("password");
+		String cPassword = request.getParameter("cPassword");
+		String encodePass = LoginAdmin.getInstance().encodePass(password);
 		boolean role = Boolean.parseBoolean(request.getParameter("role"));
 		int brandId = Integer.parseInt(request.getParameter("brandId"));
 		b.setId(brandId);
@@ -75,25 +81,53 @@ public class BrandAccountController extends HttpServlet {
 		bAcc.setPassword(password);
 		bAcc.setRole(role);
 		bAcc.setBrandId(b);
-		bAcc.setStatus(status);
-		sas.createBrandAdmin(bAcc);
+		bAcc.setStatus(status);		
 		
-		request.setAttribute("action", "index");
-		index(request, response);
+		BrandAccount check = SystemAdminService.getInstance().checkBrandAccount(username);
+
+		if (password.equalsIgnoreCase(cPassword) == false) {
+			request.setAttribute("mess", "Not matching password!!!");
+			request.setAttribute("page", "/sysAdmin");
+			request.setAttribute("controller", "/home");
+			request.setAttribute("action", "index");
+			request.setAttribute("currentInput", bAcc);
+		}
+		else if (check != null) {
+			request.setAttribute("mess", "Username already exits!!!");
+			request.setAttribute("page", "/sysAdmin");
+			request.setAttribute("controller", "/home");
+			request.setAttribute("action", "index");	
+			request.setAttribute("currentInput", bAcc);
+		}else {
+			bAcc.setPassword(encodePass.toUpperCase());
+			sas.createBrandAdmin(bAcc);
+			request.setAttribute("action", "index");
+		}
 	}
 	private void update(HttpServletRequest request, HttpServletResponse response) {
 		SystemAdminService sas = new SystemAdminService();
 		int brandAccountId = Integer.parseInt(request.getParameter("brandAccountId"));
 		boolean reset =  Boolean.parseBoolean(request.getParameter("reset"));
 		if (reset == true) {
-			String password = request.getParameter("password");
-			sas.resetBrandAdminPassword(brandAccountId, password);
+			List<BrandAccount> listMember = SystemAdminService.getInstance().brandAdminList();
+			for (BrandAccount brandAccount : listMember) {
+				if (brandAccount.getId() == brandAccountId) {
+					System.out.println("Id: "+brandAccount.getId());
+					String nPassword = "6B86B273FF34FCE19D6B804EFF5A3F5747ADA4EAA22F1D49C01E52DDB7875B4B";
+					sas.resetBrandAdminPassword(brandAccountId, nPassword);
+				}
+			}
+			index(request, response);
+			request.setAttribute("action", "index");
+
+//			String password = request.getParameter("password");			
+			System.out.println("reset password");
 		}else {
 			int status = Integer.parseInt(request.getParameter("status"));
 			sas.updateBrandAdminStatus(brandAccountId, status);
 		}
 		request.setAttribute("action", "index");
-		index(request, response);
+		
 	}
     public BrandAccountController() {
         super();

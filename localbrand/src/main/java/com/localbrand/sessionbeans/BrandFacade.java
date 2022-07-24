@@ -62,9 +62,8 @@ public class BrandFacade extends AbstractFacade<Brand> {
 		ptm.setNString(1, t.getName());
 		ptm.setNString(2, t.getDescription());
 		ptm.setString(3, t.getStatus());
-		ptm.setString(4, 
-				(t.getCreateDate().getYear() + "-" + t.getCreateDate().getMonth() + "-" + t.getCreateDate().getDate()
-				+ " " + t.getCreateDate().getHours() + ":" + t.getCreateDate().getMinutes() + ":" + t.getCreateDate().getSeconds()));
+		java.sql.Date sqlCreateTime = new java.sql.Date(t.getCreateDate().getTime());
+		ptm.setDate(4, sqlCreateTime);
 		ptm.setString(5, t.getLogo());	
 		ptm.setString(6, t.getBanner());
 		ptm.setDouble(7, t.getStars());

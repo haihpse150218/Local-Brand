@@ -24,7 +24,7 @@ public class LoginController extends HttpServlet {
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 		String action = request.getAttribute("action").toString();
-		System.out.println("actione ne:"+action);
+		System.out.println("actione ne 1:"+action);
 		switch (action) {
 		case "index":
 			index(request, response);
@@ -32,15 +32,13 @@ public class LoginController extends HttpServlet {
 			break;
 		case "login":
 			login(request, response);
-			request.getRequestDispatcher("/admin/home").include(request, response);
+			request.getRequestDispatcher("/sysAdmin/home").include(request, response);
 			break;
 		default:
 			request.setAttribute("controller", "/error");
 			request.setAttribute("action", "index");			
 		}
 		
-		
-		return;
 	}
        
     /**
@@ -51,15 +49,13 @@ public class LoginController extends HttpServlet {
 		String username = request.getParameter("username").toString();
 		String password = request.getParameter("password").toString();
 		//String encodePass = LoginAdmin.getInstance().encodePass(password);
-        
 		//wating database
 		SystemAccount sysAdmin = SystemAdminService.getInstance().CheckAccount(username, password);
 		if(sysAdmin!=null) {
 			session.setAttribute("sysAdmin", sysAdmin);	
 			request.setAttribute("page", "/sysAdmin");
 			request.setAttribute("controller", "/home");
-			request.setAttribute("action", "index");	
-			return;
+			request.setAttribute("action", "index");			
 		}
 		else {
 			
@@ -67,16 +63,13 @@ public class LoginController extends HttpServlet {
 			request.setAttribute("page", "/sysAdmin");
 			request.setAttribute("controller", "/login");
 			request.setAttribute("action", "index");	
+
 		}
     }
     private void index(HttpServletRequest request, HttpServletResponse response) {		
 		System.out.println("hien thi form");
 	}
-    public LoginController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
+   
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
