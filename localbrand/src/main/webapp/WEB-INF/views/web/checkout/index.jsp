@@ -174,7 +174,7 @@
 				"Bắc Kạn", "Sơn La", "Quảng Trị", "Đà Nẵng", "Hưng Yên",
 				"Hà Nam", "Vĩnh Phúc", "Quảng Nam", "Điện Biên", "Bình Phước",
 				"Lâm Đồng", "Lai Châu", "Kon Tum", "Đắk Nông");
-		s_a[0] = " Thủ Đức | Quận Mười Một | Quận Năm | Quận Mười | Quận Phú Nhuận | Quận Sáu | Quận Ba | Quận Một | Quận Bốn | Quận Tân Phú | Quận Bình Thạnh | Quận Bảy | Quận Hai | Hóc Môn | Quận Chín | Tân Túc | Nhà Bè | Củ Chi | Cần Giờ ";
+		s_a[0] = " Thủ Đức | Quận Mười Một | Quận Năm | Quận Mười | Phú Nhuận | Quận Sáu | Quận Ba | Quận Một | Quận Bốn | Tân Phú | Bình Thạnh | Quận Bảy | Quận Hai | Hóc Môn | Quận Chín | Tân Túc | Nhà Bè | Củ Chi | Cần Giờ | Gò Vấp ";
 		s_a[1] = " Sơn Tây | Đống Đa | Hai BàTrưng | Hoàn Kiếm | Cầu Giấy | Ba Đình | Thanh Xuân | Tây Hồ | Hà Đông | Cầu Diễn | Văn Điển | Trâu Quỳ | Trôi | Phùng | Đông Anh | Thường Tín | Phúc Thọ | Mê Linh | Liên Quan | Kim Bài | Chúc Sơn | Quốc Oai | Phú Xuyên | Vân Đình | Sóc Sơn | Đại Nghĩa | Tây Đằng ";
 		s_a[2] = " An Dương | Núi Đèo | Núi Đối | An Lão | Vĩnh Bảo | Tiên Lãng | Cát Bà ";
 		s_a[3] = " Bình Thủy | Cái Răng | Ô Môn | Thốt Nốt | Phong Điền | Thới Lai | Cờ Đỏ | Vĩnh Thạnh ";
