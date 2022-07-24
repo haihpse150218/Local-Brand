@@ -13,11 +13,13 @@
 <c:set var="listSize" scope="request" value="${requestScope.listSize}" />
 <c:set var="listColor" scope="request" value="${requestScope.listColor}" />
 <head>
+
 <meta charset="utf-8">
 <title>EShopper - Bootstrap Shop Template</title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta content="Free HTML Templates" name="keywords">
 <meta content="Free HTML Templates" name="description">
+
 
 <!-- Favicon 
     <link href="img/favicon.ico" rel="icon">-->

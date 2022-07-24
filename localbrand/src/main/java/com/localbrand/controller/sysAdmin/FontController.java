@@ -34,7 +34,7 @@ public class FontController extends HttpServlet {
         	if(sysAdmin == null) {
         		url = "/login/index.do";
         	}else {
-        		System.out.println("admin"+sysAdmin.getName());
+        		System.out.println("sysadmin "+sysAdmin.getName());
         		url ="/home/index.do";
         	}
         }

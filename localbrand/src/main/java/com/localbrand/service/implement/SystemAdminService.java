@@ -1,5 +1,6 @@
 package com.localbrand.service.implement;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,13 +74,19 @@ public class SystemAdminService implements ISystemAdmin {
 	@Override
 	public List<BrandAccount> brandAdminList(){
 		List<BrandAccount> listbacc = new ArrayList<>();
+		List<BrandAccount> listAllAccount = new ArrayList<>();
 		try {
-			listbacc = brandAccountFacade.findAll();
+			listAllAccount = brandAccountFacade.findAll();
+//			for (BrandAccount ba : listAllAccount) {
+//				String convert=ba.getPassword();
+//				ba.setPassword(hexToString(convert));
+//				listbacc.add(ba);
+//			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return listbacc;
+		return listAllAccount;
 	}
 	@Override
 	public List<Brand> brandList(){
@@ -107,6 +114,40 @@ public class SystemAdminService implements ISystemAdmin {
 					if(password.equalsIgnoreCase(sa.getPassword())) {
 						result = sa;
 					}
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	public static byte[] hexStringToByteArray(String hex) {
+	    int l = hex.length();
+	    byte[] data = new byte[l / 2];
+	    for (int i = 0; i < l; i += 2) {
+	        data[i / 2] = (byte) ((Character.digit(hex.charAt(i), 16) << 4)
+	                + Character.digit(hex.charAt(i + 1), 16));
+	    }
+	    return data;
+	}
+	public String hexToString(String hexString) {
+		String OutputString = new String();
+        char[] Temp_Char = hexString.toCharArray();
+        for(int x = 0; x < Temp_Char.length; x=x+2) {
+            String Temp_String = ""+Temp_Char[x]+""+Temp_Char[x+1];
+            char character = (char)Integer.parseInt(Temp_String, 16);
+            OutputString = OutputString + character;
+        }
+        return OutputString;
+	}
+	public BrandAccount checkBrandAccount(String username) {
+		BrandAccount result = null;
+		BrandAccountFacade baf = new BrandAccountFacade();
+		try {
+			for (BrandAccount ba : baf.findAll()) {
+				if(ba.getUsername().equalsIgnoreCase(username.trim())){					
+						result = ba;
 				}
 			}
 		} catch (SQLException e) {

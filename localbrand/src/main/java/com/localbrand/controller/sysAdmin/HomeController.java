@@ -18,7 +18,7 @@ import com.localbrand.service.implement.SystemAdminService;
 /**
  * Servlet implementation class HomeController
  */
-@WebServlet(name = "HomeControllerSysAdmin", urlPatterns = { "/sysAdmin/home" })
+@WebServlet(urlPatterns ="/sysAdmin/home")
 public class HomeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -28,8 +28,9 @@ public class HomeController extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
+		try {
 		String action = request.getAttribute("action").toString();
-		System.out.println("actione ne:" + action);
+		System.out.println("actione ne 2:" + action);
 		switch (action) {
 		case "index":
 			index(request, response);
@@ -40,6 +41,10 @@ public class HomeController extends HttpServlet {
 		default:
 			request.setAttribute("controller", "/error");
 			request.setAttribute("action", "index");
+		}
+		}catch (Exception e) {
+			System.out.println("Error at Home Controller");
+			e.printStackTrace();
 		}
 		request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
 	}
@@ -65,6 +70,11 @@ public class HomeController extends HttpServlet {
 			
 			request.setAttribute("brandList", listb);
 			request.setAttribute("brandAccountList", listbAcc);
+					
+			request.setAttribute("controller", "/home");
+			request.setAttribute("action", "index");
+			
+			
 		}else {
 			request.setAttribute("controller", "/login");
 			request.setAttribute("action", "index");

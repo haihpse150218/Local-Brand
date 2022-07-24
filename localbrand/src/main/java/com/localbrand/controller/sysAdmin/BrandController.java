@@ -24,7 +24,7 @@ public class BrandController extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-		String action = request.getAttribute("action").toString();
+		String action = request.getAttribute("action").toString().toLowerCase();
 		System.out.println("actione ne:" + action);
 		HttpSession session = request.getSession();
 		SystemAccount sysAdmin = (SystemAccount) session.getAttribute("sysAdmin");
@@ -47,7 +47,9 @@ public class BrandController extends HttpServlet {
 			request.setAttribute("controller", "/login");
 			request.setAttribute("action", "index");
 	}
-		request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
+		System.out.println("/WEB-INF/decorators/sysAdmin/main.jsp");
+		request.setAttribute("sysAdmin", sysAdmin);
+		request.getRequestDispatcher("/sysAdmin/home").forward(request, response);
 	}
     /**
      * @see HttpServlet#HttpServlet()
@@ -56,6 +58,7 @@ public class BrandController extends HttpServlet {
 		SystemAdminService sas = new SystemAdminService();
 		List<Brand> listb = sas.brandList();
 		request.setAttribute("brandList", listb);
+		System.out.println(listb);
 	}
 	private void create(HttpServletRequest request, HttpServletResponse response) {
 		SystemAdminService sas = new SystemAdminService();
@@ -63,7 +66,7 @@ public class BrandController extends HttpServlet {
 		
 		String brandName = request.getParameter("brandName");
 		String description = request.getParameter("description");
-		String status = request.getParameter("status");
+		String status = "Active";//request.getParameter("status");
 		String logo = request.getParameter("logo");
 		String banner = request.getParameter("banner");
 		Double stars = Double.parseDouble(request.getParameter("stars"));
@@ -80,7 +83,7 @@ public class BrandController extends HttpServlet {
 		sas.createNewBrand(b);
 		
 		request.setAttribute("action", "index");
-		index(request, response);
+		
 	}
 	private void update(HttpServletRequest request, HttpServletResponse response) {
 		SystemAdminService sas = new SystemAdminService();
@@ -90,7 +93,7 @@ public class BrandController extends HttpServlet {
 		sas.updateBrandStatus(brandId, status);
 		
 		request.setAttribute("action", "index");
-		index(request, response);
+		
 	}
     public BrandController() {
         super();
