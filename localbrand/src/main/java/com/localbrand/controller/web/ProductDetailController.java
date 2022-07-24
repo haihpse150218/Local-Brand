@@ -66,35 +66,33 @@ public class ProductDetailController extends HttpServlet {
 	private void addToCart(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		Cart cart = (Cart) session.getAttribute("cart");
-		
-		int productid = Integer.parseInt(request.getParameter("productid"));
-		int quantity = Integer.parseInt(request.getParameter("quantity"));
 		HomeService service = new HomeService();
 
-		cart = service.addToCart(productid, quantity, cart);
-		System.out.println("product vua add co quantity trong cart hien tai la : " + cart.getMap().get(productid).getQuantity());
+		// lay product id va quantity
+		int productid = Integer.parseInt(request.getParameter("productid"));
+		int quantity = Integer.parseInt(request.getParameter("quantity"));
+		System.out.println("quantity lay duoc : " + quantity);
+
+		int varid = 0;
+		String size = request.getParameter("size");
+		String color = request.getParameter("color");
+		varid = service.getVarId(productid, size, color);
+		System.out.println("product var id : " + varid);
+		ProductDetailController dectr = new ProductDetailController();
+		dectr.index(request, response);
+
+		cart = service.addToCart(varid, quantity, cart);
+		System.out.println(
+				"product vua add co quantity trong cart hien tai la : " + cart.getMap().get(varid).getQuantity());
 		session.setAttribute("cart", cart);
 
-		//set cartQuantity cho front end
-		int cartQuantity = 0;
-		if (cart != null) {
-			for (int key : cart.getMap().keySet()) {
-				cartQuantity += cart.getMap().get(key).getQuantity();
-			}
-		}
+		// set cartQuantity cho front end
+		int cartQuantity = service.CartQuantityCount(cart);
 		System.out.println("cart quantity la : " + cartQuantity);
 		session.setAttribute("cartQuantity", cartQuantity);
 
-		// lay controller tu uri
-		String uri = request.getServletPath();
-		String controller = uri.substring(uri.lastIndexOf("/"));
-		System.out.println("controller uri cart : " + controller);
-		session.setAttribute("uri", controller);
-		request.setAttribute("controller", controller);
-
 		// set default la vao trang index cua uri lay duoc
 		request.setAttribute("action", "index");
-
 
 	}
 

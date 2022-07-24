@@ -47,7 +47,8 @@ public class CheckoutService implements ICheckoutService {
 			}
 			//tax 10%
 			order.setTax(totalByBrand*0.1);
-			order.setTotal(totalByBrand);
+			// + phi ship 30k
+			order.setTotal(totalByBrand + 30000);
 			orfc.create(order);
 			
 			//add order details
