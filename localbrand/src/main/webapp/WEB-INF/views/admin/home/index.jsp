@@ -281,7 +281,6 @@
 						</div>
 					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>
@@ -291,8 +290,13 @@
 	var chart = c3.generate({
 		bindto : "#c3chart_category",
 		data : {
-			columns : [ [ 'Men', 100 ], [ 'Women', 80 ], [ 'Accessories', 50 ],
-					[ 'Children', 40 ], [ 'Apperal', 20 ], ],
+			columns : [
+				['Men', 100], 
+				['Women', 80], 
+				['Accessories', 50],
+				['Children', 40], 
+				['Apperal', 20], 
+			],
 			type : 'donut',
 			onclick : function(d, i) {
 				console.log("onclick", d, i);
@@ -338,7 +342,8 @@
 		}, {
 			x : '2020 Q6',
 			y : 40000,
-		} ],
+		},
+		],
 		xkey : 'x',
 		ykeys : [ 'y' ],
 		labels : [ 'Y' ],

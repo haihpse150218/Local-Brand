@@ -12,8 +12,9 @@
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item"><a href="#"
 								class="breadcrumb-link">E-commerce</a></li>
-							<li class="breadcrumb-item active" aria-current="page">E-Commerce
-								Ordered</li>
+							<li class="breadcrumb-item active" aria-current="page">
+							E-Commerce Ordered
+							</li>
 						</ol>
 					</nav>
 				</div>
@@ -28,8 +29,8 @@
 					<form action="/localbrand/admin/ordered/search.do" method="get"
 						class="col-4">
 						<div class="input-group">
-							<input type="text" class="form-control"
-								placeholder="Search for orders">
+							<input type="text" name="searchCustomerName" value="${searchCustomerName}" class="form-control"
+								placeholder="Search By Customer Name">
 							<div class="input-group-append">
 								<button class="input-group-text bg-transparent text-primary">
 									<i class="fa fa-search"></i>
@@ -41,12 +42,19 @@
 						<div class="dropdown float-right">
 							<button class="btn bg-white dropdown-toggle " type="button"
 								id="triggerId" data-toggle="dropdown" aria-haspopup="true"
-								aria-expanded="false">Fillter by</button>
+								aria-expanded="false">Filter by</button>
 							<div class="dropdown-menu dropdown-menu-right "
 								aria-labelledby="triggerId">
-								<a class="dropdown-item" href="/localbrand/admin/ordered/fillter.do?op=intransit">InTransit</a> <a
-									class="dropdown-item" href="/localbrand/admin/ordered/fillter.do?op=delivered">Delivered</a> <a
-									class="dropdown-item" href="/localbrand/admin/ordered/fillter.do?op=canceled">Canceled</a>
+								<a class="dropdown-item" href="/localbrand/admin/ordered/index.do">ALL</a>  <a
+									class="dropdown-item" href="/localbrand/admin/ordered/fillter.do?op=Canceled">Canceled</a>
+									<a
+									class="dropdown-item" href="/localbrand/admin/ordered/fillter.do?op=Preparing">Preparing</a>
+									<a
+									class="dropdown-item" href="/localbrand/admin/ordered/fillter.do?op=Shipping">Shipping</a>
+									<a
+									class="dropdown-item" href="/localbrand/admin/ordered/fillter.do?op=Shipping Failed">Shipping Failed</a>
+									<a
+									class="dropdown-item" href="/localbrand/admin/ordered/fillter.do?op=Received">Received</a>
 							</div>
 						</div>
 					</div>
@@ -70,10 +78,12 @@
 							<tr class="border-0">
 								<th class="border-0">#</th>
 								<th class="border-0">Order ID</th>
-								<th class="border-0">Total Quantity</th>
 								<th class="border-0">Total Price</th>
 								<th class="border-0">Order Time</th>
-								<th class="border-0">Customer</th>
+								<th class="border-0">Customer Name</th>
+								<th class="border-0">Customer Phone</th>
+								<th class="border-0">Customer Address</th>
+								<th class="border-0">Customer Email</th>
 								<th class="border-0">Status</th>
 								<th class="border-0">Action</th>
 							</tr>
@@ -83,12 +93,36 @@
 								<tr>
 									<td>${loop.count}</td>
 									<td>${order.id}</td>
-									<td>${order.quantity}</td>
-									<td>${order.total}</td>
+									<td>
+									<fmt:setLocale value="vi_VN" /> <fmt:formatNumber
+													value="${order.total}" type="currency" />
+									</td>
 									<td><fmt:formatDate value="${order.orderDate}"
 											pattern="dd-MM-yyyy" /></td>
 									<td>${order.customerId.name}</td>
-									<td>${order.status}</td>
+									<td>${order.customerId.phone}</td>
+									<td>${order.customerId.address}</td>
+									<td>${order.customerId.email}</td>
+									<td>
+										<button class="btn btn-primary dropdown-toggle" 
+											type="button" id="dropdownMenuButton" 
+											data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+   	 										${order.status}
+  										</button>
+										<span class="dropdown-menu"
+											aria-labelledby="triggerId">
+											<a class="dropdown-item"
+												href="/localbrand/admin/ordered/update.do?orderId=${order.id}&status=Received">Received</a>
+											<a class="dropdown-item"
+												href="/localbrand/admin/ordered/update.do?orderId=${order.id}&status=Shipping Failed">Shipping Failed</a> 
+											<a class="dropdown-item"
+												href="/localbrand/admin/ordered/update.do?orderId=${order.id}&status=Shipping">Shipping</a>
+											<a class="dropdown-item"
+												href="/localbrand/admin/ordered/update.do?orderId=${order.id}&status=Preparing">Preparing</a>
+											<a class="dropdown-item"
+												href="/localbrand/admin/ordered/update.do?orderId=${order.id}&status=Canceled">Canceled</a>
+										</span>
+									</td>
 									<td><a href="#" class="btn btn-outline-light"
 										data-toggle="modal" data-target=".orderid${order.id}">View
 											Details</a></td>
@@ -131,7 +165,7 @@
 											<td>${orderDetail.quantity}</td>
 											<td><fmt:formatNumber type="percent"
 													value="${orderDetail.discount}" /></td>
-											<td><fmt:setLocale value="en_US" /> <fmt:formatNumber
+											<td><fmt:setLocale value="vi_VN" /> <fmt:formatNumber
 													value="${orderDetail.price}" type="currency" /></td>
 										</tr>
 									</c:forEach>

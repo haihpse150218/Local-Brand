@@ -1,10 +1,12 @@
 package com.localbrand.sessionbeans;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,7 +20,13 @@ public class ProductFacade extends AbstractFacade<Product> {
 
 	@Override
 	protected void create(Connection con, Product t) throws SQLException {
-		String sql = "  INSERT INTO [Product] ([Name],[Description],[Status],[Color],[Size],[IsMaster],"
+		String sql = "  INSERT INTO [Product] ("
+				+ "[Name],"
+				+ "[Description],"
+				+ "[Status],"
+				+ "[Color],"
+				+ "[Size],"
+				+ "[IsMaster],"
 				+ "[ImgMaster],[ImgChild],[Price],[Container],[Discount],[ParentId],[BrandId],[CateId],[Stars],[CreateDate])\r\n" + 
 				"values	(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
@@ -30,18 +38,24 @@ public class ProductFacade extends AbstractFacade<Product> {
 		ptm.setString(5, t.getSize());
 		ptm.setBoolean(6, t.getIsMaster());
 		ptm.setString(7, t.getImgMaster());
+		
 		ptm.setString(8, t.getImgChild());
+		
 		ptm.setDouble(9, t.getPrice());
 		ptm.setInt(10, t.getContainer());
 		ptm.setDouble(11, t.getDiscount());
-		ptm.setInt(12, t.getParentId().getId());
+		if(t.getParentId().getId() == null) {
+			ptm.setNull(12, Types.INTEGER);
+		}else {
+			ptm.setInt(12, t.getParentId().getId());
+		}
+		
 		ptm.setInt(13, t.getBrandId().getId());
 		ptm.setInt(14, t.getCateId().getId());
 		ptm.setDouble(15, t.getStars());
-		
-		ptm.setString(16, 
-			(t.getCreateDate().getYear() + "-" + t.getCreateDate().getMonth() + "-" + t.getCreateDate().getDate()
-			+ " " + t.getCreateDate().getHours() + ":" + t.getCreateDate().getMinutes() + ":" + t.getCreateDate().getSeconds()));
+		java.sql.Date sqlStartDate = new java.sql.Date(t.getCreateDate().getTime());
+		ptm.setDate(16, sqlStartDate) ;
+			
 		
 		ptm.executeUpdate();
 
@@ -80,17 +94,18 @@ public class ProductFacade extends AbstractFacade<Product> {
 		ptm.setDouble(9, t.getPrice());
 		ptm.setInt(10, t.getContainer());
 		ptm.setDouble(11, t.getDiscount());
-		ptm.setInt(12, t.getParentId().getId());
+		if(t.getParentId().getId() == 0) {
+			ptm.setNull(12, Types.INTEGER);
+		}else {
+			ptm.setInt(12, t.getParentId().getId());
+		}
+		
 		ptm.setInt(13, t.getBrandId().getId());
 		ptm.setInt(14, t.getCateId().getId());
 		ptm.setDouble(15, t.getStars());
-		
-		ptm.setString(16, 
-			(t.getCreateDate().getYear() + "-" + t.getCreateDate().getMonth() + "-" + t.getCreateDate().getDate()
-			+ " " + t.getCreateDate().getHours() + ":" + t.getCreateDate().getMinutes() + ":" + t.getCreateDate().getSeconds()));
-		
+		java.sql.Date sqlStartDate = new java.sql.Date(t.getCreateDate().getTime());
+		ptm.setDate(16, sqlStartDate);
 		ptm.setInt(17, t.getId());
-		
 		ptm.executeUpdate();
 
 	}

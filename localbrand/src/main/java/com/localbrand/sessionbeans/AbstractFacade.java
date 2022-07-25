@@ -11,10 +11,10 @@ public abstract class AbstractFacade<T> {
 
 
 	 		+ "13.250.14.150:1433;"
-//			+ "localhost:1433;"
+	//		+ "localhost:1433;"
 	 		+ "databaseName=localbrand;"
 	 		+ "user=sa;password=Admin123";
-//	 		+ "user=sa;password=159357";
+	 //		+ "user=sa;password=sa";
     public AbstractFacade() {
             try {
 				Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

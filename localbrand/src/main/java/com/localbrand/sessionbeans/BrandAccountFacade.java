@@ -30,8 +30,8 @@ public class BrandAccountFacade extends AbstractFacade<BrandAccount> {
 	protected void create(Connection con, BrandAccount t) throws SQLException {
 		// TODO Auto-generated method stub
 		String sql = "INSERT INTO [BrandAccount]"
-				+ "([Name], [Username], [Password], [Role], [BrandId])"
-				+ "VALUES (?, ?, ?, ?)";
+				+ "([Name], [Username], [Password], [Role], [BrandId], [Status])"
+				+ "VALUES (?, ?, ?, ?,?,?)";
 	
 		checkNull(t);
 	
@@ -42,7 +42,7 @@ public class BrandAccountFacade extends AbstractFacade<BrandAccount> {
 		ptm.setString(3, t.getPassword());
 		ptm.setBoolean(4, t.getRole());
 		ptm.setInt(5, t.getBrandId().getId());
-		
+		ptm.setInt(6, t.getStatus());
 		ptm.executeUpdate();
 	}
 
@@ -53,7 +53,8 @@ public class BrandAccountFacade extends AbstractFacade<BrandAccount> {
 				+ "[Username] = ?, "
 				+ "[Password] = ?, "
 				+ "[Role] = ? , "
-				+ "[BrandId] = ?, "
+				+ "[Status] = ? , "
+				+ "[BrandId] = ? "
 				+ "WHERE [Id] = ?";
 	
 		checkNull(t);
@@ -64,8 +65,9 @@ public class BrandAccountFacade extends AbstractFacade<BrandAccount> {
 		ptm.setString(2, t.getUsername());
 		ptm.setString(3, t.getPassword());
 		ptm.setBoolean(4, t.getRole());
-		ptm.setInt(5, t.getBrandId().getId());
-		ptm.setInt(6, t.getId());
+		ptm.setInt(5, t.getStatus());
+		ptm.setInt(6, t.getBrandId().getId());
+		ptm.setInt(7, t.getId());
 		ptm.executeUpdate();
 	}
 
@@ -99,8 +101,8 @@ public class BrandAccountFacade extends AbstractFacade<BrandAccount> {
 			brandAccount.setPassword(rs.getString("Password"));
 			brandAccount.setRole(rs.getBoolean("Role"));
 			brandAccount.setBrandId(bf.find(rs.getInt("BrandId")));
+			brandAccount.setStatus(rs.getInt("Status"));
 		}
-		
 		return brandAccount;
 	}
 
@@ -122,6 +124,7 @@ public class BrandAccountFacade extends AbstractFacade<BrandAccount> {
 			brandAccount.setPassword(rs.getString("Password"));
 			brandAccount.setRole(rs.getBoolean("Role"));
 			brandAccount.setBrandId(bf.find(rs.getInt("BrandId")));
+			brandAccount.setStatus(rs.getInt("Status"));
 			list.add(brandAccount);
 		}
 		return list;
@@ -147,6 +150,7 @@ public class BrandAccountFacade extends AbstractFacade<BrandAccount> {
 			brandAccount.setPassword(rs.getString("Password"));
 			brandAccount.setRole(rs.getBoolean("Role"));
 			brandAccount.setBrandId(bf.find(rs.getInt("BrandId")));
+			brandAccount.setStatus(rs.getInt("Status"));
 			list.add(brandAccount);
 		}
 		return list;

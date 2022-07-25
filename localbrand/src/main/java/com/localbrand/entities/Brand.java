@@ -31,7 +31,6 @@ public class Brand implements Serializable {
 	}
 
 	private List<BrandAccount> brandAccountList;
-   
 
     private List<Store> storeList;
   

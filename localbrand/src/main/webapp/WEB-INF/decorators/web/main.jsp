@@ -53,7 +53,7 @@
     </div> -->
     <!-- Page Header End -->
     <!-- Shop Start -->
-    <jsp:include page="/WEB-INF/views/${page}/${controller}/${action}.jsp" />
+    <jsp:include page="/WEB-INF/views${page}${controller}/${action}.jsp" />
     <!-- Shop End -->
     <!-- Footer Start -->
    	<jsp:include page="/WEB-INF/decorators/web/footer.jsp" />
