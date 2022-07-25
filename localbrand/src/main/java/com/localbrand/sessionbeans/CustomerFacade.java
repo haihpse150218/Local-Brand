@@ -52,12 +52,12 @@ public class CustomerFacade extends AbstractFacade<Customer> {
 				+ "SET Name = ?, Password = ?, Avatar =?, Email =?, Phone = ?, Address = ?, Status =?, Coins = ?, RankId =?\r\n"
 				+ "WHERE id = ?";
 		PreparedStatement stm = con.prepareStatement(sql);
-		stm.setString(1, t.getName());
+		stm.setNString(1, t.getName());
 		stm.setString(2, t.getPassword());
 		stm.setString(3, t.getAvatar());
 		stm.setString(4, t.getEmail());
 		stm.setString(5, t.getPhone());
-		stm.setString(6, t.getAddress());
+		stm.setNString(6, t.getAddress());
 		stm.setString(7, t.getStatus());
 		if(t.getCoins() == null) {
 			t.setCoins(0);
