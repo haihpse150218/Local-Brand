@@ -122,12 +122,13 @@
     				
     				<label for="cPassword"><b>Confirm Password</b></label>
     				<input type="password" placeholder="Confirm Password" name="cPassword" required>
-    				
+    				<input type="hidden" name="role" value="True">
+    				<%--
     				<label for="role"><b>Role</b></label>
     					<select name="role" id="role">
  							<option value="True" >Admin</option>
   							<option value="False" selected>Employee</option>
-						</select>
+						</select>--%>
     				<br>
     				<label for="brandId"><b>Brand Name:</b></label>
     				<select id="brandId" name="brandId">
@@ -141,7 +142,7 @@
     				<label for="status"><b>Status</b></label>
     					<select name="status" id="status">
  							<option value="1" >Active</option>
-  							<option value="0" >Disable</option>
+  							<option value="0" >Disabled</option>
 						</select>
 					<label style="font-style: italic" class="mt-3 text-danger">${mess}</label>	
     				<button type="submit" class="btn">Create</button>
