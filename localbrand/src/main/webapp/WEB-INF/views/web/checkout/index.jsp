@@ -23,18 +23,18 @@
 						<div class="row">
 							<div class="col-md-6 form-group">
 								<label>Name</label> <input class="form-control" type="text"
-									name="name" value="${user.name}" placeholder="Johny Depp">
+									name="name" value="${user.name}" placeholder="John">
 							</div>
 							<div class="col-md-6 form-group">
-								<label>Email</label> <input class="form-control" type="text"
+								<label>Email</label> <input class="form-control" type="text" placeholder="example@email.com"
 									name="email" value="${user.email}">
 							</div>
 							<div class="col-md-6 form-group">
-								<label>Mobile No</label> <input class="form-control" type="text"
+								<label>Mobile No</label> <input class="form-control" type="text" placeholder="0123 456 789"
 									name="phone" value="${user.phone}">
 							</div>
 							<div class="col-md-6 form-group">
-								<label>Address</label> <input class="form-control"
+								<label>Address</label> <input class="form-control" type="text" placeholder="123 Street"
 									name="address" value="${user.address}">
 							</div>
 							<div class="col-md-6 form-group">
