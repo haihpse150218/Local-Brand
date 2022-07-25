@@ -21,10 +21,7 @@
 						<div class="page-breadcrumb">
 							<nav aria-label="breadcrumb">
 								<ol class="breadcrumb">
-									<li class="breadcrumb-item"><a href="#"
-										class="breadcrumb-link">Dashboard</a></li>
-									<li class="breadcrumb-item active" aria-current="page">E-Commerce
-										Dashboard Template</li>
+									
 								</ol>
 							</nav>
 						</div>
@@ -35,9 +32,10 @@
 			<!-- end pageheader  -->
 			<!-- ============================================================== -->
 			
-			<a href="https://login.mailchimp.com/?_ga=2.198371503.1267660876.1658636805-1543649915.1657084854" class="btn btn-primary">Send Contact Email</a>
+			<div class="btn-toolbar mb-1 ">
+				<a href="https://login.mailchimp.com/?_ga=2.198371503.1267660876.1658636805-1543649915.1657084854" class="open-button btn btn-primary">Send Contact Email</a>			
+			</div>
 			<button class="open-button btn btn-primary" onclick="openForm1()">Create new brand</button>
-
 				<div class="form-popup" id="myForm1">
   				<form action="/localbrand/sysAdmin/brand/create.do"" class="form-container" method="POST">
 
@@ -247,7 +245,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 /* Button used to open the contact form - fixed at the bottom of the page */
 .open-button {
-  background-color: #555;
+  background-color: #1E90FF;
   color: white;
   border: none;
 }
@@ -325,62 +323,4 @@ function closeForm2() {
 }
 </script>
 
-<script>
-	var chart = c3.generate({
-		bindto : "#c3chart_category",
-		data : {
-			columns : [ [ 'Men', 100 ], [ 'Women', 80 ], [ 'Accessories', 50 ],
-					[ 'Children', 40 ], [ 'Apperal', 20 ], ],
-			type : 'donut',
-			onclick : function(d, i) {
-				console.log("onclick", d, i);
-			},
-			onmouseover : function(d, i) {
-				console.log("onmouseover", d, i);
-			},
-			onmouseout : function(d, i) {
-				console.log("onmouseout", d, i);
-			},
-			colors : {
-				Men : '#5969ff',
-				Women : '#ff407b',
-				Accessories : '#25d5f2',
-				Children : '#ffc750',
-				Apperal : '#2ec551',
-			}
-		},
-		donut : {
-			label : {
-				show : false
-			}
-		},
-	});
-	Morris.Area({
-		element : 'morris_totalrevenue',
-		behaveLikeLine : true,
-		data : [ {
-			x : '2018 Q1',
-			y : 0,
-		}, {
-			x : '2018 Q2',
-			y : 7500,
-		}, {
-			x : '2019 Q3',
-			y : 15000,
-		}, {
-			x : '2019 Q4',
-			y : 22500,
-		}, {
-			x : '2020 Q5',
-			y : 30000,
-		}, {
-			x : '2020 Q6',
-			y : 40000,
-		} ],
-		xkey : 'x',
-		ykeys : [ 'y' ],
-		labels : [ 'Y' ],
-		lineColors : [ '#5969ff' ],
-		resize : true
-	});
-</script>
+

@@ -76,14 +76,11 @@
 			<jsp:include page="/WEB-INF/decorators/sysAdmin/header.jsp" />
 
 		</c:if>
-		<div class="${!controller.equals('/login')?'dashboard-wrapper':''}">
-			<div class="${!controller.equals('/login')?'dashboard-ecommerce':''}">
 				<jsp:include
 					page="/WEB-INF/views/${page}/${controller}/${action}.jsp" />
 
 				<jsp:include page="/WEB-INF/decorators/sysAdmin/footer.jsp" />
-			</div>
-		</div>
+
 	</div>
 </body>
 
