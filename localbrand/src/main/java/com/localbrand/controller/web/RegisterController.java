@@ -84,13 +84,13 @@ public class RegisterController extends HttpServlet {
 			newUser.setAvatar("https://info-imgs.vgcloud.vn/2022/01/03/13/gap-go-con-meo-hai-mat-ky-la-noi-tieng-khap-mang-xa-hoi.jpg");
 			
 			registerService.createUser(newUser);
-			newUser = loginService.loginByUsername(newName, newPassword);
+			newUser = loginService.loginByUsername(newUsername, newPassword);
 			
 			session.setAttribute("user", newUser);
 			
-			System.out.println("REGISTER SUCCESS" + newUser.getName());
+			System.out.println("REGISTER SUCCESS " + newUser.getName());
 		} catch (Exception e) {
-			request.setAttribute("REGISTER_ERROR", e.getMessage());
+			System.out.println("REGISTER_ERROR");
 		}
 		
 		HomeController hoctr = new HomeController();
