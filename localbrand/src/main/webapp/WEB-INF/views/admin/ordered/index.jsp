@@ -45,9 +45,16 @@
 								aria-expanded="false">Filter by</button>
 							<div class="dropdown-menu dropdown-menu-right "
 								aria-labelledby="triggerId">
-								<a class="dropdown-item" href="/localbrand/admin/ordered/fillter.do?op=intransit">InTransit</a> <a
-									class="dropdown-item" href="/localbrand/admin/ordered/fillter.do?op=delivered">Delivered</a> <a
-									class="dropdown-item" href="/localbrand/admin/ordered/fillter.do?op=canceled">Canceled</a>
+								<a class="dropdown-item" href="/localbrand/admin/ordered/index.do">ALL</a>  <a
+									class="dropdown-item" href="/localbrand/admin/ordered/fillter.do?op=Canceled">Canceled</a>
+									<a
+									class="dropdown-item" href="/localbrand/admin/ordered/fillter.do?op=Preparing">Preparing</a>
+									<a
+									class="dropdown-item" href="/localbrand/admin/ordered/fillter.do?op=Shipping">Shipping</a>
+									<a
+									class="dropdown-item" href="/localbrand/admin/ordered/fillter.do?op=Shipping Failed">Shipping Failed</a>
+									<a
+									class="dropdown-item" href="/localbrand/admin/ordered/fillter.do?op=Received">Received</a>
 							</div>
 						</div>
 					</div>
@@ -113,7 +120,7 @@
 											<a class="dropdown-item"
 												href="/localbrand/admin/ordered/update.do?orderId=${order.id}&status=Preparing">Preparing</a>
 											<a class="dropdown-item"
-												href="/localbrand/admin/ordered/update.do?orderId=${order.id}&status=Cancelled">Cancelled</a>
+												href="/localbrand/admin/ordered/update.do?orderId=${order.id}&status=Canceled">Canceled</a>
 										</span>
 									</td>
 									<td><a href="#" class="btn btn-outline-light"

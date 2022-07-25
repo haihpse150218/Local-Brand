@@ -38,7 +38,7 @@
                         <div class="col-md-12 form-group">
                             <label>Mobile No</label>
                             <label style="color: red; font-size: 13px;">${requestScope.ERROR_phone}</label>
-                            <input class="form-control" name="txtPhone" value="${requestScope.txtPhone}" type="text" placeholder="+123 456 789">
+                            <input class="form-control" name="txtPhone" value="${requestScope.txtPhone}" type="text" placeholder="0123 456 789">
                         </div>
                         <div class="col-md-7 form-group">
                             <div class="custom-control custom-checkbox">

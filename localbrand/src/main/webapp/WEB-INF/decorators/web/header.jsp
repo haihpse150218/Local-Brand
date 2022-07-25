@@ -13,7 +13,7 @@
                     <span class="text-muted px-2">|</span>
                     <a class="text-dark" href="https://haihpse150218.github.io/">Contact</a>
                     <span class="text-muted px-2">|</span>
-                    <a class="text-dark" href="">Collaborators ?</a>
+                    <a class="text-dark" href="/localbrand/admin">Collaborators ?</a>
                 </div>
             </div>
             <div class="col-lg-6 text-center text-lg-right">

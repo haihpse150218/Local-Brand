@@ -144,24 +144,40 @@ public class OrderedController extends HttpServlet {
 		List<OrderObject> result = new ArrayList<OrderObject>();
 
 		switch (op) {
-		case "intransit":
+		case "Received":
 			for (OrderObject o : listOrderObject) {
-				if (o.getStatus().equalsIgnoreCase("Shipping") || o.getStatus().equalsIgnoreCase("Intransit")) {
+				if (o.getStatus().equalsIgnoreCase("Received")) {
 					result.add(o);
 				}
 			}
 
 			break;
-		case "delivered":
+		case "Shipping Failed":
 			for (OrderObject o : listOrderObject) {
-				if (o.getStatus().equalsIgnoreCase("Delivered") || o.getStatus().equalsIgnoreCase("Completed")) {
+				if (o.getStatus().equalsIgnoreCase("Shipping Failed")) {
+					result.add(o);
+				}
+			}
+
+			break;
+		case "Shipping":
+			for (OrderObject o : listOrderObject) {
+				if (o.getStatus().equalsIgnoreCase("Shipping")) {
+					result.add(o);
+				}
+			}
+
+			break;
+		case "Preparing":
+			for (OrderObject o : listOrderObject) {
+				if (o.getStatus().equalsIgnoreCase("Preparing")) {
 					result.add(o);
 				}
 			}
 			break;
-		case "canceled":
+		case "Canceled":
 			for (OrderObject o : listOrderObject) {
-				if (o.getStatus().equalsIgnoreCase("Canceled") || o.getStatus().equalsIgnoreCase("Cancel")) {
+				if (o.getStatus().equalsIgnoreCase("Canceled")) {
 					result.add(o);
 				}
 			}
