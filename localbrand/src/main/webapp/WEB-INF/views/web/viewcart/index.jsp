@@ -35,44 +35,45 @@
 						<c:forEach var="key"
 							items="${sessionScope.cart.getMap().keySet()}">
 							<c:if test="${cart.getMap().get(key).getQuantity()>0}">
-								<form action="/localbrand/web/cart/updatequantity.do">
-									<tr>
-										<td class="align-middle">${cart.getMap().get(key).getProduct().getName()}</td>
-										<td class="align-middle"><fmt:setLocale value="vi_VN" />
-											<fmt:formatNumber
-												value="${cart.getMap().get(key).getProduct().getPrice()*(1-cart.getMap().get(key).getProduct().getDiscount())}"
-												type="currency" /></td>
-										<td class="align-middle">
-											<div class="input-group quantity mx-auto"
-												style="width: 80px;">
+								<tr>
+									<form action="/localbrand/web/cart/updatequantity.do">
+									<td class="align-middle">${cart.getMap().get(key).getProduct().getName()}</td>
+									<td class="align-middle"><fmt:setLocale value="vi_VN" />
+										<fmt:formatNumber
+											value="${cart.getMap().get(key).getProduct().getPrice()*(1-cart.getMap().get(key).getProduct().getDiscount())}"
+											type="currency" /></td>
+									<td class="align-middle">
+										<div class="input-group quantity mx-auto" style="width: 80px;">
 
-												<input type="number"
-													class="form-control bg-secondary text-center input-number"
-													value="${cart.getMap().get(key).getQuantity()}"
-													name="updquantity">
+											<input type="number"
+												class="form-control bg-secondary text-center input-number"
+												value="${cart.getMap().get(key).getQuantity()}"
+												name="updquantity">
 
-											</div>
-										</td>
-										<td class="align-middle"><fmt:setLocale value="vi_VN" />
-											<fmt:formatNumber
-												value="${cart.getMap().get(key).getProduct().getPrice()*(1-cart.getMap().get(key).getProduct().getDiscount())
+										</div>
+									</td>
+									<td class="align-middle"><fmt:setLocale value="vi_VN" />
+										<fmt:formatNumber
+											value="${cart.getMap().get(key).getProduct().getPrice()*(1-cart.getMap().get(key).getProduct().getDiscount())
 														*cart.getMap().get(key).getQuantity()}"
-												type="currency" /></td>
-										<td class="align-middle"><input type="hidden"
-											name="productid"
-											value="${cart.getMap().get(key).getProduct().getId()}"></form>
-										<form action="/localbrand/web/cart/updatequantity.do">
-										
-								<td class="align-midd
-								le"><input type="hidden"
-									name="productid"
-									value="${cart.getMap().get(key).getProduct().getId()}">
-											<input type="hidden" name="updquantity" value="0">
-											<button class="btn btn-sm btn-primary">
-												<i class="fa fa-times"></i>
-											</button></td>
-											</form>
-									</tr>
+											type="currency" /></td>
+									<td class="align-middle"><input type="hidden"
+										name="productid"
+										value="${cart.getMap().get(key).getProduct().getId()}">
+										<div class="input-group-append -flex justify-content-center">
+											<button class="btn btn-primary ">Save</button>
+										</div>
+										</form>
+										<form action="/localbrand/web/cart/updatequantity.do"></td>
+									<td class="align-middle"><input type="hidden"
+										name="productid"
+										value="${cart.getMap().get(key).getProduct().getId()}">
+										<input type="hidden" name="updquantity" value="0">
+										<button class="btn btn-sm btn-primary">
+											<i class="fa fa-times"></i>
+										</button></td>
+									</form>
+								</tr>
 							</c:if>
 						</c:forEach>
 
@@ -106,42 +107,44 @@
 						<h4 class="font-weight-semi-bold m-0 ">Cart Summary</h4>
 					</div>
 					<div class="card-body">
-					<div class="d-flex justify-content-between  mb-3 pt-1">
-						<h6 class="font-weight-medium">Total Cost</h6>
-						<h6 class="font-weight-medium">
-							<fmt:setLocale value="vi_VN" />
-							<fmt:formatNumber value="${requestScope.totalCart}"
-								type="currency" />
-						</h6>
-					</div>
-					<div class="d-flex justify-content-between">
-						<h6 class="font-weight-medium">Shipping Fee</h6>
-						<h6 class="font-weight-medium">
-							<fmt:setLocale value="vi_VN" />
-							<fmt:formatNumber value="${requestScope.feeShip}" type="currency" />
-						</h6>
-					</div>
-					<div class="d-flex justify-content-between">
-						<h6 class="font-weight-medium">Membership Discount
-							(${sessionScope.user.rankId.rank})</h6>
-						<h6 class="font-weight-medium">
-						<c:if test="${not empty user}">
-							<fmt:formatNumber type="percent"
-									value="${sessionScope.user.rankId.discount}" />
+						<div class="d-flex justify-content-between  mb-3 pt-1">
+							<h6 class="font-weight-medium">Total Cost</h6>
+							<h6 class="font-weight-medium">
+								<fmt:setLocale value="vi_VN" />
+								<fmt:formatNumber value="${requestScope.totalCart}"
+									type="currency" />
+							</h6>
+						</div>
+						<div class="d-flex justify-content-between">
+							<h6 class="font-weight-medium">Shipping Fee</h6>
+							<h6 class="font-weight-medium">
+								<fmt:setLocale value="vi_VN" />
+								<fmt:formatNumber value="${requestScope.feeShip}"
+									type="currency" />
+							</h6>
+						</div>
+						<div class="d-flex justify-content-between">
+							<h6 class="font-weight-medium">Membership Discount
+								(${sessionScope.user.rankId.rank})</h6>
+							<h6 class="font-weight-medium">
+								<c:if test="${not empty user}">
+									<fmt:formatNumber type="percent"
+										value="${sessionScope.user.rankId.discount}" />
 								</c:if>
 								<c:if test="${empty user}">
-							<fmt:formatNumber type="percent" value="0" />
+									<fmt:formatNumber type="percent" value="0" />
 								</c:if>
-						</h6>
-					</div>
-					<div class="d-flex justify-content-between">
-						<h6 class="font-weight-medium"></h6>
-						<h6 class="font-weight-medium">
-							<fmt:setLocale value="vi_VN" />
-							<fmt:formatNumber value="-${requestScope.totalCart + requestScope.feeShip - requestScope.totalPrice}"
-								type="currency" />
-						</h6>
-					</div>
+							</h6>
+						</div>
+						<div class="d-flex justify-content-between">
+							<h6 class="font-weight-medium"></h6>
+							<h6 class="font-weight-medium">
+								<fmt:setLocale value="vi_VN" />
+								<fmt:formatNumber
+									value="-${requestScope.totalCart + requestScope.feeShip - requestScope.totalPrice}"
+									type="currency" />
+							</h6>
+						</div>
 					</div>
 					<div class="card-footer border-secondary bg-transparent ">
 						<div class="d-flex justify-content-between mt-2 ">

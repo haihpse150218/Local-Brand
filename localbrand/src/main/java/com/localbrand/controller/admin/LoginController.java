@@ -62,7 +62,7 @@ public class LoginController extends HttpServlet {
 		}
 		else {
 			
-			request.setAttribute("mess", "Wrong Username or Password!!!");
+			request.setAttribute("mess", "Invalid Account!");
 			request.setAttribute("page", "/admin");
 			request.setAttribute("controller", "/login");
 			request.setAttribute("action", "index");	
