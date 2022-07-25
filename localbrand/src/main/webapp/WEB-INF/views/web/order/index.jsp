@@ -57,8 +57,6 @@
 										<a
 											href="/localbrand/web/order/setstatusorder.do?updorderstatus=Received&orderid=${order.id}&orderstatus="
 											class="nav-item nav-link">I received order successfully!</a>
-									</c:if> <c:if test="${order.status == 'Received'}">
-									feedback trong order details
 									</c:if></td>
 								<td><a href="#" class="btn btn-outline-dark"
 									data-toggle="modal" data-target=".orderid${order.id}">View
