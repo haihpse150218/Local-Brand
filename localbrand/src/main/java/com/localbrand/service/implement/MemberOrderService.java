@@ -85,6 +85,7 @@ public class MemberOrderService implements IMemberOrderHistory {
 
 			}
 		}
+		if (list.size()==0) return null;
 		Collections.reverse(list);
 		return list;
 	}

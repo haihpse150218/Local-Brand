@@ -38,7 +38,12 @@ public class RegisterController extends HttpServlet {
 			index(request, response);
 			break;
 		case "register":
-			register(request, response);
+			try {
+				register(request, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			break;
 		default:
 			request.setAttribute("controller", "error");
@@ -54,7 +59,7 @@ public class RegisterController extends HttpServlet {
 	}
 
 
-	private void register(HttpServletRequest request, HttpServletResponse response) {
+	private void register(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		
 		// PARAMETERS
@@ -66,6 +71,7 @@ public class RegisterController extends HttpServlet {
 		
 		// SERVICE
 		RegisterService registerService = new RegisterService();
+		LoginService loginService = new LoginService();
 		try {
 			Customer newUser = new Customer();
 			newUser.setUsername(newUsername);
@@ -73,8 +79,12 @@ public class RegisterController extends HttpServlet {
 			newUser.setEmail(newEmail);
 			newUser.setPhone(newPhone);
 			newUser.setPassword(newPassword);
+			//mac dinh
+			newUser.setStatus("Active");
+			newUser.setAvatar("https://info-imgs.vgcloud.vn/2022/01/03/13/gap-go-con-meo-hai-mat-ky-la-noi-tieng-khap-mang-xa-hoi.jpg");
 			
 			registerService.createUser(newUser);
+			newUser = loginService.loginByUsername(newName, newPassword);
 			
 			session.setAttribute("user", newUser);
 			
@@ -83,8 +93,8 @@ public class RegisterController extends HttpServlet {
 			request.setAttribute("REGISTER_ERROR", e.getMessage());
 		}
 		
-		request.setAttribute("controller", "/home");
-		request.setAttribute("action", "index");
+		HomeController hoctr = new HomeController();
+		hoctr.index(request, response);
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

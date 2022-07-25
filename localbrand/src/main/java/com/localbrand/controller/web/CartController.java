@@ -135,7 +135,7 @@ public class CartController extends HttpServlet {
 	private void updateinfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		IViewCartService vcsv = new ViewCartService();
 		LoginService loginService = new LoginService();
-		
+
 		HttpSession session = request.getSession();
 		Customer user = (Customer) session.getAttribute("user");
 
@@ -144,11 +144,17 @@ public class CartController extends HttpServlet {
 		String phone = request.getParameter("phone");
 		String address = request.getParameter("address");
 
-		if (!user.getAddress().equalsIgnoreCase(address)) {
+		if (user.getAddress() == null) {
 			String city = request.getParameter("city");
 			String district = request.getParameter("district");
 			if (city != null && district != null)
-			address += ", " + district + ", " + city;
+				address += ", " + district + ", " + city;
+			System.out.println("address ne : " + address);
+		} else if (!user.getAddress().equalsIgnoreCase(address)) {
+			String city = request.getParameter("city");
+			String district = request.getParameter("district");
+			if (city != null && district != null)
+				address += ", " + district + ", " + city;
 			System.out.println("address ne : " + address);
 		}
 
