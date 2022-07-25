@@ -82,6 +82,8 @@
 									<th class="border-0">#</th>
 									<th class="border-0">Order Id</th>
 									<th class="border-0">Product Name</th>
+									<th class="border-0">Size</th>
+									<th class="border-0">Color</th>
 									<th class="border-0">Product Brand</th>
 									<th class="border-0">Quantity</th>
 									<th class="border-0">Discount</th>
@@ -96,6 +98,8 @@
 										<td>${loop.count}</td>
 										<td>${order.id}</td>
 										<td>${orderDetail.product.name}</td>
+										<td>${orderDetail.product.size}</td>
+										<td>${orderDetail.product.color}</td>
 										<td>${orderDetail.product.brandId.name}</td>
 										<td>${orderDetail.quantity}</td>
 										<td><fmt:formatNumber type="percent"

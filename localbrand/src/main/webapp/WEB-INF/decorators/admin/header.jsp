@@ -21,8 +21,15 @@
 					<div class="dropdown-menu dropdown-menu-right nav-user-dropdown"
 						aria-labelledby="navbarDropdownMenuLink2">
 						<div class="nav-user-info">
-							<h5 class="mb-0 text-white nav-user-name">John Abraham</h5>
-							<span class="status"></span><span class="ml-2">Available</span>
+							<h5 class="mb-0 text-white nav-user-name">${admin.name}</h5>
+							<span class="status"></span><span class="ml-2">
+							<c:if test="${admin.status==1}">
+							Active
+							</c:if>
+							<c:if test="${admin.status==0}">
+							Disabled
+							</c:if>
+							</span>
 						</div>
 						<a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
 						<a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>

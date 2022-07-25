@@ -22,7 +22,7 @@ public class LoginAdmin implements IHomeAdmin {
 		BrandAccount result = null;
 		try {
 			for (BrandAccount ac : bf.findAll()) {
-				if(ac.getUsername().equalsIgnoreCase(username.trim())){
+				if(ac.getUsername().equalsIgnoreCase(username.trim()) && ac.getStatus()==1){
 					if(password.equalsIgnoreCase(ac.getPassword())) {
 						result = ac;
 					}

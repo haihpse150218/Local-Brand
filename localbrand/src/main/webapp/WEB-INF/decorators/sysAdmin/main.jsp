@@ -31,7 +31,7 @@
 	href="${pageContext.request.contextPath}/teamplate/sysAdmin/assets/vendor/charts/c3charts/c3.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/teamplate/sysAdmin/assets/vendor/fonts/flag-icon-css/flag-icon.min.css">
-<title>Concept - Bootstrap 4 sysAdmin Dashboard Template</title>
+<title>E-localbrand System Admin</title>
 </head>
 
 <body>

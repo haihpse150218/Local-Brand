@@ -45,7 +45,7 @@ public class CheckoutService implements ICheckoutService {
 			double totalByBrand = 0;
 			for (int key : brandOrders.getMap().keySet()) {
 				totalByBrand += brandOrders.getMap().get(key).getProduct().getPrice()
-						*(1-vcsv.getDiscount(cusid) - brandOrders.getMap().get(key).getProduct().getDiscount());
+						*(1-vcsv.getDiscount(cusid) - brandOrders.getMap().get(key).getProduct().getDiscount()) *brandOrders.getMap().get(key).getQuantity();
 			}
 			//tax 10%
 			order.setTax(totalByBrand*0.1);
@@ -60,7 +60,7 @@ public class CheckoutService implements ICheckoutService {
 				OrderDetail orderDetails = new OrderDetail();
 				//discount = tier dis + product dis
 				orderDetails.setDiscount(vcsv.getDiscount(cusid)+product.getDiscount());
-				orderDetails.setPrice(product.getPrice()* ( 1 - vcsv.getDiscount(cusid) - product.getDiscount()));
+				orderDetails.setPrice(product.getPrice()* ( 1 - vcsv.getDiscount(cusid) - product.getDiscount()) * ordQuantity);
 				orderDetails.setProduct(new Product(product.getId()));
 				orderDetails.setQuantity(ordQuantity);
 				
