@@ -11,7 +11,7 @@
                 <div class="d-inline-flex align-items-center">
                     <a class="text-dark" href="">FAQs</a>
                     <span class="text-muted px-2">|</span>
-                    <a class="text-dark" href="http://eepurl.com/hy-j-r">Contact</a>
+                    <a class="text-dark" href="https://haihpse150218.github.io/">Contact</a>
                     <span class="text-muted px-2">|</span>
                     <a class="text-dark" href="/localbrand/admin">Collaborators ?</a>
                 </div>
