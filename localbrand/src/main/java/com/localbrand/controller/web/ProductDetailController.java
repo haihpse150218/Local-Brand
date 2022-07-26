@@ -35,9 +35,9 @@ public class ProductDetailController extends HttpServlet {
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 		String action = request.getAttribute("action").toString();
-		String tcmt = request.getParameter("textComment");
+		//String tcmt = request.getParameter("textComment");
 		System.out.println("action ne:" + action);
-		System.out.println("cmt ne: " + tcmt);
+		
 		switch (action) {
 		case "index":
 			index(request, response);
@@ -109,16 +109,16 @@ public class ProductDetailController extends HttpServlet {
 			request.setAttribute("listColor", listColor);
 		}
 
-		List<Feedback> listf = pds.getProductDetail(pid).getFeedbackList();
-		List<Customer> listcus = pds.getCusByFb(listf);
+//		List<Feedback> listf = pds.getProductDetail(pid).getFeedbackList();
+//		List<Customer> listcus = pds.getCusByFb(listf);
 
 		Brand brand = pds.getBrandDetail(pid);
 		List<Product> child = pds.getProductChild(pid);
-		System.out.println("listcus " + listcus);
-		request.setAttribute("pChild", child);
-		request.setAttribute("fDetail", listf);
 
-		request.setAttribute("cusDetail", listcus);
+		request.setAttribute("pChild", child);
+//		request.setAttribute("fDetail", listf);
+//
+//		request.setAttribute("cusDetail", listcus);
 		request.setAttribute("pDetail", listp);
 		request.setAttribute("bDetail", brand);
 

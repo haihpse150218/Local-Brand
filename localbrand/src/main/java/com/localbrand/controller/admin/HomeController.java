@@ -1,6 +1,8 @@
 package com.localbrand.controller.admin;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -55,6 +57,14 @@ public class HomeController extends HttpServlet {
 		if (admin != null) {
 			System.out.println("admin " + admin.toString());
 			List<OrderObject> listOrderObject = HomeAdmin.getInstance().getOrderListByBrandId(admin.getBrandId().getId());
+			Collections.sort(listOrderObject, new Comparator<OrderObject>() {
+				@Override
+				public int compare(OrderObject o1, OrderObject o2) {
+					return o2.getOrderDate().compareTo(o1.getOrderDate());
+				}
+			});
+			
+			
 			int size = listOrderObject.size();
 			int top = 5;
 			System.out.println("size" + size);
@@ -67,6 +77,9 @@ public class HomeController extends HttpServlet {
 			request.setAttribute("revenueByTime", revenueByTime);
 			request.setAttribute("revenueByCollection", revenueByCollection);
 			double growth = (totalSalesThisWeek - totalSalesLastWeek) / totalSalesLastWeek;
+			
+			System.out.println("totalSalesThisWeek"+totalSalesThisWeek);
+			System.out.println("totalSalesLastWeek"+totalSalesLastWeek);
 			request.setAttribute("salesThisWeek", totalSalesThisWeek);
 			request.setAttribute("salesLastWeek", totalSalesLastWeek);
 			request.setAttribute("growth", growth);
