@@ -196,6 +196,12 @@ public class OrderedController extends HttpServlet {
 		BrandAccount admin = (BrandAccount) session.getAttribute("admin");
 		
 		List<OrderObject> listOrderObject = HomeAdmin.getInstance().getOrderListByBrandId(admin.getBrandId().getId());
+		Collections.sort(listOrderObject, new Comparator<OrderObject>() {
+			@Override
+			public int compare(OrderObject o1, OrderObject o2) {
+				return o2.getOrderDate().compareTo(o1.getOrderDate());
+			}
+		});
 		
 		request.setAttribute("listOrder", listOrderObject);
 	}

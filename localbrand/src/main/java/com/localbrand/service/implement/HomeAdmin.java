@@ -101,15 +101,20 @@ public class HomeAdmin implements IHomeAdmin {
 		double totalSales = 0;
 		Date date = new Date();
 		Calendar c = Calendar.getInstance();
-		c.setTime(date);
+
+		c.set(Calendar.HOUR_OF_DAY, 0);
+	    c.set(Calendar.MINUTE, 0);
+	    c.set(Calendar.SECOND, 0);
+	    c.set(Calendar.MILLISECOND, 0);
 		int i = c.get(Calendar.DAY_OF_WEEK) - c.getFirstDayOfWeek();
-		c.add(Calendar.DATE, -i - 7 + 1);
+		c.add(Calendar.DATE, -i + 1);
 		Date start = c.getTime();
 		c.add(Calendar.DATE, 6);
 		Date end = c.getTime();
+		System.out.println("s" +start +" end "+ end);
 
 		for (OrderObject orderObject : listOrder) {
-			if (orderObject.getOrderDate().compareTo(start) >= 0 && orderObject.getOrderDate().compareTo(end) < 0) {
+			if (orderObject.getOrderDate().compareTo(start) >= 0 && orderObject.getOrderDate().compareTo(end) <= 0) {
 
 				totalSales += orderObject.getTotal();
 
@@ -123,15 +128,19 @@ public class HomeAdmin implements IHomeAdmin {
 		double totalSales = 0;
 		Date date = new Date();
 		Calendar c = Calendar.getInstance();
-		c.setTime(date);
+		c.set(Calendar.HOUR_OF_DAY, 0);
+	    c.set(Calendar.MINUTE, 0);
+	    c.set(Calendar.SECOND, 0);
+	    c.set(Calendar.MILLISECOND, 0);
 		int i = c.get(Calendar.DAY_OF_WEEK) - c.getFirstDayOfWeek();
-		c.add(Calendar.DATE, -i - 14 + 1);
+		c.add(Calendar.DATE, -i - 7 + 1);
 		Date start = c.getTime();
 		c.add(Calendar.DATE, 6);
 		Date end = c.getTime();
-
+		System.out.println("Last week s" +start +" end "+ end);
 		for (OrderObject orderObject : listOrder) {
-			if (orderObject.getOrderDate().compareTo(start) >= 0 && orderObject.getOrderDate().compareTo(end) < 0) {
+			System.out.println("Last week s" +orderObject.getOrderDate() +" cmp "+ orderObject.getOrderDate().compareTo(start));
+			if (orderObject.getOrderDate().compareTo(start) >= 0 && orderObject.getOrderDate().compareTo(end) <= 0) {
 				totalSales += orderObject.getTotal();
 
 			}
@@ -143,14 +152,17 @@ public class HomeAdmin implements IHomeAdmin {
 		int totalOrders = 0;
 		Date date = new Date();
 		Calendar c = Calendar.getInstance();
-		c.setTime(date);
+		c.set(Calendar.HOUR_OF_DAY, 0);
+	    c.set(Calendar.MINUTE, 0);
+	    c.set(Calendar.SECOND, 0);
+	    c.set(Calendar.MILLISECOND, 0);
 		int i = c.get(Calendar.DAY_OF_WEEK) - c.getFirstDayOfWeek();
-		c.add(Calendar.DATE, -i - 7 + 1);
+		c.add(Calendar.DATE, -i  + 1);
 		Date start = c.getTime();
 		c.add(Calendar.DATE, 6);
 		Date end = c.getTime();
 		for (OrderObject orderObject : listOrder) {
-			if (orderObject.getOrderDate().compareTo(start) >= 0 && orderObject.getOrderDate().compareTo(end) < 0) {
+			if (orderObject.getOrderDate().compareTo(start) >= 0 && orderObject.getOrderDate().compareTo(end) <= 0) {
 				totalOrders += 1;
 			}
 		}
@@ -162,14 +174,19 @@ public class HomeAdmin implements IHomeAdmin {
 		int totalOrders = 0;
 		Date date = new Date();
 		Calendar c = Calendar.getInstance();
-		c.setTime(date);
+
+
+		c.set(Calendar.HOUR_OF_DAY, 0);
+	    c.set(Calendar.MINUTE, 0);
+	    c.set(Calendar.SECOND, 0);
+	    c.set(Calendar.MILLISECOND, 0);
 		int i = c.get(Calendar.DAY_OF_WEEK) - c.getFirstDayOfWeek();
-		c.add(Calendar.DATE, -i - 14 + 1);
+		c.add(Calendar.DATE, -i - 7 + 1);
 		Date start = c.getTime();
 		c.add(Calendar.DATE, 6);
 		Date end = c.getTime();
 		for (OrderObject orderObject : listOrder) {
-			if (orderObject.getOrderDate().compareTo(start) >= 0 && orderObject.getOrderDate().compareTo(end) < 0) {
+			if (orderObject.getOrderDate().compareTo(start) >= 0 && orderObject.getOrderDate().compareTo(end) <= 0) {
 				totalOrders += 1;
 			}
 		}
@@ -180,9 +197,13 @@ public class HomeAdmin implements IHomeAdmin {
 		int newMembers = 0;
 		Date date = new Date();
 		Calendar c = Calendar.getInstance();
-		c.setTime(date);
+
+		c.set(Calendar.HOUR_OF_DAY, 0);
+	    c.set(Calendar.MINUTE, 0);
+	    c.set(Calendar.SECOND, 0);
+	    c.set(Calendar.MILLISECOND, 0);
 		int i = c.get(Calendar.DAY_OF_WEEK) - c.getFirstDayOfWeek();
-		c.add(Calendar.DATE, -i - 7 + 1);
+		c.add(Calendar.DATE, -i + 1);
 		Date start = c.getTime();
 		c.add(Calendar.DATE, 6);
 		Date end = c.getTime();
@@ -218,9 +239,13 @@ public class HomeAdmin implements IHomeAdmin {
 		int newMembers = 0;
 		Date date = new Date();
 		Calendar c = Calendar.getInstance();
-		c.setTime(date);
+
+		c.set(Calendar.HOUR_OF_DAY, 0);
+	    c.set(Calendar.MINUTE, 0);
+	    c.set(Calendar.SECOND, 0);
+	    c.set(Calendar.MILLISECOND, 0);
 		int i = c.get(Calendar.DAY_OF_WEEK) - c.getFirstDayOfWeek();
-		c.add(Calendar.DATE, -i - 14 + 1);
+		c.add(Calendar.DATE, -i - 7 + 1);
 		Date start = c.getTime();
 		c.add(Calendar.DATE, 6);
 		Date end = c.getTime();
@@ -275,7 +300,10 @@ public class HomeAdmin implements IHomeAdmin {
 	public List<OrderObject> getThisWeekOrderListByBrandId(List<OrderObject> listOrder, Date date) {
 		List<OrderObject> result = new ArrayList<>();
 		Calendar c = Calendar.getInstance();
-		c.setTime(date);
+		c.set(Calendar.HOUR_OF_DAY, 0);
+	    c.set(Calendar.MINUTE, 0);
+	    c.set(Calendar.SECOND, 0);
+	    c.set(Calendar.MILLISECOND, 0);
 		int i = c.get(Calendar.DAY_OF_WEEK) - c.getFirstDayOfWeek();
 		c.add(Calendar.DATE, -i + 1);
 		Date start = c.getTime();

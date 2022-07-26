@@ -83,7 +83,9 @@
 													<td>${loop.count}</td>
 													<td>${order.id}</td>
 													<td>${order.quantity}</td>
-													<td>${order.total}</td>
+													<td><fmt:setLocale value="vi_VN" /> <fmt:formatNumber
+															value="${order.total}" type="currency" /></td>
+
 													<td><fmt:formatDate value="${order.orderDate}"
 															pattern="dd-MM-yyyy" /></td>
 													<td>${order.customerId.name}</td>
@@ -142,7 +144,7 @@
 															<td>${orderDetail.quantity}</td>
 															<td><fmt:formatNumber type="percent"
 																	value="${orderDetail.discount}" /></td>
-															<td><fmt:setLocale value="en_US" /> <fmt:formatNumber
+															<td><fmt:setLocale value="vi_VN" /> <fmt:formatNumber
 																	value="${orderDetail.price}" type="currency" /></td>
 														</tr>
 													</c:forEach>
@@ -161,9 +163,6 @@
 
 					<!-- ============================================================== -->
 					<!-- ============================================================== -->
-
-
-
 					<!-- ============================================================== -->
 				</div>
 
@@ -177,7 +176,7 @@
 								<h5 class="text-muted">Sales</h5>
 								<div class="metric-value d-inline-block">
 									<h1 class="mb-1">
-										<fmt:setLocale value="en_US" />
+										<fmt:setLocale value="vi_VN" />
 										<fmt:formatNumber value="${salesThisWeek}" type="currency" />
 									</h1>
 								</div>
@@ -185,8 +184,10 @@
 									class="metric-label d-inline-block float-right ${growth>=0?'text-success':'text-danger'} font-weight-bold">
 									<span
 										class="icon-circle-small icon-box-xs ${growth>=0?'text-success bg-success-light':'text-danger bg-danger-light'}"><i
-										class="fa fa-fw ${growth>=0?'fa-arrow-up':'fa-arrow-down'} "></i></span><span
-										class="ml-1">${growth}%</span>
+										class="fa fa-fw ${growth>=0?'fa-arrow-up':'fa-arrow-down'} "></i></span>
+
+									<span class="ml-1"><fmt:formatNumber type="percent"
+											 maxIntegerDigits="3" value="${growth}" /></span>
 								</div>
 							</div>
 						</div>
@@ -254,100 +255,15 @@
 					<!-- ============================================================== -->
 					<!-- category revenue  -->
 					<!-- ============================================================== -->
-					<div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
-						<div class="card">
-							<h5 class="card-header">Revenue by Category</h5>
-							<div class="card-body">
-								<div id="c3chart_category" style="height: 420px;"></div>
-							</div>
-						</div>
-					</div>
+
 					<!-- ============================================================== -->
 					<!-- end category revenue  -->
 					<!-- ============================================================== -->
 
-					<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
-						<div class="card">
-							<h5 class="card-header">Total Revenue</h5>
-							<div class="card-body">
-								<div id="morris_totalrevenue"></div>
-							</div>
-							<div class="card-footer">
-								<p class="display-7 font-weight-bold">
-									<span class="text-primary d-inline-block">$26,000</span><span
-										class="text-success float-right">+9.45%</span>
-								</p>
-							</div>
-						</div>
-					</div>
+
 				</div>
 			</div>
 		</div>
 	</div>
 
 </div>
-<script>
-	var chart = c3.generate({
-		bindto : "#c3chart_category",
-		data : {
-			columns : [
-				['Men', 100], 
-				['Women', 80], 
-				['Accessories', 50],
-				['Children', 40], 
-				['Apperal', 20], 
-			],
-			type : 'donut',
-			onclick : function(d, i) {
-				console.log("onclick", d, i);
-			},
-			onmouseover : function(d, i) {
-				console.log("onmouseover", d, i);
-			},
-			onmouseout : function(d, i) {
-				console.log("onmouseout", d, i);
-			},
-			colors : {
-				Men : '#5969ff',
-				Women : '#ff407b',
-				Accessories : '#25d5f2',
-				Children : '#ffc750',
-				Apperal : '#2ec551',
-			}
-		},
-		donut : {
-			label : {
-				show : false
-			}
-		},
-	});
-	Morris.Area({
-		element : 'morris_totalrevenue',
-		behaveLikeLine : true,
-		data : [ {
-			x : '2018 Q1',
-			y : 0,
-		}, {
-			x : '2018 Q2',
-			y : 7500,
-		}, {
-			x : '2019 Q3',
-			y : 15000,
-		}, {
-			x : '2019 Q4',
-			y : 22500,
-		}, {
-			x : '2020 Q5',
-			y : 30000,
-		}, {
-			x : '2020 Q6',
-			y : 40000,
-		},
-		],
-		xkey : 'x',
-		ykeys : [ 'y' ],
-		labels : [ 'Y' ],
-		lineColors : [ '#5969ff' ],
-		resize : true
-	});
-</script>
