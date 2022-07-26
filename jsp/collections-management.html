@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/libs/css/style.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <link rel="stylesheet" href="assets/vendor/charts/chartist-bundle/chartist.css">
+    <link rel="stylesheet" href="assets/vendor/charts/morris-bundle/morris.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/vendor/charts/c3charts/c3.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/flag-icon-css/flag-icon.min.css">
+    <title>Concept - Bootstrap 4 Admin Dashboard Template</title>
+</head>
+
+<body>
+
+    <div class="dashboard-main-wrapper">
+        <div class="dashboard-wrapper">
+            <div class="dashboard-ecommerce">
+                <!-- ============================================================== -->
+                <!-- pageheader  -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="page-header">
+                            <h2 class="pageheader-title">E-commerce Product Checkout </h2>
+                            <p class="pageheader-text">Nulla euismod urna eros, sit amet scelerisque torton lectus vel mauris facilisis faucibus at enim quis massa lobortis rutrum.</p>
+                            <div class="page-breadcrumb">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">E-coommerce</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">E-Commerce Product Checkout</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- end pageheader  -->
+
+                <!-- recent orders  -->
+                <!-- ============================================================== -->
+                <div class="container-fluid dashboard-content">
+                    <style>
+                        td {
+                            padding: 3px !important;
+                            text-align: center;
+                        }
+                        
+                        th {
+                            text-align: center;
+                        }
+                    </style>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-header">
+                                <h2 class="pageheader-title">E-commerce Collections Management </h2>
+                                <p class="pageheader-text">Manager Your Collections.</p>
+                                <div class="page-breadcrumb">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">E-coommerce</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">E-Commerce Collections Management</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="card">
+                            <div class=" card-header">
+                                <h5 class="">Collections Management</h5>
+                                <div class="row">
+                                    <form action="" class="col-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Search by id">
+                                            <div class="input-group-append">
+                                                <button class="input-group-text bg-transparent text-primary">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="col-5">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".create-product-modal"><i class="fas fa-plus-square"></i></button>
+                                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">See turnover</button>
+                                    </div>
+                                    <div class="dropdown float-right">
+                                        <button class="btn bg-white dropdown-toggle " type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Fillter by
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right " aria-labelledby="triggerId">
+                                            <a class="dropdown-item" href="#">All (Tat ca)</a>
+                                            <a class="dropdown-item" href="#">1 Week (Tuan nay)</a>
+                                        </div>
+                                        <button class="btn bg-white dropdown-toggle " type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Sort by
+                                                    </button>
+                                        <div class="dropdown-menu dropdown-menu-right " aria-labelledby="triggerId">
+                                            <a class="dropdown-item" href="#">Number orders (Tong so don dat)</a>
+                                            <a class="dropdown-item" href="#">Turnover (Tong don thanh cong)</a>
+                                            <a class="dropdown-item" href="#">Proceeds (Tong tien ban duoc)</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+
+                                    <div class="collapse multi-collapse show">
+                                        <table class="table ">
+                                            <thead class="bg-light ">
+                                                <tr class="border-0 ">
+                                                    <th class="border-0 ">#</th>
+                                                    <th class="border-0 ">Collection ID</th>
+                                                    <th class="border-0 ">Collection Name</th>
+                                                    <th class="border-0 ">Discount</th>
+                                                    <th class="border-0 ">Price</th>
+                                                    <th class="border-0 ">Status</th>
+                                                    <th class="border-0 h-50">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- vong for order detail-->
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>id000001</td>
+                                                    <td>May rung sieu dinh</td>
+                                                    <td>10%</td>
+                                                    <td>$80.00</td>
+                                                    <td>active</td>
+                                                    <td>
+                                                        <a href="# " class="btn btn-outline-light far fa-edit"></a>
+                                                        <a href="# " class="btn btn-outline-light fas fa-trash"></a>
+                                                    </td>
+                                                </tr>
+                                                <!-- vong for order detail-->
+                                                <!-- order detail end -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="collapse multi-collapse ">
+                                        <table class="table ">
+                                            <thead class="bg-light ">
+                                                <tr class="border-0 ">
+                                                    <th class="border-0 ">#</th>
+                                                    <th class="border-0 ">Collection ID</th>
+                                                    <th class="border-0 ">Collection Name</th>
+                                                    <th class="border-0 ">Proceeds</th>
+                                                    <th class="border-0 ">Number Ordered</th>
+                                                    <th class="border-0 ">Number Delivered</th>
+                                                    <th class="border-0 ">Number Canceled</th>
+                                                    <th class="border-0 ">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- vong for order detail-->
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>id000001</td>
+                                                    <td>May rung sieu dinh</td>
+                                                    <td>199$</td>
+                                                    <td>122</td>
+                                                    <td>22</td>
+                                                    <td>21</td>
+                                                    <td>
+                                                        <a href="# " class="btn btn-outline-light far fa-edit"></a>
+                                                        <a href="# " class="btn btn-outline-light fas fa-trash"></a>
+                                                    </td>
+                                                </tr>
+                                                <!-- vong for order detail-->
+
+                                                <!-- order detail end -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal Order Detail -->
+
+                <div class="modal fade create-product-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="card">
+                                <h5 class="card-header">Create Product</h5>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label class="col-form-label">Collection Name</label>
+                                            <input name="txtName" type="text" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-form-label">Collection Banner</label>
+                                            <input name="txtBanner" type="text" class="form-control">
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-md-6 mb-3">
+                                                <label>Status</label>
+                                                <select name="txtStatus" class="form-control">
+                                                    <option>XS</option>
+                                                    <option>S</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label>Discount</label>
+                                                <input name="txtDiscount" type="number" class="form-control" placeholder="...%" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Description</label>
+                                            <textarea name="txtDescription" class="form-control" rows="3"></textarea>
+                                        </div>
+                                        <p class="text-right">
+                                            <button type="submit" class="btn btn-space btn-primary">Save</button>
+                                            <button type="button" class="btn btn-space btn-secondary">Cancel</button>
+                                        </p>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade create-product-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="card">
+                                <h5 class="card-header">Add Product To Collection</h5>
+                                <div class="card-body">
+                                    <table class="table ">
+                                        <thead class="bg-light ">
+                                            <tr class="border-0 ">
+                                                <th class="border-0 ">#</th>
+                                                <th class="border-0 ">Product ID</th>
+                                                <th class="border-0 ">Product Image</th>
+                                                <th class="border-0 ">Product Name</th>
+                                                <th class="border-0 ">Price</th>
+                                                <th class="border-0 h-50">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- vong for order detail-->
+                                            <tr>
+                                                <td>1</td>
+                                                <td>id000001</td>
+                                                <td><img src="# "></td>
+                                                <td>May rung sieu dinh</td>
+                                                <td>$80.00</td>
+                                                <td>
+                                                    <a href="# " class="btn btn-outline-light fas fa-plus-circle" data-toggle="modal " data-target=".orderid1 "></a>
+                                                </td>
+                                            </tr>
+                                            <!-- vong for order detail-->
+                                            <!-- order detail end -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- end wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- end main wrapper  -->
+    <!-- ============================================================== -->
+    <!-- Optional JavaScript -->
+    <!-- jquery 3.3.1 -->
+    <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <!-- bootstap bundle js -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <!-- slimscroll js -->
+    <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+    <!-- main js -->
+    <script src="assets/libs/js/main-js.js"></script>
+    <!-- chart chartist js -->
+    <script src="assets/vendor/charts/chartist-bundle/chartist.min.js"></script>
+    <!-- sparkline js -->
+    <script src="assets/vendor/charts/sparkline/jquery.sparkline.js"></script>
+    <!-- morris js -->
+    <script src="assets/vendor/charts/morris-bundle/raphael.min.js"></script>
+    <script src="assets/vendor/charts/morris-bundle/morris.js"></script>
+    <!-- chart c3 js -->
+    <script src="assets/vendor/charts/c3charts/c3.min.js"></script>
+    <script src="assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
+    <script src="assets/vendor/charts/c3charts/C3chartjs.js"></script>
+    <script src="assets/libs/js/dashboard-ecommerce.js"></script>
+</body>
+
+</html>
