@@ -5,9 +5,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <c:set var="pChild" scope="request" value="${requestScope.pChild}" />
-<c:set var="fDetail" scope="request" value="${requestScope.fDetail}" />
+<!--<c:set var="fDetail" scope="request" value="${requestScope.fDetail}" />
 <c:set var="cusDetail" scope="request" value="${requestScope.cusDetail}" />
-
+-->
 <c:set var="product" scope="request" value="${requestScope.pDetail}" />
 <c:set var="brand" scope="request" value="${requestScope.bDetail}" />
 <c:set var="listSize" scope="request" value="${requestScope.listSize}" />
@@ -129,13 +129,20 @@
 							<p class="text-dark font-weight-medium mb-0 mr-3">Sizes:</p>
 							<c:if test="${not empty listSize}">
 								<c:forEach items="${listSize}" var="listSize">
-
+								<c:if test="${listSize == product.size}">
+									<div class="custom-control custom-radio custom-control-inline">
+										<input type="radio" class="custom-control-input" checked="checked"
+											id="${listSize}" name="size" value="${listSize}"> <label
+											class="custom-control-label" for="${listSize}">${listSize}</label>
+									</div>
+								</c:if>
+								<c:if test="${listSize != product.size}">
 									<div class="custom-control custom-radio custom-control-inline">
 										<input type="radio" class="custom-control-input"
 											id="${listSize}" name="size" value="${listSize}"> <label
 											class="custom-control-label" for="${listSize}">${listSize}</label>
 									</div>
-
+								</c:if>
 								</c:forEach>
 							</c:if>
 							<c:if test="${empty listSize}">
@@ -155,11 +162,20 @@
 
 						<c:if test="${not empty listColor}">
 							<c:forEach items="${listColor}" var="listColor">
+							<c:if test="${listColor == product.color}">
+								<div class="custom-control custom-radio custom-control-inline">
+									<input type="radio" class="custom-control-input" checked="checked"
+										id="${listColor}" name="color" value="${listColor}"> <label
+										class="custom-control-label" for="${listColor}">${listColor}</label>
+								</div>
+							</c:if>	
+							<c:if test="${listColor != product.color}">
 								<div class="custom-control custom-radio custom-control-inline">
 									<input type="radio" class="custom-control-input"
 										id="${listColor}" name="color" value="${listColor}"> <label
 										class="custom-control-label" for="${listColor}">${listColor}</label>
 								</div>
+							</c:if>	
 							</c:forEach>
 						</c:if>
 						<c:if test="${empty pChild}">
@@ -211,6 +227,7 @@
 			</div>
 		</form>
 	</div>
+	<!--  
 	<form action="/localbrand/web/detail/createfb.do" method="GET">
 		<input type="hidden" id="productId" name="productId"
 			value="${product.id}">
@@ -227,6 +244,7 @@
 					<div class="tab-pane fade show active" id="tab-pane-1">
 						<h4 class="mb-3">Product Description</h4>
 						<p>${product.description}</p>
+						
 					</div>
 					<div class="tab-pane fade" id="tab-pane-2">
 						<div class="row">
@@ -311,16 +329,19 @@
 							</div>
 						</div>
 					</div>
+					
 				</div>
 			</div>
 		</div>
 	</form>
-	</div>
+	-->
+	<!--  -->
 
 	<!-- Shop Detail End -->
 
 
 	<!-- Products Start -->
+	<!--  
 	<div class="container-fluid py-5">
 		<div class="text-center mb-4">
 			<h2 class="section-title px-5">
@@ -449,20 +470,21 @@
 			</div>
 		</div>
 	</div>
+	-->
 	<!-- Products End -->
 	<!-- Back to Top -->
-	<a href="#" class="btn btn-primary back-to-top"><i
+	<!--<a href="#" class="btn btn-primary back-to-top"><i
 		class="fa fa-angle-double-up"></i></a>
-
-
+  -->
+ 
 	<!-- JavaScript Libraries 
    
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
     -->
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<!--<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script> -->
 	<!-- Contact Javascript File 
     <script src="mail/jqBootstrapValidation.min.js"></script>
     <script src="mail/contact.js"></script>
