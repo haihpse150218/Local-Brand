@@ -46,8 +46,8 @@
 									href="/localbrand/admin/member/index.do">Employee
 										Management</a></li>
 								<li class="nav-item"><a class="nav-link"
-									href="/localbrand/admin/infomation/index.do">Public
-										Infomation</a></li>
+									href="/localbrand/admin/information/index.do">Public
+										Information</a></li>
 							</ul>
 						</div></li>
 				</ul>
