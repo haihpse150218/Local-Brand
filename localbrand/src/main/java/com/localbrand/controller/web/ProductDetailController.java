@@ -109,16 +109,16 @@ public class ProductDetailController extends HttpServlet {
 			request.setAttribute("listColor", listColor);
 		}
 
-//		List<Feedback> listf = pds.getProductDetail(pid).getFeedbackList();
-//		List<Customer> listcus = pds.getCusByFb(listf);
+		List<Feedback> listf = pds.getProductDetail(pid).getFeedbackList();
+		List<Customer> listcus = pds.getCusByFb(listf);
 
 		Brand brand = pds.getBrandDetail(pid);
 		List<Product> child = pds.getProductChild(pid);
 
 		request.setAttribute("pChild", child);
-//		request.setAttribute("fDetail", listf);
-//
-//		request.setAttribute("cusDetail", listcus);
+		request.setAttribute("fDetail", listf);
+
+		request.setAttribute("cusDetail", listcus);
 		request.setAttribute("pDetail", listp);
 		request.setAttribute("bDetail", brand);
 
