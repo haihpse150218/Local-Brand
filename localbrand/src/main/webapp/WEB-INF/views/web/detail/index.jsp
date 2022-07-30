@@ -1,47 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ include file="/common/taglib.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
 <c:set var="pChild" scope="request" value="${requestScope.pChild}" />
-<!--<c:set var="fDetail" scope="request" value="${requestScope.fDetail}" />
+<c:set var="fDetail" scope="request" value="${requestScope.fDetail}" />
 <c:set var="cusDetail" scope="request" value="${requestScope.cusDetail}" />
--->
+
 <c:set var="product" scope="request" value="${requestScope.pDetail}" />
 <c:set var="brand" scope="request" value="${requestScope.bDetail}" />
 <c:set var="listSize" scope="request" value="${requestScope.listSize}" />
 <c:set var="listColor" scope="request" value="${requestScope.listColor}" />
-<head>
 
-<meta charset="utf-8">
-<title>EShopper - Bootstrap Shop Template</title>
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<meta content="Free HTML Templates" name="keywords">
-<meta content="Free HTML Templates" name="description">
-
-
-<!-- Favicon 
-    <link href="img/favicon.ico" rel="icon">-->
-
-<!-- Google Web Fonts -->
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link
-	href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-	rel="stylesheet">
-
-<!-- Font Awesome -->
-<link
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
-	rel="stylesheet">
-
-<!-- Libraries Stylesheet 
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">-->
-
-<!-- Customized Bootstrap Stylesheet 
-    <link href="css/style.css" rel="stylesheet">-->
-
-</head>
 
 <body>
 	<!-- Page Header Start -->
@@ -113,13 +85,14 @@
 					</div>
 					<c:if test="${product.discount == 0}">
 						<h3 class="font-weight-semi-bold mb-4">
-						${product.price}VND</h3>
+						<fmt:setLocale value="vi_VN" /> <fmt:formatNumber
+												value="${product.price}" type="currency" /></h3>
 					</c:if>
 					<c:if test="${product.discount > 0}">
 						<div class="d-flex">
-							<h3>${product.price* (1-product.discount)}VND</h3>
+							<h3><fmt:setLocale value="vi_VN" /> <fmt:formatNumber value="${product.price* (1-product.discount)}" type="currency"/></h3>
 							<h3 class="text-muted ml-2">
-								<del>${product.price}</del>
+								<del><fmt:setLocale value="vi_VN" /> <fmt:formatNumber value="${product.price}" type="currency"/></del>
 							</h3>
 						</div>
 					</c:if>
@@ -227,8 +200,8 @@
 			</div>
 		</form>
 	</div>
-	<!--  
-	<form action="/localbrand/web/detail/createfb.do" method="GET">
+	 
+	
 		<input type="hidden" id="productId" name="productId"
 			value="${product.id}">
 		<div class="row px-xl-5">
@@ -262,8 +235,8 @@
 							</c:if>
 							<c:if test="${not empty fDetail}">
 
-								<div class="col-md-6">
-									<h4 class="mb-4">${fn:length(fDetail)}review for
+								<div class="col-md-12">
+									<h4 class="mb-12">${fn:length(fDetail)} review for
 										"${product.name}"</h4>
 									<c:forEach items="${fDetail}" var="fDetail" varStatus="fCount">
 										<c:forEach items="${cusDetail}" var="cusDetail"
@@ -294,47 +267,16 @@
 								</div>
 
 							</c:if>
-							<div class="col-md-6">
-								<h4 class="mb-4">Leave a review</h4>
-								<small>Your email address will not be published.
-									Required fields are marked *</small>
-								<div class="d-flex my-3">
-									<p class="mb-0 mr-2">Your Rating * :</p>
-									<div class="text-primary">
-										<i class="far fa-star"></i> <i class="far fa-star"></i> <i
-											class="far fa-star"></i> <i class="far fa-star"></i> <i
-											class="far fa-star"></i>
-									</div>
-								</div>
-
-								<form>
-									<div class="form-group">
-										<label for="message">Your Review *</label>
-										<textarea id="message" cols="30" rows="5" class="form-control"
-											name="textComment"></textarea>
-									</div>
-									<div class="form-group">
-										<label for="name">Your Name *</label> <input type="text"
-											class="form-control" id="name">
-									</div>
-									<div class="form-group">
-										<label for="email">Your Email *</label> <input type="email"
-											class="form-control" id="email">
-									</div>
-									<div class="form-group mb-0">
-										<input type="submit" value="Leave Your Review"
-											class="btn btn-primary px-3">
-									</div>
-								</form>
-							</div>
+							
+							
 						</div>
 					</div>
 					
 				</div>
 			</div>
 		</div>
-	</form>
-	-->
+	
+	
 	<!--  -->
 
 	<!-- Shop Detail End -->
