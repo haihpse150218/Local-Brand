@@ -13,10 +13,10 @@
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav flex-column">
 					<li class="nav-divider">Menu</li>
-					<li class="nav-item "><a class="nav-link active"
+					<li class="nav-item "><a class="nav-link ${requestScope.controller == '/home'?'active':''}"
 						href="/localbrand/admin/home/index.do"><i
 							class="fa fa-fw fa-user-circle"></i>Home</a></li>
-					<li class="nav-item"><a class="nav-link"
+					<li class="nav-item"><a class="nav-link ${requestScope.controller == '/ordered'?'active':''}"
 						href="/localbrand/admin/chart/index.do" data-toggle="collapse"
 						aria-expanded="false" data-target="#submenu-3"
 						aria-controls="submenu-3"><i class="fas fa-fw fa-chart-pie"></i>Shop
@@ -25,27 +25,28 @@
 							<ul class="nav flex-column">
 								<li class="nav-item"><a class="nav-link"
 									href="/localbrand/admin/chart/index.do">Chart</a></li>
-								<li class="nav-item"><a class="nav-link"
+								<li class="nav-item"><a class="nav-link ${requestScope.controller == '/ordered'?'active':''}"
 									href="/localbrand/admin/ordered/index.do">Ordered</a></li>
 							</ul>
 						</div></li>
-					<li class="nav-item"><a class="nav-link"
+					<li class="nav-item"><a class="nav-link ${requestScope.controller == '/product'?'active':''}"
 						href="/localbrand/admin/product/index.do"><i
 							class="fas fa-fw fa-columns"></i>Product Management</a></li>
-					<li class="nav-item"><a class="nav-link"
+					<li class="nav-item"><a class="nav-link ${requestScope.controller == '/collection'?'active':''}"
 						href="/localbrand/admin/collection/index.do"><i
 							class="fa fa-fw fa-rocket"></i>Collection Management</a></li>
 
-					<li class="nav-item "><a class="nav-link" href="#"
+					<li class="nav-item "><a class="nav-link ${requestScope.controller == '/member' 
+																or requestScope.controller == '/information'? 'active':''}" href="#"
 						data-toggle="collapse" aria-expanded="false"
 						data-target="#submenu-4" aria-controls="submenu-4"><i
 							class="fab fa-fw fa-wpforms"></i>Store Management</a>
 						<div id="submenu-4" class="collapse submenu" style="">
 							<ul class="nav flex-column">
-								<li class="nav-item"><a class="nav-link"
+								<li class="nav-item"><a class="nav-link ${requestScope.controller == '/member'?'active':''}"
 									href="/localbrand/admin/member/index.do">Employee
 										Management</a></li>
-								<li class="nav-item"><a class="nav-link"
+								<li class="nav-item"><a class="nav-link ${requestScope.controller == '/information'?'active':''}"
 									href="/localbrand/admin/information/index.do">Public
 										Information</a></li>
 							</ul>
