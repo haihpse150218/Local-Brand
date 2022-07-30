@@ -34,12 +34,26 @@
 									<div class="col-6">
 										<p class="pt-3 shop-name">${brand.getName()}</p>
 										<p>
-										<div class="text-primary ">
-											<small class="fas fa-star"></small> <small
-												class="fas fa-star"></small> <small class="fas fa-star"></small>
-											<small class="fas fa-star-half-alt"></small> <small
-												class="far fa-star"></small>
-										</div>
+										<div class="text-primary">
+												<c:forEach begin="1" end="5" varStatus="loop">
+												<c:if test="${loop.count<=brand.stars}">
+														<i class="fas fa-star"></i>
+												</c:if>
+												<c:if test="${loop.count>brand.stars && brand.stars+1>loop.count}">
+														<i class="fas fa-star-half-alt"></i>
+												</c:if>
+												<c:if test="${loop.count>brand.stars && brand.stars+1<=loop.count}">
+														<i class="far fa-star"></i>
+												</c:if>
+												</c:forEach>
+											</div>
+											<%-- <div class="text-primary ">
+												<small class="fas fa-star"></small> <small
+													class="fas fa-star"></small> <small class="fas fa-star"></small>
+												<small class="fas fa-star-half-alt"></small> <small
+													class="far fa-star"></small>
+											</div>
+											--%>
 										</p>
 										<a href="/localbrand/web/brandhome/index.do?id=${brand.id}">View shop</a>
 									</div>

@@ -1,47 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ include file="/common/taglib.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
 <c:set var="pChild" scope="request" value="${requestScope.pChild}" />
-<!--<c:set var="fDetail" scope="request" value="${requestScope.fDetail}" />
+<c:set var="fDetail" scope="request" value="${requestScope.fDetail}" />
 <c:set var="cusDetail" scope="request" value="${requestScope.cusDetail}" />
--->
+
 <c:set var="product" scope="request" value="${requestScope.pDetail}" />
 <c:set var="brand" scope="request" value="${requestScope.bDetail}" />
 <c:set var="listSize" scope="request" value="${requestScope.listSize}" />
 <c:set var="listColor" scope="request" value="${requestScope.listColor}" />
-<head>
 
-<meta charset="utf-8">
-<title>EShopper - Bootstrap Shop Template</title>
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<meta content="Free HTML Templates" name="keywords">
-<meta content="Free HTML Templates" name="description">
-
-
-<!-- Favicon 
-    <link href="img/favicon.ico" rel="icon">-->
-
-<!-- Google Web Fonts -->
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link
-	href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-	rel="stylesheet">
-
-<!-- Font Awesome -->
-<link
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
-	rel="stylesheet">
-
-<!-- Libraries Stylesheet 
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">-->
-
-<!-- Customized Bootstrap Stylesheet 
-    <link href="css/style.css" rel="stylesheet">-->
-
-</head>
 
 <body>
 	<!-- Page Header Start -->
@@ -105,21 +77,48 @@
 					<h3 class="font-weight-semi-bold">${product.name}</h3>
 					<div class="d-flex mb-3">
 						<div class="text-primary mr-2">
-							<small class="fas fa-star"></small> <small class="fas fa-star"></small>
-							<small class="fas fa-star"></small> <small
-								class="fas fa-star-half-alt"></small> <small class="far fa-star"></small>
+							<c:forEach begin="1" end="5" varStatus="loop">
+								<c:if test="${loop.count<=product.stars}">
+									<i class="fas fa-star"></i>
+								</c:if>
+								<c:if
+									test="${loop.count>product.stars && product.stars+1>loop.count}">
+									<i class="fas fa-star-half-alt"></i>
+								</c:if>
+								<c:if
+									test="${loop.count>product.stars && product.stars+1<=loop.count}">
+									<i class="far fa-star"></i>
+								</c:if>
+							</c:forEach>
 						</div>
-						<small class="pt-1">${product.stars} (50 Reviews)</small>
+						<%-- <div class="text-primary ">
+												<small class="fas fa-star"></small> <small
+													class="fas fa-star"></small> <small class="fas fa-star"></small>
+												<small class="fas fa-star-half-alt"></small> <small
+													class="far fa-star"></small>
+											</div>
+											--%>
+						<small class="pt-1">${product.stars}
+							(${product.orderDetailList.size()} Products Sold)</small>
 					</div>
 					<c:if test="${product.discount == 0}">
 						<h3 class="font-weight-semi-bold mb-4">
-						${product.price}VND</h3>
+							<fmt:setLocale value="vi_VN" />
+							<fmt:formatNumber value="${product.price}" type="currency" />
+						</h3>
 					</c:if>
 					<c:if test="${product.discount > 0}">
 						<div class="d-flex">
-							<h3>${product.price* (1-product.discount)}VND</h3>
+							<h3>
+								<fmt:setLocale value="vi_VN" />
+								<fmt:formatNumber value="${product.price* (1-product.discount)}"
+									type="currency" />
+							</h3>
 							<h3 class="text-muted ml-2">
-								<del>${product.price}</del>
+								<del>
+									<fmt:setLocale value="vi_VN" />
+									<fmt:formatNumber value="${product.price}" type="currency" />
+								</del>
 							</h3>
 						</div>
 					</c:if>
@@ -129,20 +128,21 @@
 							<p class="text-dark font-weight-medium mb-0 mr-3">Sizes:</p>
 							<c:if test="${not empty listSize}">
 								<c:forEach items="${listSize}" var="listSize">
-								<c:if test="${listSize == product.size}">
-									<div class="custom-control custom-radio custom-control-inline">
-										<input type="radio" class="custom-control-input" checked="checked"
-											id="${listSize}" name="size" value="${listSize}"> <label
-											class="custom-control-label" for="${listSize}">${listSize}</label>
-									</div>
-								</c:if>
-								<c:if test="${listSize != product.size}">
-									<div class="custom-control custom-radio custom-control-inline">
-										<input type="radio" class="custom-control-input"
-											id="${listSize}" name="size" value="${listSize}"> <label
-											class="custom-control-label" for="${listSize}">${listSize}</label>
-									</div>
-								</c:if>
+									<c:if test="${listSize == product.size}">
+										<div class="custom-control custom-radio custom-control-inline">
+											<input type="radio" class="custom-control-input"
+												checked="checked" id="${listSize}" name="size"
+												value="${listSize}"> <label
+												class="custom-control-label" for="${listSize}">${listSize}</label>
+										</div>
+									</c:if>
+									<c:if test="${listSize != product.size}">
+										<div class="custom-control custom-radio custom-control-inline">
+											<input type="radio" class="custom-control-input"
+												id="${listSize}" name="size" value="${listSize}"> <label
+												class="custom-control-label" for="${listSize}">${listSize}</label>
+										</div>
+									</c:if>
 								</c:forEach>
 							</c:if>
 							<c:if test="${empty listSize}">
@@ -162,20 +162,21 @@
 
 						<c:if test="${not empty listColor}">
 							<c:forEach items="${listColor}" var="listColor">
-							<c:if test="${listColor == product.color}">
-								<div class="custom-control custom-radio custom-control-inline">
-									<input type="radio" class="custom-control-input" checked="checked"
-										id="${listColor}" name="color" value="${listColor}"> <label
-										class="custom-control-label" for="${listColor}">${listColor}</label>
-								</div>
-							</c:if>	
-							<c:if test="${listColor != product.color}">
-								<div class="custom-control custom-radio custom-control-inline">
-									<input type="radio" class="custom-control-input"
-										id="${listColor}" name="color" value="${listColor}"> <label
-										class="custom-control-label" for="${listColor}">${listColor}</label>
-								</div>
-							</c:if>	
+								<c:if test="${listColor == product.color}">
+									<div class="custom-control custom-radio custom-control-inline">
+										<input type="radio" class="custom-control-input"
+											checked="checked" id="${listColor}" name="color"
+											value="${listColor}"> <label
+											class="custom-control-label" for="${listColor}">${listColor}</label>
+									</div>
+								</c:if>
+								<c:if test="${listColor != product.color}">
+									<div class="custom-control custom-radio custom-control-inline">
+										<input type="radio" class="custom-control-input"
+											id="${listColor}" name="color" value="${listColor}">
+										<label class="custom-control-label" for="${listColor}">${listColor}</label>
+									</div>
+								</c:if>
 							</c:forEach>
 						</c:if>
 						<c:if test="${empty pChild}">
@@ -217,8 +218,7 @@
                     	<button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
                     </a>
                     </c:if> -->
-						<input type="hidden" name="productid"
-							value="${product.id}">
+						<input type="hidden" name="productid" value="${product.id}">
 						<button class="btn btn-primary px-3">
 							<i class="fa fa-shopping-cart mr-1"></i> Add To Cart
 						</button>
@@ -227,114 +227,94 @@
 			</div>
 		</form>
 	</div>
-	<!--  
-	<form action="/localbrand/web/detail/createfb.do" method="GET">
-		<input type="hidden" id="productId" name="productId"
-			value="${product.id}">
-		<div class="row px-xl-5">
-			<div class="col">
-				<div
-					class="nav nav-tabs justify-content-center border-secondary mb-4">
-					<a class="nav-item nav-link active" data-toggle="tab"
-						href="#tab-pane-1">Description</a> <a class="nav-item nav-link"
-						data-toggle="tab" href="#tab-pane-2">Reviews
-						(${fn:length(fDetail)})</a>
+
+
+	<input type="hidden" id="productId" name="productId"
+		value="${product.id}">
+	<div class="row px-xl-5">
+		<div class="col">
+			<div
+				class="nav nav-tabs justify-content-center border-secondary mb-4">
+				<a class="nav-item nav-link active" data-toggle="tab"
+					href="#tab-pane-1">Description</a> <a class="nav-item nav-link"
+					data-toggle="tab" href="#tab-pane-2">Reviews
+					(${fn:length(fDetail)})</a>
+			</div>
+			<div class="tab-content">
+				<div class="tab-pane fade show active" id="tab-pane-1">
+					<h4 class="mb-3">Product Description</h4>
+					<p>${product.description}</p>
+
 				</div>
-				<div class="tab-content">
-					<div class="tab-pane fade show active" id="tab-pane-1">
-						<h4 class="mb-3">Product Description</h4>
-						<p>${product.description}</p>
-						
-					</div>
-					<div class="tab-pane fade" id="tab-pane-2">
-						<div class="row">
-							<c:if test="${empty fDetail}">
-								<div class="col-md-6">
-									<h4 class="mb-4">0 review for "${product.name}"</h4>
-									<div class="media mb-4">
-
-										<div class="media-body">
-
-											<p>No review</p>
-										</div>
-									</div>
-								</div>
-							</c:if>
-							<c:if test="${not empty fDetail}">
-
-								<div class="col-md-6">
-									<h4 class="mb-4">${fn:length(fDetail)}review for
-										"${product.name}"</h4>
-									<c:forEach items="${fDetail}" var="fDetail" varStatus="fCount">
-										<c:forEach items="${cusDetail}" var="cusDetail"
-											varStatus="cusCount">
-
-											<c:if test="${fCount.count == cusCount.count}">
-
-												<div class="media mb-4">
-													<img src="${cusDetail.avatar}" alt="Image"
-														class="img-fluid mr-3 mt-1" style="width: 45px;">
-													<div class="media-body">
-														<h6>${cusDetail.name}<small> - <i>${fDetail.feedbackTime}</i></small>
-														</h6>
-														<div class="text-primary mb-2">
-															<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-																class="fas fa-star"></i> <i class="fas fa-star-half-alt"></i>
-															<i class="far fa-star"></i> ${fDetail.voting}
-														</div>
-														<p>${fDetail.textComment}</p>
-
-													</div>
-												</div>
-
-											</c:if>
-
-										</c:forEach>
-									</c:forEach>
-								</div>
-
-							</c:if>
+				<div class="tab-pane fade" id="tab-pane-2">
+					<div class="row">
+						<c:if test="${empty fDetail}">
 							<div class="col-md-6">
-								<h4 class="mb-4">Leave a review</h4>
-								<small>Your email address will not be published.
-									Required fields are marked *</small>
-								<div class="d-flex my-3">
-									<p class="mb-0 mr-2">Your Rating * :</p>
-									<div class="text-primary">
-										<i class="far fa-star"></i> <i class="far fa-star"></i> <i
-											class="far fa-star"></i> <i class="far fa-star"></i> <i
-											class="far fa-star"></i>
+								<h4 class="mb-4">0 review for "${product.name}"</h4>
+								<div class="media mb-4">
+
+									<div class="media-body">
+
+										<p>No review</p>
 									</div>
 								</div>
-
-								<form>
-									<div class="form-group">
-										<label for="message">Your Review *</label>
-										<textarea id="message" cols="30" rows="5" class="form-control"
-											name="textComment"></textarea>
-									</div>
-									<div class="form-group">
-										<label for="name">Your Name *</label> <input type="text"
-											class="form-control" id="name">
-									</div>
-									<div class="form-group">
-										<label for="email">Your Email *</label> <input type="email"
-											class="form-control" id="email">
-									</div>
-									<div class="form-group mb-0">
-										<input type="submit" value="Leave Your Review"
-											class="btn btn-primary px-3">
-									</div>
-								</form>
 							</div>
-						</div>
+						</c:if>
+						<c:if test="${not empty fDetail}">
+
+							<div class="col-md-12">
+								<h4 class="mb-12">${fn:length(fDetail)}reviewfor
+									"${product.name}"</h4>
+								<c:forEach items="${fDetail}" var="fDetail" varStatus="fCount">
+									<c:forEach items="${cusDetail}" var="cusDetail"
+										varStatus="cusCount">
+
+										<c:if test="${fCount.count == cusCount.count}">
+
+											<div class="media mb-4">
+												<img src="${cusDetail.avatar}" alt="Image"
+													class="img-fluid mr-3 mt-1" style="width: 45px;">
+												<div class="media-body">
+													<h6>${cusDetail.name}<small> - <i>${fDetail.feedbackTime}</i></small>
+													</h6>
+													<div class="text-primary mb-2">
+														<c:forEach begin="1" end="5" varStatus="loop">
+															<c:if test="${loop.count<=fDetail.voting}">
+																<i class="fas fa-star"></i>
+															</c:if>
+															<c:if
+																test="${loop.count>fDetail.voting && fDetail.voting+1>loop.count}">
+																<i class="fas fa-star-half-alt"></i>
+															</c:if>
+															<c:if
+																test="${loop.count>fDetail.voting && fDetail.voting+1<=loop.count}">
+																<i class="far fa-star"></i>
+															</c:if>
+														</c:forEach>
+														<font color="black"> ${fDetail.voting} </font>
+													</div>
+													<p>${fDetail.textComment}</p>
+
+												</div>
+											</div>
+
+										</c:if>
+
+									</c:forEach>
+								</c:forEach>
+							</div>
+
+						</c:if>
+
+
 					</div>
-					
 				</div>
+
 			</div>
 		</div>
-	</form>
-	-->
+	</div>
+
+
 	<!--  -->
 
 	<!-- Shop Detail End -->
@@ -476,7 +456,7 @@
 	<!--<a href="#" class="btn btn-primary back-to-top"><i
 		class="fa fa-angle-double-up"></i></a>
   -->
- 
+
 	<!-- JavaScript Libraries 
    
     <script src="lib/easing/easing.min.js"></script>

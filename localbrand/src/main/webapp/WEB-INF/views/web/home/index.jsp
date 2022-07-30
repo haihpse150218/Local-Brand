@@ -24,27 +24,43 @@
 					style="height: 1000px; overflow-x: hidden; overflow-y: scroll;">
 					<table class="table">
 						<tbody>
-						<!-- list brand start -->
+							<!-- list brand start -->
 							<c:forEach var="brand" items="${sessionScope.listAllBrand}">
-							<tr>
-								<div class="row border shop-left">
-									<a class="col-6 navbar-nav ml-auto" href="/localbrand/web/home/viewlistbrandproduct.do?brandid=${brand.id}"><img
-										style="height: 140px; width: 140px;" src="${brand.getLogo()}"
-										alt=""></a>
-									<div class="col-6">
-										<p class="pt-3 shop-name">${brand.getName()}</p>
-										<p>
-										<div class="text-primary ">
-											<small class="fas fa-star"></small> <small
-												class="fas fa-star"></small> <small class="fas fa-star"></small>
-											<small class="fas fa-star-half-alt"></small> <small
-												class="far fa-star"></small>
+								<tr>
+									<div class="row border shop-left">
+										<a class="col-6 navbar-nav ml-auto"
+											href="/localbrand/web/home/viewlistbrandproduct.do?brandid=${brand.id}"><img
+											style="height: 140px; width: 140px;" src="${brand.getLogo()}"
+											alt=""></a>
+										<div class="col-6">
+											<p class="pt-3 shop-name">${brand.getName()}</p>
+											<p>
+											<div class="text-primary">
+												<c:forEach begin="1" end="5" varStatus="loop">
+												<c:if test="${loop.count<=brand.stars}">
+														<i class="fas fa-star"></i>
+												</c:if>
+												<c:if test="${loop.count>brand.stars && brand.stars+1>loop.count}">
+														<i class="fas fa-star-half-alt"></i>
+												</c:if>
+												<c:if test="${loop.count>brand.stars && brand.stars+1<=loop.count}">
+														<i class="far fa-star"></i>
+												</c:if>
+												</c:forEach>
+											</div>
+											<%-- <div class="text-primary ">
+												<small class="fas fa-star"></small> <small
+													class="fas fa-star"></small> <small class="fas fa-star"></small>
+												<small class="fas fa-star-half-alt"></small> <small
+													class="far fa-star"></small>
+											</div>
+											--%>
+											</p>
+											<a href="/localbrand/web/brandhome/index.do?id=${brand.id}">View
+												shop</a>
 										</div>
-										</p>
-										<a href="/localbrand/web/brandhome/index.do?id=${brand.id}">View shop</a>
 									</div>
-								</div>
-							</tr>
+								</tr>
 							</c:forEach>
 							<!-- list brand end-->
 						</tbody>
@@ -69,12 +85,12 @@
 
 
 			<div class="row pb-3">
-			
-			<!-- phan trang ne -->
-			<c:forEach var="product" items="${list}">
+
+				<!-- phan trang ne -->
+				<c:forEach var="product" items="${list}">
 					<div class="col-12 col-lg-4 col-md-6 ">
 						<form action="<c:url value="/addToCart.do" />">
-						<input type="hidden" name="productid">
+							<input type="hidden" name="productid">
 							<div class="col-sm-12 pb-1">
 								<div class="card product-item border-0 mb-4">
 									<div
@@ -88,17 +104,19 @@
 										<div class="d-flex justify-content-center">
 											<h6>${product.price * (1-product.discount)}</h6>
 											<c:if test="${product.discount != 0}">
-											<h6 class="text-muted ml-2">
-												<del>${product.price}</del>
-											</h6>
+												<h6 class="text-muted ml-2">
+													<del>${product.price}</del>
+												</h6>
 											</c:if>
 										</div>
 									</div>
 									<div
 										class="card-footer d-flex justify-content-between bg-light border">
-										<a href="/localbrand/web/detail/index.do?productid=${product.id}" class="mx-auto btn btn-sm text-dark p-0" target="_blank"><i
-											class="fas fa-eye text-primary mr-1"></i>View Detail</a> 
-											<%--
+										<a
+											href="/localbrand/web/detail/index.do?productid=${product.id}"
+											class="mx-auto btn btn-sm text-dark p-0" target="_blank"><i
+											class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+										<%--
 											<a
 											href="/localbrand/web/home/addtocart.do?productid=${product.id}&quantity=1" class="btn btn-sm text-dark p-0"><i
 											class="fas fa-shopping-cart text-primary mr-1"></i>Add To

@@ -135,6 +135,18 @@
 							</div>
 						</div>
 						<div class="card-footer border-secondary bg-transparent">
+						<div class="custom-control custom-checkbox">
+                                <input type="checkbox" onclick="checkCheckbox();" name="condition" class="custom-control-input" id="acceptbtn">
+                                <label class="custom-control-label " for="acceptbtn"> I have read and agreed on every terms of 
+                                <button type="button" class=" nav-link btn ml-5" data-toggle="modal" data-target="#condition">
+                             <u>
+                             Checkout Conditions
+                             </u>
+                        </button>
+                        </label>
+                            </div>
+						</div>
+						<div class="card-footer border-secondary bg-transparent">
 							<c:if test="${sessionScope.cartQuantity==0}">
 								<button
 									class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Back To Shopping</button>
@@ -142,8 +154,7 @@
 							<c:if test="${sessionScope.cartQuantity>0}">
 								<c:if test="${not empty user}">
 									<button
-										class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Place
-										Order</button>
+										class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3" disabled id="checkoutbtn">Checkout</button>
 								</c:if>
 								<c:if test="${empty user}">
 									<button type="button"
@@ -158,6 +169,33 @@
 	</div>
 	</div>
 	<!-- Checkout End -->
+	
+	<!-- Modal condition -->
+    <div class="modal fade" id="condition" tabindex="-1" role="dialog" aria-labelledby="conditionTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rounded">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="conditionTitle">Checkout Conditions</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                </div>
+                <div class="modal-body">
+                For Logistics convenience, I understand that if I order products from two different brands or higher, the orders will be separated into many small orders by each brand.</br>
+                 Each order will be an individual unit and cannot be received at the same time, as well as cannot have the same status.</br>
+                  For Example : </br>
+                  - You ordered one Shirt from Brand A, one Pant from Brand B.</br>
+                   - Your ordered Shirt is delivered to your address successfully. </br>
+                   - Meanwhile, your ordered Pant is canceled.</br>
+                   Result : You can only have 1 out of 2 ordered products. </br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+	
 	<script>
 		var s_a = new Array();
 		var state_arr = new Array("Hồ Chí Minh", "Hà Nội", "Hải Phòng",
@@ -264,6 +302,18 @@
 						distric_arr[i], distric_arr[i]);
 			}
 		}
+		
+		function checkCheckbox() {
+            var btncheck = document.getElementById("acceptbtn");
+            var btncreate = document.getElementById("checkoutbtn");  
+            if (btncheck.checked == true ) {
+                return document.getElementById("checkoutbtn").disabled = false;
+            }
+            else {
+                return document.getElementById("checkoutbtn").disabled = true;
+            }
+        }  
+		
 	</script>
 
 

@@ -78,7 +78,8 @@
           </button>
                 </div>
                 <div class="modal-body">
-                    1- Nam dep trai <br> 2- Nam dep trai
+                    We are not responsible to any difference between the image and received product. </br>
+                    It is totally depend on the brand sold that product.
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
