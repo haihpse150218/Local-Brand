@@ -244,9 +244,9 @@ th {
 								</div>
 								<div class="col-sm-6 pl-0">
 									<p class="text-right">
-										<button type="submit" class="btn btn-space btn-primary">Submit</button>
-										<button type="button" class="btn btn-space btn-secondary"
+										<button type="button" class="btn btn-space "
 											data-dismiss="modal" aria-label="Close">Cancel</button>
+										<button type="submit" class="btn btn-space btn-primary">Submit</button>
 									</p>
 								</div>
 							</div>

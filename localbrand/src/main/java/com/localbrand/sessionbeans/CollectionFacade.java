@@ -82,8 +82,8 @@ public class CollectionFacade extends AbstractFacade<Collection> {
 			collection = new Collection();
 			bid.setId(rs.getInt("BrandId"));
 			collection.setId(rs.getInt("Id"));
-			collection.setName(rs.getString("Name"));
-			collection.setDescription("Description");
+			collection.setName(rs.getNString("Name"));
+			collection.setDescription(rs.getNString("Description"));
 			collection.setImageUrl(rs.getString("ImageUrl"));
 			collection.setStatus(rs.getInt("Status"));
 			bid.setId(rs.getInt("BrandId"));
@@ -111,8 +111,8 @@ public class CollectionFacade extends AbstractFacade<Collection> {
 			bid =new Brand();
 			collection = new Collection();
 			collection.setId(rs.getInt("Id"));
-			collection.setName(rs.getString("Name"));
-			collection.setDescription("Description");
+			collection.setName(rs.getNString("Name"));
+			collection.setDescription(rs.getNString("Description"));
 			collection.setImageUrl(rs.getString("ImageUrl"));
 			collection.setStatus(rs.getInt("Status"));
 			bid.setId(rs.getInt("BrandId"));
@@ -150,8 +150,8 @@ public class CollectionFacade extends AbstractFacade<Collection> {
 			bid =new Brand();
 			collection = new Collection();
 			collection.setId(rs.getInt("Id"));
-			collection.setName(rs.getString("Name"));
-			collection.setDescription("Description");
+			collection.setName(rs.getNString("Name"));
+			collection.setDescription(rs.getNString("Description"));
 			collection.setImageUrl(rs.getString("ImageUrl"));
 			collection.setStatus(rs.getInt("Status"));
 			bid.setId(rs.getInt("BrandId"));
