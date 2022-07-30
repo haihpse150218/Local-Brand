@@ -66,7 +66,7 @@ public class BrandController extends HttpServlet {
 		
 		String brandName = request.getParameter("brandName");
 		String description = request.getParameter("description");
-		String status = "Active";//request.getParameter("status");
+		String status = request.getParameter("status");
 		String logo = request.getParameter("logo");
 		String banner = request.getParameter("banner");
 		Double stars = Double.parseDouble(request.getParameter("stars"));

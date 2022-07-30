@@ -39,7 +39,7 @@
 				<div class="form-popup" id="myForm1">
   				<form action="/localbrand/sysAdmin/brand/create.do"" class="form-container" method="POST">
 
-    				<label for="name"><b>Name</b></label>
+    				<label for="name"><b> Brand Name</b></label>
     				<input type="text" placeholder="Enter Brand Name" name="brandName" required>
 
     				<label for="description"><b>Description</b></label>
@@ -51,9 +51,15 @@
     				<label for="banner"><b>Banner</b></label>
     				<input type="text" placeholder="Enter Banner Image Link" name="banner" required>
     				
-    				<label for="stars"><b>Stars</b></label>
-    				<input type="number" step="0.1" placeholder="Enter Stars (double)" name="stars" required>
-
+    				<%--<label for="stars"><b>Stars</b></label>
+    				<input type="number" step="0.1" placeholder="Enter Stars (default : 3.5)" name="stars" value="3.5">
+    				--%>
+					<input type="hidden" name="stars" value="3.5">
+					<label for="status"><b>Status</b></label>
+    					<select name="status" id="status">
+ 							<option value="Active" >Active</option>
+  							<option value="Disabled" >Disabled</option>
+						</select>
     				<button type="submit" class="btn">Create</button>
     				<button type="button" class="btn cancel" onclick="closeForm1()">Close</button>
   				</form>
@@ -84,7 +90,8 @@
                                 <td><img style="max-width: 100px; max-height: 100px" src="${list.logo}"/></td>
                                 <td><img style="max-width: 100px; max-height: 100px" src="${list.banner}"/></td>
                                 <td>${list.description}</td>
-                                <td>${list.createDate}</td>
+                                <td><fmt:formatDate value="${list.createDate}"
+											pattern="dd/MM/yyyy" /></td>
                                 <td>${list.stars}</td>
                                 <td><c:if test="${list.status == 'Active'}">
                                 <select name="status" id="status">

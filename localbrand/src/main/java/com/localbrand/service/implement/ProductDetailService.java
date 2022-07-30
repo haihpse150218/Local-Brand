@@ -13,11 +13,13 @@ import com.localbrand.entities.Brand;
 import com.localbrand.entities.Customer;
 import com.localbrand.entities.Feedback;
 import com.localbrand.entities.Order;
+import com.localbrand.entities.OrderDetail;
 import com.localbrand.entities.Product;
 import com.localbrand.service.IProductDetail;
 import com.localbrand.sessionbeans.BrandFacade;
 import com.localbrand.sessionbeans.CustomerFacade;
 import com.localbrand.sessionbeans.FeedbackFacade;
+import com.localbrand.sessionbeans.OrderDetailFacade;
 import com.localbrand.sessionbeans.OrderFacade;
 import com.localbrand.sessionbeans.ProductFacade;
 
@@ -26,6 +28,7 @@ public class ProductDetailService implements IProductDetail{
 	private static BrandFacade brandFacade = new BrandFacade();
 	private static FeedbackFacade feedbackFacade = new FeedbackFacade();
 	private static OrderFacade orderFacade = new OrderFacade();
+	private static OrderDetailFacade orderDetailFacade = new OrderDetailFacade();
 	private static CustomerFacade customerFacade = new CustomerFacade();
 	@Override
 	public Product getProductDetail(int pid) {
@@ -34,12 +37,15 @@ public class ProductDetailService implements IProductDetail{
 		List<Product> listp = new ArrayList<>();
 		List<Feedback> listAllFeedback = new ArrayList<>();
 		List<Feedback> listf = new ArrayList<>();
+		List<OrderDetail> listAllOrderDetail = new ArrayList<>();
+		List<OrderDetail> listod = new ArrayList<>();
 		try {
 			product = new Product();
 			product = productFacade.find(pid);
 			
 			listAllProduct = productFacade.findAll();
 			listAllFeedback = feedbackFacade.findAll();
+			listAllOrderDetail = orderDetailFacade.findAll();
 			for (Product p : listAllProduct) {
 				if (p.getIsMaster() ==false && p.getParentId().getId() == pid) {
 					listp.add(p);				
@@ -56,12 +62,24 @@ public class ProductDetailService implements IProductDetail{
 					}
 				}
 			}
+			for (OrderDetail od : listAllOrderDetail) {
+				// master
+				if (product.getId() == od.getProduct().getId()) {
+					listod.add(od);
+				}
+				for (Product var : listp) {
+					if (var.getId() == od.getProduct().getId()) {
+						listod.add(od);
+					}
+				}
+			}
 			} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		product.setProductList(listp);
 		product.setFeedbackList(listf);
+		product.setOrderDetailList(listod);
 		return product;
 	}
 	@Override

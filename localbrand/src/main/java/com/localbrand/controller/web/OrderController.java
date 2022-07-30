@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import com.localbrand.entities.Customer;
 import com.localbrand.entities.Feedback;
 import com.localbrand.entities.Order;
+import com.localbrand.entities.OrderDetail;
 import com.localbrand.entities.Product;
 import com.localbrand.service.IMemberOrderHistory;
 import com.localbrand.service.implement.MemberOrderService;
@@ -66,13 +67,13 @@ public class OrderController extends HttpServlet {
 
 		IMemberOrderHistory mosv = new MemberOrderService();
 		String orderstatus = request.getParameter("orderstatus");
-		
-		List<Order> listOrder = mosv.getMemberListOrder(cus.getId(),orderstatus);
-		
+
+		List<Order> listOrder = mosv.getMemberListOrder(cus.getId(), orderstatus);
+
 		if (orderstatus == "" || orderstatus == null)
 			orderstatus = "ALL";
-		
-		request.setAttribute("orderstatus", orderstatus);		
+
+		request.setAttribute("orderstatus", orderstatus);
 		request.setAttribute("LIST_ORDER", listOrder);
 
 		request.setAttribute("controller", "/order");
@@ -86,77 +87,75 @@ public class OrderController extends HttpServlet {
 		String orderstatus = request.getParameter("updorderstatus");
 
 		mosv.setOrderStatus(orderid, orderstatus);
-		
+
 		// quay ve trang index order
 		index(request, response);
 		request.setAttribute("controller", "/order");
 		request.setAttribute("action", "index");
 	}
+
 	private void orderdetail(HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		HttpSession session = request.getSession();
 		Customer cus = (Customer) session.getAttribute("user");
 
 		IMemberOrderHistory mosv = new MemberOrderService();
-		String orderstatus = request.getParameter("orderstatus");
+		int detailid = Integer.parseInt(request.getParameter("detailid"));
 		int orderid = Integer.parseInt(request.getParameter("orderid"));
-		
-		List<Order> listOrder = mosv.getMemberListOrder(cus.getId(),orderstatus);
-		
-		request.setAttribute("orderid", orderid);
-		request.setAttribute("orderstatus", orderstatus);		
-		request.setAttribute("LIST_ORDER", listOrder);
-		
+
+		OrderDetail orderDetail = mosv.getOrderDetail(orderid, detailid);
+		System.out.println("name product feedback : " + orderDetail.getProduct().getName());
+		request.setAttribute("orderDetail", orderDetail);
+
+		Feedback oldfb = mosv.getFeedback(orderid, detailid);
+		if (oldfb != null) {
+			System.out.println("Feedback ne : " + oldfb.getTextComment());
+			request.setAttribute("oldfb", oldfb);System.out.println("Feedback length : " + oldfb.getTextComment().length());
+			if (oldfb.getTextComment().length()<1)
+				request.setAttribute("oldCmt", "Enter Feedback..");
+			else
+				request.setAttribute("oldCmt", "Feedbacked : " + oldfb.getTextComment());
+		} else
+			request.setAttribute("oldCmt", "Enter Feedback..");
+
 		request.setAttribute("controller", "/order");
 		request.setAttribute("action", "orderdetail");
 	}
+
 	private void createFeedback(HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		HttpSession session = request.getSession();
 		Customer cus = (Customer) session.getAttribute("user");
-
 		IMemberOrderHistory mosv = new MemberOrderService();
-		String orderstatus = request.getParameter("orderstatus");
-		
-		ProductDetailService pds = new ProductDetailService();
-		String tcmt = request.getParameter("txtComment");
+
+		String txtCmt = request.getParameter("txtComment");
 		String txtStar = request.getParameter("txtStar");
-		
-		int pid = Integer.parseInt(request.getParameter("productid"));
-		int oid = Integer.parseInt(request.getParameter("orderid"));
-		if (txtStar.equals("") || txtStar == null) {
-			request.setAttribute("mess", "Invalid stars!!!");
-		}else if (tcmt.equals("") || tcmt == null) {
-			request.setAttribute("mess", "Empty comment!!!");
-		}else {
-			Double voting = Double.parseDouble(txtStar);
-			
-			Product p = new Product();
-			Order o = new Order();
-			Feedback f = new Feedback();
-			p.setId(pid);
-			o.setId(oid);
-			f.setFeedbackTime(new Date());
-			f.setTextComment(tcmt);
-			f.setVoting(voting);
-			f.setStatus(1);
-			f.setProductId(p);
-			f.setOrderId(o);
-			pds.createFeedback(f);
-			
-			request.setAttribute("mess", "Feedback sent successfully!!!");
+		Double voting = (double) 0;
+
+		int detailid = Integer.parseInt(request.getParameter("detailid"));
+		int orderid = Integer.parseInt(request.getParameter("orderid"));
+
+		if (txtCmt == null || txtCmt == "") {
+			Feedback oldfb = mosv.getFeedback(orderid, detailid);
+			if (oldfb != null)
+				txtCmt = oldfb.getTextComment();
+			else
+				txtCmt = "";
 		}
-		
+		if (txtStar == null || txtStar == "") {
+			Feedback oldfb = mosv.getFeedback(orderid, detailid);
+			if (oldfb != null)
+				voting = oldfb.getVoting();
+		} else
+			voting = Double.parseDouble(txtStar);
 
-		List<Order> listOrder = mosv.getMemberListOrder(cus.getId(),orderstatus);
-		request.setAttribute("orderid", oid);
-		request.setAttribute("orderstatus", orderstatus);		
-		request.setAttribute("LIST_ORDER", listOrder);
-		
+		mosv.createFeedback(orderid, detailid, txtCmt, voting);
 
-		request.setAttribute("controller", "/order");
-		request.setAttribute("action", "orderdetail");
+		request.setAttribute("orderid", orderid);
+		request.setAttribute("detailid", detailid);
+
 		orderdetail(request, response);
 
 	}
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)

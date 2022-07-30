@@ -58,12 +58,10 @@
 											href="/localbrand/web/order/setstatusorder.do?updorderstatus=Received&orderid=${order.id}&orderstatus="
 											class="nav-item nav-link">I received order successfully!</a>
 									</c:if></td>
-								<td>  <!--<a href="#" class="btn btn-outline-dark"
+								<td><a href="#" class="btn btn-primary px-3"
 									data-toggle="modal" data-target=".orderid${order.id}">View
-										Details</a>-->
-										<a href="/localbrand/web/order/orderdetail.do?orderid=${order.id}&orderstatus=${order.status}" class="btn btn-outline-dark" >View
-										Details</a>
-										</td>
+										Details</a> <!--<a href="/localbrand/web/order/orderdetail.do?orderid=${order.id}&orderstatus=${order.status}" class="btn btn-outline-dark" >View
+										Details</a>--></td>
 							</tr>
 
 						</c:forEach>
@@ -83,7 +81,6 @@
 							<thead class="bg-light">
 								<tr class="border-0">
 									<th class="border-0">#</th>
-									<th class="border-0">Order Id</th>
 									<th class="border-0">Product Name</th>
 									<th class="border-0">Size</th>
 									<th class="border-0">Color</th>
@@ -91,6 +88,9 @@
 									<th class="border-0">Quantity</th>
 									<th class="border-0">Discount</th>
 									<th class="border-0">Price</th>
+									<c:if test="${order.status == 'Received'}">
+										<th class="border-0">Feedback</th>
+									</c:if>
 								</tr>
 							</thead>
 							<tbody>
@@ -99,7 +99,6 @@
 									varStatus="loop">
 									<tr>
 										<td>${loop.count}</td>
-										<td>${order.id}</td>
 										<td>${orderDetail.product.name}</td>
 										<td>${orderDetail.product.size}</td>
 										<td>${orderDetail.product.color}</td>
@@ -109,6 +108,11 @@
 												value="${orderDetail.discount}" /></td>
 										<td><fmt:setLocale value="vi_VN" /> <fmt:formatNumber
 												value="${orderDetail.price}" type="currency" /></td>
+										<c:if test="${order.status == 'Received'}">
+											<td><a
+												href="/localbrand/web/order/orderdetail.do?orderid=${order.id}&detailid=${orderDetail.product.id}"
+												class="btn btn-primary px-3">Feedback</a></td>
+										</c:if>
 									</tr>
 								</c:forEach>
 								<!-- order detail end -->
