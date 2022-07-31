@@ -49,7 +49,7 @@
 						<c:otherwise>
 							<c:forEach var="collection" items="${requestScope.collections}"
 								varStatus="i">
-								<div class="col-md-6 pb-4">
+								<div class="col-md-12 pb-4">
 									<div
 										style="	background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%,rgba(255,255,255,0.3) 100%), url('${collection.getImageUrl()}'); 
 													background-size: cover;"
@@ -87,8 +87,6 @@
 	</c:if>
 </div>
 <!-- Collection end -->
-
-
 
 <!-- Shop Start -->
 <div class="text-center ">
