@@ -102,10 +102,12 @@
 										class="card-body border-left border-right text-center p-0 pt-4 pb-3">
 										<h6 class="text-truncate mb-3">${product.name}</h6>
 										<div class="d-flex justify-content-center">
-											<h6>${product.price * (1-product.discount)}</h6>
+											<h6><fmt:setLocale value="vi_VN" />
+												<fmt:formatNumber value="${product.price * (1-product.discount)}" type="currency" /></h6>
 											<c:if test="${product.discount != 0}">
 												<h6 class="text-muted ml-2">
-													<del>${product.price}</del>
+													<del><fmt:setLocale value="vi_VN" />
+													<fmt:formatNumber value="${product.price}" type="currency" /></del>
 												</h6>
 											</c:if>
 										</div>

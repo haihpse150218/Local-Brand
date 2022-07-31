@@ -8,7 +8,7 @@
 <c:set var="pChild" scope="request" value="${requestScope.pChild}" />
 <c:set var="fDetail" scope="request" value="${requestScope.fDetail}" />
 <c:set var="cusDetail" scope="request" value="${requestScope.cusDetail}" />
-
+<c:set var="pAll" scope="request" value="${requestScope.pAll}" />
 <c:set var="product" scope="request" value="${requestScope.pDetail}" />
 <c:set var="brand" scope="request" value="${requestScope.bDetail}" />
 <c:set var="listSize" scope="request" value="${requestScope.listSize}" />
@@ -101,6 +101,55 @@
 						<small class="pt-1">${product.stars}
 							(${product.orderDetailList.size()} Products Sold)</small>
 					</div>
+				<c:forEach items="${pAll}" var="pAll" varStatus="pCount">
+					<c:choose>
+					<c:when test="${pCount.index == 0}">
+							<h3 class="font-weight-semi-bold price-arr" id="productid${pAll.id}"><fmt:setLocale value="vi_VN" />
+							<fmt:formatNumber value="${pAll.price* (1-pAll.discount)}" type="currency" />
+							<c:if test="${pAll.discount != 0}">
+								<del class="text-muted ml-2">
+									<fmt:setLocale value="vi_VN" />
+									<fmt:formatNumber value="${pAll.price}" type="currency" />
+								</del>
+							</c:if>
+							</h3>							
+					</c:when>
+					<c:otherwise>					
+							<h3 class="font-weight-semi-bold price-arr" id="productid${pAll.id}" style="display: none;"><fmt:setLocale value="vi_VN" />
+								<fmt:formatNumber value="${pAll.price* (1-pAll.discount)}" type="currency" />
+								<c:if test="${pAll.discount != 0}">
+								<del class="text-muted ml-2">
+									<fmt:setLocale value="vi_VN" />
+									<fmt:formatNumber value="${pAll.price}" type="currency" />
+								</del>
+								</c:if>
+							</h3>	
+					</c:otherwise>
+					</c:choose>
+				</c:forEach>
+                <p class="mb-4">${product.description}</p>
+                <div class=" mb-3">
+                    <p class="text-dark font-weight-medium mb-0 mr-3">Variant(s) (Color - Size):</p>
+                    <c:forEach items="${pAll}" var="pAll" varStatus="pCount">
+                    <c:choose>
+					<c:when test="${pCount.index == 0}">
+                    	<div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" onclick="return setPrice('productid${pAll.id}');" class="custom-control-input" id="size-${pAll.id}" name="size" value="${pAll.size}" checked="checked">
+                            <input type="hidden" name="color" value="${pAll.color}">
+                            <label class="custom-control-label" for="size-${pAll.id}">${pAll.color} - ${pAll.size}</label>
+                        </div>
+                     </c:when>
+                     <c:otherwise>
+                     	<div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" onclick="return setPrice('productid${pAll.id}');" class="custom-control-input" id="size-${pAll.id}" name="size" value="${pAll.size}">
+                            <input type="hidden" name="color" value="${pAll.color}">
+                            <label class="custom-control-label" for="size-${pAll.id}">${pAll.color} - ${pAll.size}</label>
+                        </div>
+                     </c:otherwise>   
+                     </c:choose>
+                    </c:forEach>
+                </div>
+                <!--  
 					<c:if test="${product.discount == 0}">
 						<h3 class="font-weight-semi-bold mb-4">
 							<fmt:setLocale value="vi_VN" />
@@ -122,7 +171,9 @@
 							</h3>
 						</div>
 					</c:if>
-					<p class="mb-4">${product.description}.</p>
+					-->
+					<!--<p class="mb-4">${product.description}.</p>
+					  
 					<c:if test="${not empty product.size}">
 						<div class="d-flex mb-3">
 							<p class="text-dark font-weight-medium mb-0 mr-3">Sizes:</p>
@@ -189,6 +240,7 @@
 						</c:if>
 
 					</div>
+					-->
 					<div class="d-flex align-items-center mb-4 pt-2">
 						<div class="input-group quantity mr-3" style="width: 130px;">
 							<div class="input-group-btn">
@@ -263,8 +315,7 @@
 						<c:if test="${not empty fDetail}">
 
 							<div class="col-md-12">
-								<h4 class="mb-12">${fn:length(fDetail)}reviewfor
-									"${product.name}"</h4>
+								<h4 class="mb-12">${fn:length(fDetail)} review for "${product.name}"</h4>
 								<c:forEach items="${fDetail}" var="fDetail" varStatus="fCount">
 									<c:forEach items="${cusDetail}" var="cusDetail"
 										varStatus="cusCount">
@@ -472,6 +523,13 @@
 	<!-- Template Javascript 
     <script src="js/main.js"></script>-->
 	<script>
+	 var setPrice = function(value) {
+         var priceList = document.getElementsByClassName('price-arr');
+         for (var i = 0; i < priceList.length; i++) {
+             priceList[i].style.display = 'none';
+         }
+         document.getElementById(value).style.display = 'block';
+     	}
 		function buttonClickDecrease() {
 			document.getElementById('quantity').value--;
 		}

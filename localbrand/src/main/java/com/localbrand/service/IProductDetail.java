@@ -9,6 +9,7 @@ public interface IProductDetail {
 	public Product getProductDetail(int pid);
 	public Brand getBrandDetail(int pid);
 	public List<Product> getProductChild(int pid);
+	public List<Product> getAllProduct(int pid);
 	public List<String> getListSize(Product product);
 	public List<String> getListColor(Product product);
 	public void createFeedback(Feedback f);

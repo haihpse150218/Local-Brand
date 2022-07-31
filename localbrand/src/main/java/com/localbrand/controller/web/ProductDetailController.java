@@ -114,7 +114,10 @@ public class ProductDetailController extends HttpServlet {
 
 		Brand brand = pds.getBrandDetail(pid);
 		List<Product> child = pds.getProductChild(pid);
-
+		List<Product> listAll = pds.getAllProduct(pid);
+//		System.out.println("list " + listAll);
+		
+		request.setAttribute("pAll", listAll);
 		request.setAttribute("pChild", child);
 		request.setAttribute("fDetail", listf);
 

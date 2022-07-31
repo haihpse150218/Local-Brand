@@ -113,6 +113,26 @@ public class ProductDetailService implements IProductDetail{
 		return listp;
 	}
 	@Override
+	public List<Product> getAllProduct(int pid){
+		List<Product> listp = new ArrayList<>();
+		List<Product> listAllProduct = new ArrayList<>();
+		try {
+			listAllProduct = productFacade.findAll();
+			for (Product product : listAllProduct) {
+				if(product.getId() == pid) {
+					listp.add(product);	
+					}
+				if (product.getImgChild() != null && product.getParentId().getId() == pid) {				
+					listp.add(product);				
+					}
+				}		
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return listp;
+	}
+	@Override
 	public List<String> getListSize(Product product){
 		Set<String> listSize = new HashSet<String>();
 		listSize.add(product.getSize());
