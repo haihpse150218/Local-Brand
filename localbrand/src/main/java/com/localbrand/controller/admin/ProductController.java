@@ -24,6 +24,7 @@ import com.localbrand.entities.BrandCategory;
 import com.localbrand.entities.BrandCategoryPK;
 import com.localbrand.entities.Category;
 import com.localbrand.entities.Product;
+import com.localbrand.service.implement.AdminProductService;
 import com.localbrand.service.implement.HomeAdmin;
 import com.localbrand.service.models.OrderObject;
 import com.localbrand.service.models.ProductRevenue;
@@ -37,6 +38,7 @@ public class ProductController extends HttpServlet {
 
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		String action = request.getAttribute("action").toString();
 		System.out.println("actione ne:" + action);
@@ -47,8 +49,17 @@ public class ProductController extends HttpServlet {
 			case "index":
 				index(request, response);
 				break;
+			case "info":
+				info(request, response);
+				break;
 			case "sort":
 				sort(request, response);
+				break;
+			case "edit":
+				edit(request, response);
+				break;
+			case "addDependency":
+				addDependency(request, response);
 				break;
 			case "create":
 				create(request, response);
@@ -70,6 +81,91 @@ public class ProductController extends HttpServlet {
 		}
 
 		request.getRequestDispatcher(Common.LAYOUT).forward(request, response);
+	}
+	
+	private void addDependency(HttpServletRequest request, HttpServletResponse response) {
+		AdminProductService adminProductService = new AdminProductService();
+		try {
+			int parentId = Integer.parseInt(request.getParameter("txtParentId"));
+			double price = Double.parseDouble(request.getParameter("txtPrice"));
+			String size = request.getParameter("txtSize");
+			String color = request.getParameter("txtColor");
+			String imgChild = request.getParameter("txtImgChild");
+			
+			Product parentProduct = adminProductService.getProduct(parentId);
+			Product product = adminProductService.getProduct(parentId);
+			product.setPrice(price);
+			product.setSize(size);
+			product.setColor(color);
+			product.setImgMaster("");
+			product.setImgChild(imgChild);
+			product.setParentId(parentProduct);
+			
+			adminProductService.addProduct(product);
+			request.setAttribute("productId", parentId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		info(request, response);
+	}
+	
+	private void info(HttpServletRequest request, HttpServletResponse response) {
+		AdminProductService adminProductService = new AdminProductService();
+		try {
+			HttpSession session = request.getSession();
+			BrandAccount admin = (BrandAccount) session.getAttribute("admin");
+			
+			int productId = 0;
+			if (request.getParameter("id") == null) {
+				productId = (int)request.getAttribute("productId");
+			} else {
+				productId = Integer.parseInt(request.getParameter("id"));
+			}
+			Product product = adminProductService.getProduct(productId);
+			List<BrandCategory> categoryList = adminProductService.getBrandCategories(admin.getBrandId().getId());
+			List<Product> dependencies = adminProductService.getDependencies(productId);
+			request.setAttribute("categoryList", categoryList);
+			request.setAttribute("product", product);
+			request.setAttribute("dependencies", dependencies);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("action", "info");
+	}
+	
+	private void edit(HttpServletRequest request, HttpServletResponse response) {
+		AdminProductService adminProductService = new AdminProductService();
+		try {
+			int id = Integer.parseInt(request.getParameter("txtId"));
+			String name = request.getParameter("txtName");
+			double price = Double.parseDouble(request.getParameter("txtPrice"));
+			int cateId = Integer.parseInt(request.getParameter("txtCategory"));
+			String status = request.getParameter("txtStatus");
+			String imgMaster = request.getParameter("txtImgMaster");
+			String size = request.getParameter("txtSize");
+			String color = request.getParameter("txtColor");
+			String description = request.getParameter("txtDescription");
+			
+			Category cate = new Category();
+			cate.setId(cateId);
+			
+			Product product = adminProductService.getProduct(id);
+			product.setName(name);
+			product.setPrice(price);
+			product.setCateId(cate);
+			product.setStatus(status);
+			product.setImgMaster(imgMaster);
+			product.setSize(size);
+			product.setColor(color);
+			product.setDescription(description);
+			
+			adminProductService.editProduct(product);
+			
+			request.setAttribute("productId", id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		info(request, response);
 	}
 
 	private void search(HttpServletRequest request, HttpServletResponse response) {
@@ -114,16 +210,19 @@ public class ProductController extends HttpServlet {
 		try {
 			Product p = pf.find(id);
 			p.setStatus("Disable");
-			System.out.println("check"+ p.toString());
 			pf.edit(p);
+			if (p.getIsMaster() == true) {
+				request.setAttribute("action", "index");
+				request.setAttribute("productId", p.getId());
+			} else {
+				request.setAttribute("productId", p.getParentId().getId());
+				info(request, response);
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		index(request, response);
-		
-		request.setAttribute("action", "index");
-		
 	}
 
 	public void create(HttpServletRequest request, HttpServletResponse response) {

@@ -115,7 +115,7 @@ th {
 														data-toggle="dropdown" aria-haspopup="true"
 														aria-expanded="false">...</button>
 													<div class="dropdown-menu dropdown-menu-right ">
-														<a class="dropdown-item" href="">Edit Product</a> 
+														<a class="dropdown-item" href="/localbrand/admin/product/info.do?id=${product.id}">Edit Product</a> 
 														<a class="dropdown-item" onclick="return confirm('Are you sure you want to continue')" href="/localbrand/admin/product/delete.do?productId=${product.id}">Delete Product</a>
 													</div>
 												</div> <!-- <a href="# " class="btn btn-outline-light " data-toggle="modal " data-target=".orderid1 ">View Details</a> -->
