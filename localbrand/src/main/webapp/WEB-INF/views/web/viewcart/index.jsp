@@ -24,6 +24,8 @@
 					<thead class="bg-secondary text-dark">
 						<tr>
 							<th>Product Name</th>
+							<th>Size</th>
+							<th>Color</th>
 							<th>Price Per Item</th>
 							<th>Quantity</th>
 							<th>Total</th>
@@ -38,6 +40,8 @@
 								<tr>
 									<form action="/localbrand/web/cart/updatequantity.do">
 									<td class="align-middle">${cart.getMap().get(key).getProduct().getName()}</td>
+									<td class="align-middle">${cart.getMap().get(key).getProduct().getSize()}</td>
+									<td class="align-middle">${cart.getMap().get(key).getProduct().getColor()}</td>
 									<td class="align-middle"><fmt:setLocale value="vi_VN" />
 										<fmt:formatNumber
 											value="${cart.getMap().get(key).getProduct().getPrice()*(1-cart.getMap().get(key).getProduct().getDiscount())}"

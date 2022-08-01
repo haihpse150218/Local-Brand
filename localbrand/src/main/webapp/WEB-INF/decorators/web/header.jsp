@@ -11,7 +11,7 @@
                 <div class="d-inline-flex align-items-center">
                     <a class="text-dark" href="">FAQs</a>
                     <span class="text-muted px-2">|</span>
-                    <a class="text-dark" href="https://haihpse150218.github.io/">Contact</a>
+                    <a class="text-dark" href="https://haihpse150218.github.io/" target="_blank">Contact</a>
                     <span class="text-muted px-2">|</span>
                     <a class="text-dark" href="/localbrand/admin">Collaborators ?</a>
                 </div>
@@ -110,8 +110,10 @@
                             <c:if test="${sessionScope.brandId != null}">
                             	<a href="/localbrand/web/brandhome/latest.do"
                             		class="nav-item nav-link">Latest Products</a>
+                            	<%-- 
                             	<a href="/localbrand/web/brandhome/ranking.do" 
                             		class="nav-item nav-link">Ranking</a>
+                            		--%>
                             </c:if>
                         </div>
                         <c:choose>

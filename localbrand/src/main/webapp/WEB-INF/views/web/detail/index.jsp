@@ -32,7 +32,7 @@
 
 
 	<div class="container-fluid py-5">
-		<form action="/localbrand/web/detail/addtocart.do" method="GET">
+		<form action="/localbrand/web/detail/addtocart.do" method="POST">
 			<div class="row px-xl-5">
 				<div class="col-lg-5 pb-5">
 					<div id="product-carousel" class="carousel slide"
@@ -134,15 +134,15 @@
                     <c:choose>
 					<c:when test="${pCount.index == 0}">
                     	<div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" onclick="return setPrice('productid${pAll.id}');" class="custom-control-input" id="size-${pAll.id}" name="size" value="${pAll.size}" checked="checked">
-                            <input type="hidden" name="color" value="${pAll.color}">
+                            <input type="radio" onclick="return setPrice('productid${pAll.id}');" class="custom-control-input" name="check-list" id="size-${pAll.id}" value="${pAll.size}${pAll.color}" checked="checked">
+                            
                             <label class="custom-control-label" for="size-${pAll.id}">${pAll.color} - ${pAll.size}</label>
                         </div>
                      </c:when>
                      <c:otherwise>
                      	<div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" onclick="return setPrice('productid${pAll.id}');" class="custom-control-input" id="size-${pAll.id}" name="size" value="${pAll.size}">
-                            <input type="hidden" name="color" value="${pAll.color}">
+                            <input type="radio" onclick="return setPrice('productid${pAll.id}');" class="custom-control-input" name="check-list"  id="size-${pAll.id}"  value="${pAll.size}${pAll.color}">
+
                             <label class="custom-control-label" for="size-${pAll.id}">${pAll.color} - ${pAll.size}</label>
                         </div>
                      </c:otherwise>   
@@ -271,6 +271,8 @@
                     </a>
                     </c:if> -->
 						<input type="hidden" name="productid" value="${product.id}">
+						<input type="hidden"  id="size-submit" name="size" > 
+						<input type="hidden" id="color-submit" name="color">
 						<button class="btn btn-primary px-3">
 							<i class="fa fa-shopping-cart mr-1"></i> Add To Cart
 						</button>
@@ -528,7 +530,15 @@
          for (var i = 0; i < priceList.length; i++) {
              priceList[i].style.display = 'none';
          }
+         
          document.getElementById(value).style.display = 'block';
+         var id = "size-"+ value.substring(9);
+         //document.getElementById(id).innerHTML
+         var size = document.getElementById(id).value.substring(0,1);
+         var color = document.getElementById(id).value.substring(1);
+         document.getElementById("size-submit").value = size;
+         document.getElementById("color-submit").value = color;
+         //alert(size + "   "+ color);
      	}
 		function buttonClickDecrease() {
 			document.getElementById('quantity').value--;
