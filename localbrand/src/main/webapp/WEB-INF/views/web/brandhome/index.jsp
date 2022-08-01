@@ -13,7 +13,7 @@
 <!-- Shop info End -->
 
 <!-- Collection start -->
-<c:if test="${requestScope.collections.size()>1}">
+<c:if test="${requestScope.collections.size()>0}">
 	<div class="text-center ">
 		<h2 class="section-title px-5">
 			<span class="px-2">Hot Collections</span>
