@@ -23,8 +23,6 @@
 							Management</a>
 						<div id="submenu-3" class="collapse submenu" style="">
 							<ul class="nav flex-column">
-								<li class="nav-item"><a class="nav-link"
-									href="/localbrand/admin/chart/index.do">Chart</a></li>
 								<li class="nav-item"><a class="nav-link ${requestScope.controller == '/ordered'?'active':''}"
 									href="/localbrand/admin/ordered/index.do">Ordered</a></li>
 							</ul>
